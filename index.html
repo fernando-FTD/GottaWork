@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GottaWork - Welcome</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+  <style>
+    *{
+        box-sizing: bor;
+    }
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: Arial, sans-serif;
+      width: 100%;
+    }
+    .container {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+    }
+    .bg-image {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url("Gambar/loginregister.jpg");
+      background-size: 100% 100%;
+      background-position: center;
+    }
+    .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    .home-content {
+      text-align: center;
+      z-index: 10;
+    }
+    .logo {
+      font-size: 4rem;
+      color: white;
+      font-weight: 300;
+      margin-bottom: 2rem;
+    }
+    .button-container {
+      display: flex;
+      gap: 1.5rem;
+    }
+    .button {
+      padding: 0.75rem 2.5rem;
+      font-size: 1.25rem;
+      border: none;
+      cursor: pointer;
+      border-radius: 0;
+    }
+    .login-button {
+      background-color: #00b050;
+      color: white;
+    }
+    .register-button {
+      background-color: #e9e9e9;
+      color: black;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="bg-image"></div>
+    <div class="overlay">
+      <div class="home-content">
+        <h1 class="logo">GottaWork</h1>
+        <div class="button-container">
+          <a href="login.html" class="button login-button">Login</a>
+          <a href="register.html" class="button register-button">Register</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
