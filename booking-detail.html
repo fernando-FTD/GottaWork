@@ -1,0 +1,160 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Booking Detail</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: 'Lora', serif;
+    }
+  </style>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+  <div class="bg-white p-10 rounded-2xl shadow-lg max-w-lg w-full">
+    <h2 class="text-2xl font-bold text-center mb-6 text-[#024545]">Booking Detail</h2>
+    <div class="space-y-4 text-gray-800">
+      <div class="flex justify-between">
+        <span class="font-semibold">Desk Number:</span>
+        <span id="desk-number">-</span>
+      </div>
+      <div class="flex justify-between">
+        <span class="font-semibold">Booking Date:</span>
+        <span id="booking-date">-</span>
+      </div>
+      <div class="flex justify-between">
+        <span class="font-semibold">Time Range:</span>
+        <span id="booking-time">-</span>
+      </div>
+      <div class="flex justify-between">
+        <span class="font-semibold">Workspace:</span>
+        <span id="workspace">-</span>
+      </div>
+    </div>
+
+    <div class="mt-8 text-center">
+      <button onclick="window.location.href='denah.html'" class="bg-[#024545] text-white px-6 py-2 rounded hover:bg-[#036b6b]">
+        Back to Denah
+      </button>
+    </div>
+  </div>
+
+  <script>
+    // Ambil data dari localStorage
+    document.getElementById("desk-number").innerText = localStorage.getItem("deskNumber") || "-";
+    document.getElementById("booking-date").innerText = localStorage.getItem("bookingDate") || "-";
+    document.getElementById("booking-time").innerText = localStorage.getItem("bookingTime") || "-";
+    document.getElementById("workspace").innerText = localStorage.getItem("workspace") || "-";
+  </script>
+</body>
+</html> -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Booking Detail</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: url('background-image.jpg') no-repeat center center fixed; /* Replace with your background image */
+      background-size: cover;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .card {
+      background-color: white;
+      border-radius: 10px;
+      padding: 30px;
+      max-width: 600px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+    .card h2 {
+      margin-top: 50;
+      font-weight: bold;
+    }
+    .card hr {
+      margin: 20px 0;
+    }
+    .card p {
+      font-size: 16px;
+      line-height: 1.6;
+    }
+    .bold {
+      font-weight: bold;
+    }
+    .button-area {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 30px;
+    }
+    .btn {
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .btn-close {
+      background-color: #f0f0f0;
+    }
+    .btn-book {
+      background-color: #004d40;
+      color: white;
+    }
+    .booking-details {
+      margin-top: 30px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <h2 id="desk-detail">Detail: </h2>
+    <hr>
+    <p class="bold">Booking Confirmation:</p>
+    <p id="confirmation-text"></p>
+    
+    <!-- Booking Details Section -->
+    <div class="booking-details" id="booking-details">
+      <h2>Booking Details</h2>
+      <p>Start Date: <span id="start-date"></span></p>
+      <p>End Date: <span id="end-date"></span></p>
+      <p>Start Time: <span id="start-time"></span></p>
+      <p>End Time: <span id="end-time"></span></p>
+      <p>Workspace: <span id="workspace-text"></span></p>
+      <p>Selected Desk: <span id="desk-number"></span></p>
+    </div>
+
+    <div class="button-area">
+      <button class="btn btn-close" onclick="window.history.back()">Close</button>
+      <button class="btn btn-book">Book Now</button>
+    </div>
+  </div>
+
+  <script>
+    // Fetch data from URL
+    const params = new URLSearchParams(window.location.search);
+    document.getElementById("start-date").textContent = params.get('startDate') || "N/A";
+    document.getElementById("end-date").textContent = params.get('endDate') || "N/A";
+    document.getElementById("start-time").textContent = params.get('startTime') || "N/A";
+    document.getElementById("end-time").textContent = params.get('endTime') || "N/A";
+    document.getElementById("workspace-text").textContent = params.get('workspace') || "Workspace";
+    document.getElementById("desk-number").textContent = params.get('selectedDesk') || "???";
+  
+    // Update desk detail
+    const deskNumber = params.get('selectedDesk') || "???"; // Example: Replace with your logic
+    document.getElementById("desk-detail").textContent = `Detail: T/S/${deskNumber}`;
+    document.getElementById("confirmation-text").innerHTML =
+      `You will book an individual desk with the desk number <span class="bold">${deskNumber}</span><br>` +
+      `Booking time: <span class="bold">(${params.get('startDate')}) ${params.get('startTime')} - (${params.get('endDate')}) ${params.get('endTime')}</span>`;
+  </script>
+
+</body>
+</html>
