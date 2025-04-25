@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GottaWork - Skema Tarif</title>
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: { primary: "#FFC107", secondary: "#6B7280" },
+            borderRadius: {
+              none: "0px",
+              sm: "4px",
+              DEFAULT: "8px",
+              md: "12px",
+              lg: "16px",
+              xl: "20px",
+              "2xl": "24px",
+              "3xl": "32px",
+              full: "9999px",
+              button: "8px",
+            },
+          },
+        },
+      };
+    </script>
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.gstatic.com"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+    <style>
+      :where([class^="ri-"])::before { content: "\f3c2"; }
+      input::-webkit-outer-spin-button,
+      input::-webkit-inner-spin-button {
+          -webkit-appearance: none;
+          margin: 0;
+      }
+      input[type=number] {
+          -moz-appearance: textfield;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-50">
+    <!-- Header -->
+    <header class="bg-gray-700 text-white shadow-md">
+      <div
+        class="container mx-auto px-4 py-4 flex justify-between items-center"
+      >
+        <a href="#" class="text-2xl font-['Pacifico'] text-white">GottaWork</a>
+
+        <div class="hidden md:flex items-center space-x-8">
+          <nav class="flex space-x-6">
+            <a href="#" class="hover:text-primary transition-colors">Home</a>
+            <a href="#" class="hover:text-primary transition-colors"
+              >Keuangan</a
+            >
+            <a href="#" class="text-primary">Skema Tarif</a>
+          </nav>
+          <button
+            class="border border-white px-4 py-2 !rounded-button hover:bg-white hover:text-gray-700 transition-colors whitespace-nowrap"
+          >
+            Log Out <i class="ri-logout-box-r-line ml-1"></i>
+          </button>
+        </div>
+
+        <button class="md:hidden w-10 h-10 flex items-center justify-center">
+          <i class="ri-menu-line text-xl"></i>
+        </button>
+      </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="bg-gray-700 text-white py-12">
+      <div class="container mx-auto px-4">
+        <div class="flex flex-col space-y-4">
+          <div class="flex items-center">
+            <div class="w-6 h-0.5 bg-primary mr-2"></div>
+            <span
+              class="uppercase text-sm font-semibold tracking-wider text-primary"
+              >Skema Tarif</span
+            >
+          </div>
+          <h1 class="text-4xl md:text-5xl font-bold">Skema Tarif</h1>
+
+          <div class="flex justify-between items-center mt-8">
+            <div class="flex mt-6 md:mt-0">
+              <a
+                href="#"
+                class="bg-primary text-gray-800 px-6 py-3 !rounded-button font-medium hover:bg-opacity-90 transition-colors whitespace-nowrap flex items-center"
+              >
+                Harga <i class="ri-arrow-right-s-line ml-1"></i>
+              </a>
+              <a
+                href="#"
+                class="bg-gray-600 text-white px-6 py-3 !rounded-button font-medium hover:bg-opacity-90 transition-colors ml-3 whitespace-nowrap flex items-center"
+              >
+                Promo <i class="ri-arrow-right-s-line ml-1"></i>
+              </a>
+              <a
+                href="#"
+                class="bg-gray-600 text-white px-6 py-3 !rounded-button font-medium hover:bg-opacity-90 transition-colors ml-3 whitespace-nowrap flex items-center"
+              >
+                Membership <i class="ri-arrow-right-s-line ml-1"></i>
+              </a>
+            </div>
+
+            <div class="hidden md:flex items-center text-sm">
+              <a href="#" class="hover:text-primary">Home</a>
+              <i class="ri-arrow-right-s-line mx-2"></i>
+              <span class="text-primary">Skema Tarif</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Main Content -->
+    <section class="py-16">
+      <div class="container mx-auto px-4">
+        <div class="text-center mb-12">
+          <div class="flex items-center justify-center mb-2">
+            <div class="w-6 h-0.5 bg-primary mr-2"></div>
+            <span
+              class="uppercase text-sm font-semibold tracking-wider text-primary"
+              >SKEMA TARIF</span
+            >
+            <div class="w-6 h-0.5 bg-primary ml-2"></div>
+          </div>
+          <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">
+            Harga
+          </h2>
+          <p class="text-gray-600 max-w-2xl mx-auto">
+            Mengatur Skema Tarif Harga Workspace Saat Ini.
+          </p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <!-- Meeting Room -->
+          <div
+            class="bg-white rounded-lg shadow-md overflow-hidden transition-transform hover:shadow-lg"
+          >
+            <div class="h-48 overflow-hidden">
+              <img
+                src="https://readdy.ai/api/search-image?query=modern%20meeting%20room%20with%20glass%20walls%2C%20clean%20design%2C%20minimal%2C%20professional%20atmosphere%2C%20business%20setting%2C%20conference%20table%20with%20chairs%2C%20whiteboard%2C%20natural%20lighting&width=600&height=400&seq=1&orientation=landscape"
+                alt="Meeting Room"
+                class="w-full h-full object-cover object-top"
+              />
+            </div>
+            <div class="p-6">
+              <h3 class="text-xl font-bold text-gray-800 mb-2">Meeting Room</h3>
+              <p class="text-gray-600 mb-4">
+                Ruang pribadi untuk rapat, presentasi atau diskusi bersama
+              </p>
+              <div class="flex items-center mb-4 text-gray-500">
+                <div class="w-5 h-5 flex items-center justify-center">
+                  <i class="ri-map-pin-line"></i>
+                </div>
+                <span class="ml-2">GottaWork</span>
+              </div>
+              <div class="flex items-center">
+                <div
+                  class="flex items-center bg-gray-100 rounded px-3 py-2 flex-1"
+                >
+                  <span class="text-gray-500 mr-2">Rp</span>
+                  <input
+                    type="number"
+                    class="bg-transparent border-none outline-none w-full text-gray-800"
+                    placeholder="150.000"
+                  />
+                  <span class="text-gray-500 ml-1">/Hour</span>
+                </div>
+              </div>
+              <button
+                class="w-full mt-4 bg-primary text-gray-800 py-3 !rounded-button font-medium hover:bg-opacity-90 transition-colors whitespace-nowrap flex items-center justify-center"
+              >
+                Save Changes <i class="ri-save-line ml-1"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Individual Desk -->
+          <div
+            class="bg-white rounded-lg shadow-md overflow-hidden transition-transform hover:shadow-lg"
+          >
+            <div class="h-48 overflow-hidden">
+              <img
+                src="https://readdy.ai/api/search-image?query=modern%20individual%20desk%20workspace%2C%20clean%20design%2C%20minimal%2C%20professional%20atmosphere%2C%20single%20desk%20with%20chair%2C%20natural%20lighting%2C%20privacy%20divider%2C%20coworking%20space&width=600&height=400&seq=2&orientation=landscape"
+                alt="Individual Desk"
+                class="w-full h-full object-cover object-top"
+              />
+            </div>
+            <div class="p-6">
+              <h3 class="text-xl font-bold text-gray-800 mb-2">
+                Individual Desk
+              </h3>
+              <p class="text-gray-600 mb-4">
+                Meja individu untuk memberikan privasi dan meningkatkan
+                konsentrasi
+              </p>
+              <div class="flex items-center mb-4 text-gray-500">
+                <div class="w-5 h-5 flex items-center justify-center">
+                  <i class="ri-map-pin-line"></i>
+                </div>
+                <span class="ml-2">GottaWork</span>
+              </div>
+              <div class="flex items-center">
+                <div
+                  class="flex items-center bg-gray-100 rounded px-3 py-2 flex-1"
+                >
+                  <span class="text-gray-500 mr-2">Rp</span>
+                  <input
+                    type="number"
+                    class="bg-transparent border-none outline-none w-full text-gray-800"
+                    placeholder="75.000"
+                  />
+                  <span class="text-gray-500 ml-1">/Hour</span>
+                </div>
+              </div>
+              <button
+                class="w-full mt-4 bg-primary text-gray-800 py-3 !rounded-button font-medium hover:bg-opacity-90 transition-colors whitespace-nowrap flex items-center justify-center"
+              >
+                Save Changes <i class="ri-save-line ml-1"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Group Desk -->
+          <div
+            class="bg-white rounded-lg shadow-md overflow-hidden transition-transform hover:shadow-lg"
+          >
+            <div class="h-48 overflow-hidden">
+              <img
+                src="https://readdy.ai/api/search-image?query=modern%20group%20workspace%2C%20clean%20design%2C%20minimal%2C%20professional%20atmosphere%2C%20large%20table%20with%20multiple%20chairs%2C%20collaborative%20space%2C%20natural%20lighting%2C%20coworking%20environment&width=600&height=400&seq=3&orientation=landscape"
+                alt="Group Desk"
+                class="w-full h-full object-cover object-top"
+              />
+            </div>
+            <div class="p-6">
+              <h3 class="text-xl font-bold text-gray-800 mb-2">Group Desk</h3>
+              <p class="text-gray-600 mb-4">
+                Meja fleksibel untuk kerja kelompok untuk meningkatkan
+                produktivitas
+              </p>
+              <div class="flex items-center mb-4 text-gray-500">
+                <div class="w-5 h-5 flex items-center justify-center">
+                  <i class="ri-map-pin-line"></i>
+                </div>
+                <span class="ml-2">GottaWork</span>
+              </div>
+              <div class="flex items-center">
+                <div
+                  class="flex items-center bg-gray-100 rounded px-3 py-2 flex-1"
+                >
+                  <span class="text-gray-500 mr-2">Rp</span>
+                  <input
+                    type="number"
+                    class="bg-transparent border-none outline-none w-full text-gray-800"
+                    placeholder="100.000"
+                  />
+                  <span class="text-gray-500 ml-1">/Hour</span>
+                </div>
+              </div>
+              <button
+                class="w-full mt-4 bg-primary text-gray-800 py-3 !rounded-button font-medium hover:bg-opacity-90 transition-colors whitespace-nowrap flex items-center justify-center"
+              >
+                Save Changes <i class="ri-save-line ml-1"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Private Office -->
+          <div
+            class="bg-white rounded-lg shadow-md overflow-hidden transition-transform hover:shadow-lg"
+          >
+            <div class="h-48 overflow-hidden">
+              <img
+                src="https://readdy.ai/api/search-image?query=modern%20private%20office%20space%2C%20clean%20design%2C%20minimal%2C%20professional%20atmosphere%2C%20enclosed%20office%20with%20glass%20walls%2C%20desk%20and%20chair%2C%20natural%20lighting%2C%20privacy&width=600&height=400&seq=4&orientation=landscape"
+                alt="Private Office"
+                class="w-full h-full object-cover object-top"
+              />
+            </div>
+            <div class="p-6">
+              <h3 class="text-xl font-bold text-gray-800 mb-2">
+                Private Office
+              </h3>
+              <p class="text-gray-600 mb-4">
+                Ruang kantor pribadi untuk individu atau tim
+              </p>
+              <div class="flex items-center mb-4 text-gray-500">
+                <div class="w-5 h-5 flex items-center justify-center">
+                  <i class="ri-map-pin-line"></i>
+                </div>
+                <span class="ml-2">GottaWork</span>
+              </div>
+              <div class="flex items-center">
+                <div
+                  class="flex items-center bg-gray-100 rounded px-3 py-2 flex-1"
+                >
+                  <span class="text-gray-500 mr-2">Rp</span>
+                  <input
+                    type="number"
+                    class="bg-transparent border-none outline-none w-full text-gray-800"
+                    placeholder="2.500.000"
+                  />
+                  <span class="text-gray-500 ml-1">/Week</span>
+                </div>
+              </div>
+              <button
+                class="w-full mt-4 bg-primary text-gray-800 py-3 !rounded-button font-medium hover:bg-opacity-90 transition-colors whitespace-nowrap flex items-center justify-center"
+              >
+                Save Changes <i class="ri-save-line ml-1"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white pt-16 pb-8">
+      <div class="container mx-auto px-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
+          <!-- Company Info -->
+          <div class="lg:col-span-1">
+            <a
+              href="#"
+              class="text-2xl font-['Pacifico'] text-white mb-4 inline-block"
+              >GottaWork</a
+            >
+            <p class="text-gray-400 mb-4">
+              768 Market Street Bandar Lampung, Indonesia
+            </p>
+            <div class="flex items-center mb-2 text-gray-400">
+              <div class="w-5 h-5 flex items-center justify-center">
+                <i class="ri-phone-line"></i>
+              </div>
+              <span class="ml-2">(+62) 123 456 789</span>
+            </div>
+            <div class="flex items-center mb-4 text-gray-400">
+              <div class="w-5 h-5 flex items-center justify-center">
+                <i class="ri-mail-line"></i>
+              </div>
+              <a
+                href="mailto:customer@gottawork.com"
+                class="ml-2 hover:text-primary"
+                >customer@gottawork.com</a
+              >
+            </div>
+            <div class="flex space-x-4 mt-6">
+              <a
+                href="#"
+                class="w-8 h-8 rounded-full bg-gray-700 flex items-center justify-center hover:bg-primary transition-colors"
+              >
+                <i class="ri-facebook-fill"></i>
+              </a>
+              <a
+                href="#"
+                class="w-8 h-8 rounded-full bg-gray-700 flex items-center justify-center hover:bg-primary transition-colors"
+              >
+                <i class="ri-twitter-fill"></i>
+              </a>
+              <a
+                href="#"
+                class="w-8 h-8 rounded-full bg-gray-700 flex items-center justify-center hover:bg-primary transition-colors"
+              >
+                <i class="ri-instagram-line"></i>
+              </a>
+              <a
+                href="#"
+                class="w-8 h-8 rounded-full bg-gray-700 flex items-center justify-center hover:bg-primary transition-colors"
+              >
+                <i class="ri-youtube-line"></i>
+              </a>
+            </div>
+          </div>
+          <!-- Company -->
+          <div>
+            <h3 class="text-lg font-semibold mb-4">Company</h3>
+            <ul class="space-y-2">
+              <li>
+                <a
+                  href="#"
+                  class="text-gray-400 hover:text-primary transition-colors"
+                  >Meeting Room</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="text-gray-400 hover:text-primary transition-colors"
+                  >Individual Desk</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="text-gray-400 hover:text-primary transition-colors"
+                  >Group Desk</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="text-gray-400 hover:text-primary transition-colors"
+                  >Private Office</a
+                >
+              </li>
+            </ul>
+          </div>
+
+          <!-- Locations -->
+          <div>
+            <h3 class="text-lg font-semibold mb-4">Locations</h3>
+            <ul class="space-y-2">
+              <li>
+                <a
+                  href="#"
+                  class="text-gray-400 hover:text-primary transition-colors"
+                  >Mall Boemi Kedaton</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="text-gray-400 hover:text-primary transition-colors"
+                  >Lampung City Mall</a
+                >
+              </li>
+            </ul>
+          </div>
+
+          <!-- Partnerships -->
+          <div>
+            <h3 class="text-lg font-semibold mb-4">Partnerships</h3>
+            <ul class="space-y-2">
+              <li>
+                <a
+                  href="#"
+                  class="text-gray-400 hover:text-primary transition-colors"
+                  >Event Venues</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="text-gray-400 hover:text-primary transition-colors"
+                  >Brokers</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="text-gray-400 hover:text-primary transition-colors"
+                  >Community Events</a
+                >
+              </li>
+            </ul>
+          </div>
+
+          <!-- Support -->
+          <div>
+            <h3 class="text-lg font-semibold mb-4">Support</h3>
+            <ul class="space-y-2">
+              <li>
+                <a
+                  href="#"
+                  class="text-gray-400 hover:text-primary transition-colors"
+                  >Book a Tour</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="text-gray-400 hover:text-primary transition-colors"
+                  >Inquiry</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="text-gray-400 hover:text-primary transition-colors"
+                  >FAQ</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="text-gray-400 hover:text-primary transition-colors"
+                  >Terms of Use</a
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div
+          class="border-t border-gray-700 mt-12 pt-8 text-center text-gray-500 text-sm"
+        >
+          <p>© 2025 GottaWork. Powered by GW</p>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Save changes function
+        const saveButtons = document.querySelectorAll("button");
+        saveButtons.forEach((button) => {
+          button.addEventListener("click", function () {
+            if (this.textContent.includes("Save Changes")) {
+              const card = this.closest(".bg-white");
+              const input = card.querySelector('input[type="number"]');
+
+              if (input.value) {
+                const originalText = this.innerHTML;
+                this.innerHTML = '<i class="ri-check-line mr-1"></i> Saved';
+                this.classList.add("bg-green-500", "text-white");
+
+                setTimeout(() => {
+                  this.innerHTML = originalText;
+                  this.classList.remove("bg-green-500", "text-white");
+                }, 2000);
+              } else {
+                input.classList.add("border", "border-red-500");
+                setTimeout(() => {
+                  input.classList.remove("border", "border-red-500");
+                }, 2000);
+              }
+            }
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
