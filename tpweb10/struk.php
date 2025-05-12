@@ -34,10 +34,11 @@ $totalBayar=$hasil['totalBayar'];
     <h3>Struk Hasil Belanja</h3>
     <p>Detail Barang:</p>
     <?php
-    foreach ($_SESSION['item'] as $item) {
-        echo $item['produk'] . ' x ' . $item['jumlah'] . '<br>';
+    foreach($_SESSION['item'] as $item){
+        echo $item['produk'].' x '.$item['jumlah'].' pcs'.'<br>';
     }
     ?>
+    <br>
     <p><span class="label">Total Belanja</span> <span class="nilai">Rp <?php echo number_format($totalBelanja,0,',','.'); ?></span></p>
     <p><span class="label">Diskon(%)</span> <span class="nilai"><?php echo $persentaseDiskon; ?>%</span></p>
     <p><span class="label">Diskon</span> <span class="nilai">Rp <?php echo number_format($diskon,0,',','.'); ?></span></p>
