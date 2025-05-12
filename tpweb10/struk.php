@@ -12,8 +12,8 @@ function hitungDiskon($totalBelanja){
     }else{
         $persentaseDiskon=0;
     }
-    $diskon*(int)($totalBelanja*($persentaseDiskon/100));
-    $totalBayar*(int)($totalBelanja-$diskon);
+    $diskon=(int)($totalBelanja*($persentaseDiskon/100));
+    $totalBayar=(int)($totalBelanja-$diskon);
     return array($persentaseDiskon,$diskon,$totalBayar);
 }
 $hasil=$_SESSION['hasil'];
@@ -32,6 +32,12 @@ $totalBayar=$hasil['totalBayar'];
 <body>
   <div class="hasil">
     <h3>Struk Hasil Belanja</h3>
+    <p>Detail Barang:</p>
+    <?php
+    foreach ($_SESSION['item'] as $item) {
+        echo $item['produk'] . ' x ' . $item['jumlah'] . '<br>';
+    }
+    ?>
     <p><span class="label">Total Belanja</span> <span class="nilai">Rp <?php echo number_format($totalBelanja,0,',','.'); ?></span></p>
     <p><span class="label">Diskon(%)</span> <span class="nilai"><?php echo $persentaseDiskon; ?>%</span></p>
     <p><span class="label">Diskon</span> <span class="nilai">Rp <?php echo number_format($diskon,0,',','.'); ?></span></p>
@@ -39,6 +45,10 @@ $totalBayar=$hasil['totalBayar'];
   </div>
   <div class="tombol-container">
     <a class="tombol-kembali" href="kasir.php">Kembali ke Kasir</a>
+    <?php
+    unset($_SESSION['item']);
+    unset($_SESSION['hasil']);
+    ?>
   </div>
 </body>
 </html>
