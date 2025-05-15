@@ -18,10 +18,10 @@
 
     <!-- Navigation -->
     <nav class="hidden md:flex items-center space-x-6 text-sm">
-      <a href="#" class="hover:text-yellow-400">Home</a>
+      <a href="staff_homepage.php" class="hover:text-yellow-400">Home</a>
       <a href="#" class="hover:text-yellow-400">Reservation List</a>
-      <a href="#" class="hover:text-yellow-400">Manage Workspace</a>
-      <a href="#" class="ml-4 border border-white px-3 py-1 rounded hover:bg-white hover:text-black transition">Log Out <span>›</span></a>
+      <a href="mengaturworkspace.html" class="hover:text-yellow-400">Manage Workspace</a>
+      <a href="login.php" class="ml-4 border border-white px-3 py-1 rounded hover:bg-white hover:text-black transition">Log Out <span>›</span></a>
     </nav>
   </div>
 
