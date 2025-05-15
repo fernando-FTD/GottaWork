@@ -1061,13 +1061,35 @@
                 return;
             }
             
+            // Array untuk menyimpan file yang valid dan tidak valid
+            let validFiles = [];
+            let invalidFiles = [];
+            
             // Process each file
             for (let i = 0; i < files.length; i++) {
                 const file = files[i];
                 
-                // Only process image files
-                if (!file.type.match('image.*')) continue;
-                
+                // Validasi file gambar dengan lebih ketat
+                if (file.type.match('image/jpeg') || 
+                    file.type.match('image/png') ||
+                    file.type.match('image/webp') || 
+                    file.type.match('image/bmp')) {
+                    validFiles.push(file);
+                } else {
+                    invalidFiles.push(file.name);
+                }
+            }
+            
+            // Tampilkan pesan error jika ada file yang tidak valid
+            if (invalidFiles.length > 0) {
+                alert(`File berikut bukan file gambar yang valid dan tidak akan diunggah:\n${invalidFiles.join('\n')}\n\nHanya file gambar (JPG, PNG, GIF, WEBP, BMP) yang diperbolehkan.`);
+            }
+            
+            // Jika tidak ada file valid, keluar dari fungsi
+            if (validFiles.length === 0) return;
+            
+            // Proses file-file yang valid
+            validFiles.forEach(file => {
                 const reader = new FileReader();
                 
                 reader.onload = (function(theFile) {
@@ -1075,7 +1097,9 @@
                         // Add file to selected files array
                         selectedFiles.push({
                             name: theFile.name,
-                            url: e.target.result
+                            url: e.target.result,
+                            type: theFile.type,
+                            size: theFile.size
                         });
                         
                         // Update the UI
@@ -1090,7 +1114,7 @@
                 })(file);
                 
                 reader.readAsDataURL(file);
-            }
+            });
             
             // Show preview grid and hide placeholder
             if (placeholder) {
