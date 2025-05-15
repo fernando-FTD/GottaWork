@@ -23,26 +23,64 @@ if ($_SESSION['role'] !== 'Administrator') {
 </head>
 <body class="text-gray-800">
 
-<!-- HEADER -->
-<header class="bg-[#3e3e3e] text-white">
-  <div class="max-w-7xl mx-auto flex justify-between items-center px-6 py-4">
-    <h1 class="text-xl font-bold">GottaWork</h1>
-    <nav class="space-x-6 text-sm hidden md:flex">
-      <a href="#" class="text-orange-300">Home</a>
-      <a href="pendatapan.html">Keuangan</a>
-      <a href="#">Skema Tarif</a>
-      <a href="#" class="border border-white px-3 py-1 rounded hover:bg-white hover:text-black">Log Out ›</a>
+<header class="bg-gray-700 text-white py-6 px-6">
+  <div class="hero-section relative">
+    <!-- Navigation -->
+    <nav class="absolute w-full py-6 px-8 flex justify-between items-center z-10">
+      <a href="#" class="text-white text-3xl font-bold">GottaWork</a>
+      
+      <div class="flex items-center space-x-8">
+        <a href="#" class="text-yellow-400 hover:text-yellow-500 transition-colors">
+          Home
+        </a>
+        <a href="#" class="text-white hover:text-yellow-400 transition-colors">
+          Keuangan
+        </a>
+        <a href="#" class="text-white hover:text-yellow-400 transition-colors">
+          Skema Tarif
+        </a>
+        
+        <a href="#" class="border border-white text-white px-6 py-2 rounded-md flex items-center justify-center hover:bg-white hover:bg-opacity-10 transition-colors">
+          Log Out ›
+        </a>
+      </div>
     </nav>
-  </div>
-
-  <!-- HERO -->
-  <div class="px-6 pb-16 pt-12 max-w-7xl mx-auto">
-    <p class="text-sm text-yellow-300 tracking-wide mb-2 uppercase">— Memimpin dengan data, bertumbuh dengan tujuan</p>
-    <h2 class="text-4xl font-bold leading-tight mb-4">Wawasan Anda Menunjukkan Jalan</h2>
-    <p class="text-gray-300 mb-6">Bersama mewujudkan ruang kerja efisien melalui pengelolaan yang cermat untuk menghadirkan nilai bisnis terbaik.</p>
-    <div class="space-x-4">
-      <button class="bg-yellow-400 text-black font-semibold px-4 py-2 rounded">Keuangan</button>
-      <button class="bg-yellow-400 text-black font-semibold px-4 py-2 rounded">Skema Tarif</button>
+    
+    <!-- Page Title -->
+    <div class="container mx-auto px-8 pt-32">
+      <div class="flex items-center text-yellow-400 mb-2">
+        <i class="fas fa-chevron-down mr-1 text-xs"></i>
+        <span class="ml-1 text-sm uppercase">— Memimpin dengan data, bertumbuh dengan tujuan</span>
+      </div>
+      <h1 class="text-3xl font-bold mb-6 text-white">Wawasan Anda Menunjukkan Jalan</h1>
+      
+      <div class="flex justify-between items-center">
+        <div class="flex space-x-4">
+          <!-- Tombol Keuangan dengan style yang diminta -->
+          <a href="#" class="bg-yellow-400 text-black px-6 py-3 rounded font-medium flex items-center">
+            Keuangan
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+          </a>
+          
+          <!-- Tombol Skema Tarif dengan style yang diminta -->
+          <a href="#" class="border border-yellow-400 text-yellow-400 px-6 py-3 rounded font-medium flex items-center">
+            Skema Tarif
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+          </a>
+        </div>
+        
+        <div class="flex items-center text-sm text-white">
+          <span>Home</span>
+          <i class="fas fa-chevron-right mx-1 text-xs"></i>
+          <span>Keuangan</span>
+        </div>
+      </div>
+      
+      <p class="text-gray-300 mt-6 max-w-2xl">Bersama mewujudkan ruang kerja efisien melalui pengelolaan yang cermat untuk menghadirkan nilai bisnis terbaik.</p>
     </div>
   </div>
 </header>
@@ -52,7 +90,6 @@ if ($_SESSION['role'] !== 'Administrator') {
   <div class="max-w-7xl mx-auto px-6 py-12">
     <p class="text-sm text-yellow-300 mb-2 uppercase">— Keuangan</p>
     <h2 class="text-3xl font-semibold mb-2">Keuangan</h2>
-    <p class="text-sm text-white/70">Home › Keuangan</p>
   </div>
 </section>
 
@@ -108,33 +145,72 @@ if ($_SESSION['role'] !== 'Administrator') {
 </section>
 
 
-<!-- FOOTER -->
-<footer class="bg-gray-900 text-white mt-16 text-sm">
-  <div class="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-6 px-6 py-10">
-    <div>
-      <h3 class="font-bold text-lg mb-2">GottaWork</h3>
-      <p>768 Market Street Bandar Lampung, Indonesia</p>
-      <p class="mt-2">📞 (+62) 123 456 789</p>
-      <p>✉️ customer@zottawork.com</p>
-      <div class="flex space-x-2 mt-2">
-        <a href="#">🌐</a><a href="#">📸</a><a href="#">🐦</a>
+<!-- Footer -->
+  <footer class="bg-gray-900 text-white py-16 mt-16">
+    <div class="container mx-auto px-6">
+      <div class="grid grid-cols-1 md:grid-cols-5 gap-8">
+        <!-- Company Info -->
+        <div class="col-span-1">
+          <h2 class="text-2xl font-bold mb-6">GottaWork</h2>
+          <p class="text-gray-400 mb-4">7101 Market Street Bandung, Indonesia</p>
+          <p class="text-gray-400 mb-2"><i class="fas fa-phone mr-2"></i> (+62) 123 456 789</p>
+          <p class="text-gray-400 mb-6"><i class="fas fa-envelope mr-2"></i> customer@gottawork.com</p>
+          <div class="flex space-x-4">
+            <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-youtube"></i></a>
+          </div>
+        </div>
+        
+        <!-- Company Links -->
+        <div class="col-span-1">
+          <h3 class="text-lg font-semibold mb-4">Company</h3>
+          <ul class="space-y-2">
+            <li><a href="#" class="text-gray-400 hover:text-white">Meeting Room</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white">Individual Desk</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white">Group Desk</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white">Private Office</a></li>
+          </ul>
+        </div>
+        
+        <!-- Locations Links -->
+        <div class="col-span-1">
+          <h3 class="text-lg font-semibold mb-4">Locations</h3>
+          <ul class="space-y-2">
+            <li><a href="#" class="text-gray-400 hover:text-white">Mall Bintaro Xchange</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white">Lampung City Mall</a></li>
+          </ul>
+        </div>
+        
+        <!-- Partnerships Links -->
+        <div class="col-span-1">
+          <h3 class="text-lg font-semibold mb-4">Partnerships</h3>
+          <ul class="space-y-2">
+            <li><a href="#" class="text-gray-400 hover:text-white">Event Venues</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white">Brokers</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white">Community Events</a></li>
+          </ul>
+        </div>
+        
+        <!-- Support/Spaces Links -->
+        <div class="col-span-1">
+          <h3 class="text-lg font-semibold mb-4">Spaces</h3>
+          <ul class="space-y-2">
+            <li><a href="#" class="text-gray-400 hover:text-white">Contact</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white">About</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white">Jobs</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white">Franchise</a></li>
+          </ul>
+        </div>
+      </div>
+      
+      <!-- Copyright -->
+      <div class="border-t border-gray-800 mt-12 pt-8 text-center text-gray-500 text-sm">
+        © 2025 GottaWork. Powered by GW
       </div>
     </div>
-    <div>
-      <h4 class="font-bold">Company</h4>
-      <ul><li>Meeting Room</li><li>Individual Desk</li><li>Group Desk</li><li>Private Office</li></ul>
-    </div>
-    <div>
-      <h4 class="font-bold">Locations</h4>
-      <ul><li>Mall Boemi Kedaton</li><li>Lampung City Mall</li></ul>
-    </div>
-    <div>
-      <h4 class="font-bold">Support</h4>
-      <ul><li>Book a Tour</li><li>Inquire</li><li>FAQ</li><li>Terms of Use</li></ul>
-    </div>
-  </div>
-  <div class="text-center text-gray-500 pb-6">&copy; 2025 GottaWork. Powered by GW</div>
-</footer>
+  </footer>
 
 </body>
 </html>
