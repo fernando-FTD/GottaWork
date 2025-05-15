@@ -46,7 +46,7 @@ $workspaces = array_fill(0, 8, [
                 <nav>
                     <ul class="flex items-center space-x-6">
                         <li><a href="#" class="py-2">Home</a></li>
-                        <li><a href="daftar_reservasi.php" class="py-2">Daftar Reservasi</a></li>
+                        <li><a href="staff_daftarreservasi.php" class="py-2">Daftar Reservasi</a></li>
                         <li><a href="mengaturworkspace.html" class=" text-orange-400 py-2">Kelola Workspace</a></li>
                         <li>
                             <a href="login.php" class="border border-white text-white px-6 py-2 rounded-md flex items-center justify-center hover:bg-white hover:bg-opacity-10 transition-colors">
