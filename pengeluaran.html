@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GottaWork - Dashboard Keuangan</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+</head>
+<body class="flex flex-col min-h-screen">
+  <!-- Header -->
+  <header class="bg-gray-700 text-white py-6 px-6">
+    <div class="hero-section relative">
+    <!-- Navigation -->
+    <nav class="absolute w-full py-6 px-8 flex justify-between items-center z-10">
+      <a href="#" class="text-white text-3xl font-bold">GottaWork</a>
+      
+      <div class="flex items-center space-x-8">
+        <a href="manager_homepage.php" class="text-yellow-400 hover:text-yellow-500 transition-colors">
+          Home
+        </a>
+        <a href="pendapatan.html" class="text-white hover:text-yellow-400 transition-colors">
+          Keuangan
+        </a>
+        <a href="#" class="text-white hover:text-yellow-400 transition-colors">
+          Skema Tarif
+        </a>
+        
+        <a href="login.php" class="border border-white text-white px-6 py-2 rounded-md flex items-center justify-center hover:bg-white hover:bg-opacity-10 transition-colors">
+          Log Out
+        </a>
+      </div>
+    </nav>
+    
+    <!-- Page Title -->
+    <div class="container mx-auto px-8 pt-32">
+      <div class="flex items-center text-yellow-400 mb-2">
+        <i class="fas fa-chevron-down mr-1 text-xs"></i>
+        <span class="ml-1 text-sm">KEUANGAN</span>
+      </div>
+      <h1 class="text-3xl font-bold mb-6 text-white">Pengeluaran Perusahaan</h1>
+      
+      <div class="flex justify-between items-center">
+        <div class="flex space-x-4">
+          <!-- Tombol Pengeluaran dengan style yang sama seperti tombol Keuangan -->
+          <a href="pendapatan.html" class="bg-yellow-400 text-black px-6 py-3 rounded font-medium flex items-center">
+            Pendapatan
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+          </a>
+          
+          <!-- Tombol Pengeluaran dengan style yang sama seperti tombol Skema Tarif -->
+          <a href="#" class="border border-yellow-400 text-yellow-400 px-6 py-3 rounded font-medium flex items-center">
+            Pengeluaran
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+          </a>
+        </div>
+        
+        <div class="flex items-center text-sm text-white">
+          <span>Home</span>
+          <i class="fas fa-chevron-right mx-1 text-xs"></i>
+          <span>Keuangan</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  </header>
+  
+    
+    <!-- Dashboard Stats -->
+    <div class="container mx-auto px-6 py-8">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <!-- Card 1 -->
+        <div class="bg-white p-4 rounded shadow">
+          <h3 class="text-gray-600 text-sm mb-2">Total Pendapatan</h3>
+          <p class="text-xl font-bold mb-1">Rp 245.780.000</p>
+          <p class="text-xs text-green-500">+13,5% dari bulan lalu</p>
+        </div>
+        
+        <!-- Card 2 -->
+        <div class="bg-white p-4 rounded shadow">
+          <h3 class="text-gray-600 text-sm mb-2">Total Pengeluaran</h3>
+          <p class="text-xl font-bold mb-1">Rp 166.320.000</p>
+          <p class="text-xs text-red-500">+9,7% dari bulan lalu</p>
+        </div>
+        
+        <!-- Card 3 -->
+        <div class="bg-white p-4 rounded shadow">
+          <h3 class="text-gray-600 text-sm mb-2">Keuntungan Bersih</h3>
+          <p class="text-xl font-bold mb-1">Rp 89.460.000</p>
+          <p class="text-xs text-green-500">+18,3% dari bulan lalu</p>
+        </div>
+        
+        <!-- Card 4 -->
+        <div class="bg-white p-4 rounded shadow">
+          <h3 class="text-gray-600 text-sm mb-2">Tingkat Okupansi</h3>
+          <p class="text-xl font-bold mb-1">87%</p>
+          <p class="text-xs text-green-500">+5% dari bulan lalu</p>
+        </div>
+      </div>
+      
+      <!-- Pendapatan Table -->
+      <div class="mt-8">
+        <div class="flex justify-between items-center mb-4">
+          <h2 class="text-xl font-bold">Rincian Pengeluaran</h2>
+          <button id="btnTambahTransaksi" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded flex items-center">
+            <i class="fas fa-plus mr-2"></i> Tambah Transaksi
+          </button>
+        </div>
+        
+        <!-- Tabs -->
+        <div class="flex mb-4 border-b">
+          <button class="px-4 py-2 border-b-2 border-yellow-500 font-medium">
+            Data Pengeluaran
+          </button>
+        </div>
+        
+        <!-- Table -->
+        <div class="overflow-x-auto">
+          <table class="w-full">
+            <thead>
+              <tr class="text-left text-gray-600">
+                <th class="pb-3">Tanggal</th>
+                <th class="pb-3">Deskripsi</th>
+                <th class="pb-3">Kategori</th>
+                <th class="pb-3">Jumlah (Rp)</th>
+                <th class="pb-3">Status</th>
+                <th class="pb-3">Aksi</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="border-t">
+                <td class="py-3">28/03/2024</td>
+                <td class="py-3">Perpanjangan Membership - PT Maju Bersama</td>
+                <td class="py-3">Membership</td>
+                <td class="py-3">15.000.000</td>
+                <td class="py-3">
+                  <span class="px-2 py-1 rounded text-xs bg-green-100 text-green-800">Selesai</span>
+                </td>
+                <td class="py-3">
+                  <button class="edit-btn text-blue-600 hover:text-blue-800" data-id="1" data-tanggal="2024-03-28" data-deskripsi="Perpanjangan Membership - PT Maju Bersama" data-kategori="Membership" data-jumlah="15000000" data-status="Selesai">
+                    <i class="fas fa-edit"></i>
+                  </button>
+                </td>
+              </tr>
+              <tr class="border-t">
+                <td class="py-3">24/03/2024</td>
+                <td class="py-3">Sewa Ruang Meeting - Startup Inovasi</td>
+                <td class="py-3">Ruang Meeting</td>
+                <td class="py-3">2.700.000</td>
+                <td class="py-3">
+                  <span class="px-2 py-1 rounded text-xs bg-green-100 text-green-800">Selesai</span>
+                </td>
+                <td class="py-3">
+                  <button class="edit-btn text-blue-600 hover:text-blue-800" data-id="2" data-tanggal="2024-03-24" data-deskripsi="Sewa Ruang Meeting - Startup Inovasi" data-kategori="Ruang Meeting" data-jumlah="2700000" data-status="Selesai">
+                    <i class="fas fa-edit"></i>
+                  </button>
+                </td>
+              </tr>
+              <tr class="border-t">
+                <td class="py-3">22/03/2024</td>
+                <td class="py-3">Event Workshop Digital Marketing</td>
+                <td class="py-3">Event Space</td>
+                <td class="py-3">8.750.000</td>
+                <td class="py-3">
+                  <span class="px-2 py-1 rounded text-xs bg-green-100 text-green-800">Selesai</span>
+                </td>
+                <td class="py-3">
+                  <button class="edit-btn text-blue-600 hover:text-blue-800" data-id="3" data-tanggal="2024-03-22" data-deskripsi="Event Workshop Digital Marketing" data-kategori="Event Space" data-jumlah="8750000" data-status="Selesai">
+                    <i class="fas fa-edit"></i>
+                  </button>
+                </td>
+              </tr>
+              <tr class="border-t">
+                <td class="py-3">20/03/2024</td>
+                <td class="py-3">Membership Baru - CV Nusantara Maju</td>
+                <td class="py-3">Membership</td>
+                <td class="py-3">12.000.000</td>
+                <td class="py-3">
+                  <span class="px-2 py-1 rounded text-xs bg-green-100 text-green-800">Selesai</span>
+                </td>
+                <td class="py-3">
+                  <button class="edit-btn text-blue-600 hover:text-blue-800" data-id="4" data-tanggal="2024-03-20" data-deskripsi="Membership Baru - CV Nusantara Maju" data-kategori="Membership" data-jumlah="12000000" data-status="Selesai">
+                    <i class="fas fa-edit"></i>
+                  </button>
+                </td>
+              </tr>
+              <tr class="border-t">
+                <td class="py-3">16/03/2024</td>
+                <td class="py-3">Layanan Catering - Meeting PT Sejahtera</td>
+                <td class="py-3">Layanan Tambahan</td>
+                <td class="py-3">3.500.000</td>
+                <td class="py-3">
+                  <span class="px-2 py-1 rounded text-xs bg-yellow-100 text-yellow-800">Tertunda</span>
+                </td>
+                <td class="py-3">
+                  <button class="edit-btn text-blue-600 hover:text-blue-800" data-id="5" data-tanggal="2024-03-16" data-deskripsi="Layanan Catering - Meeting PT Sejahtera" data-kategori="Layanan Tambahan" data-jumlah="3500000" data-status="Tertunda">
+                    <i class="fas fa-edit"></i>
+                  </button>
+                </td>
+              </tr>
+              <tr class="border-t">
+                <td class="py-3">15/03/2024</td>
+                <td class="py-3">Perpanjangan Membership - Freelancer Group</td>
+                <td class="py-3">Membership</td>
+                <td class="py-3">7.500.000</td>
+                <td class="py-3">
+                  <span class="px-2 py-1 rounded text-xs bg-green-100 text-green-800">Selesai</span>
+                </td>
+                <td class="py-3">
+                  <button class="edit-btn text-blue-600 hover:text-blue-800" data-id="6" data-tanggal="2024-03-15" data-deskripsi="Perpanjangan Membership - Freelancer Group" data-kategori="Membership" data-jumlah="7500000" data-status="Selesai">
+                    <i class="fas fa-edit"></i>
+                  </button>
+                </td>
+              </tr>
+              <tr class="border-t">
+                <td class="py-3">07/03/2024</td>
+                <td class="py-3">Sewa Ruang Meeting - PT Konsultasi Bisnis</td>
+                <td class="py-3">Ruang Meeting</td>
+                <td class="py-3">1.800.000</td>
+                <td class="py-3">
+                  <span class="px-2 py-1 rounded text-xs bg-green-100 text-green-800">Selesai</span>
+                </td>
+                <td class="py-3">
+                  <button class="edit-btn text-blue-600 hover:text-blue-800" data-id="7" data-tanggal="2024-03-07" data-deskripsi="Sewa Ruang Meeting - PT Konsultasi Bisnis" data-kategori="Ruang Meeting" data-jumlah="1800000" data-status="Selesai">
+                    <i class="fas fa-edit"></i>
+                  </button>
+                </td>
+              </tr>
+              <tr class="border-t">
+                <td class="py-3">04/03/2024</td>
+                <td class="py-3">Event Peluncuran Produk - Startup Fintech</td>
+                <td class="py-3">Event Space</td>
+                <td class="py-3">12.500.000</td>
+                <td class="py-3">
+                  <span class="px-2 py-1 rounded text-xs bg-green-100 text-green-800">Selesai</span>
+                </td>
+                <td class="py-3">
+                  <button class="edit-btn text-blue-600 hover:text-blue-800" data-id="8" data-tanggal="2024-03-04" data-deskripsi="Event Peluncuran Produk - Startup Fintech" data-kategori="Event Space" data-jumlah="12500000" data-status="Selesai">
+                    <i class="fas fa-edit"></i>
+                  </button>
+                </td>
+              </tr>
+              <tr class="border-t">
+                <td class="py-3">03/03/2024</td>
+                <td class="py-3">Membership Baru - PT Digital Kreatif</td>
+                <td class="py-3">Membership</td>
+                <td class="py-3">18.000.000</td>
+                <td class="py-3">
+                  <span class="px-2 py-1 rounded text-xs bg-green-100 text-green-800">Selesai</span>
+                </td>
+                <td class="py-3">
+                  <button class="edit-btn text-blue-600 hover:text-blue-800" data-id="9" data-tanggal="2024-03-03" data-deskripsi="Membership Baru - PT Digital Kreatif" data-kategori="Membership" data-jumlah="18000000" data-status="Selesai">
+                    <i class="fas fa-edit"></i>
+                  </button>
+                </td>
+              </tr>
+              <tr class="border-t">
+                <td class="py-3">02/03/2024</td>
+                <td class="py-3">Layanan Printing & Design</td>
+                <td class="py-3">Layanan Tambahan</td>
+                <td class="py-3">1.250.000</td>
+                <td class="py-3">
+                  <span class="px-2 py-1 rounded text-xs bg-green-100 text-green-800">Selesai</span>
+                </td>
+                <td class="py-3">
+                  <button class="edit-btn text-blue-600 hover:text-blue-800" data-id="10" data-tanggal="2024-03-02" data-deskripsi="Layanan Printing & Design" data-kategori="Layanan Tambahan" data-jumlah="1250000" data-status="Selesai">
+                    <i class="fas fa-edit"></i>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        
+        <!-- Pagination -->
+        <div class="flex justify-center mt-4">
+          <nav class="flex items-center space-x-1">
+            <span class="w-8 h-8 flex items-center justify-center bg-gray-900 text-white rounded">1</span>
+            <a href="#" class="w-8 h-8 flex items-center justify-center text-gray-700 hover:bg-gray-200 rounded">2</a>
+            <a href="#" class="w-8 h-8 flex items-center justify-center text-gray-700 hover:bg-gray-200 rounded">3</a>
+            <a href="#" class="w-8 h-8 flex items-center justify-center text-gray-700 hover:bg-gray-200 rounded">4</a>
+            <a href="#" class="w-8 h-8 flex items-center justify-center text-gray-700 hover:bg-gray-200 rounded">5</a>
+            <a href="#" class="w-8 h-8 flex items-center justify-center text-gray-700 hover:bg-gray-200 rounded">
+              <i class="fas fa-chevron-right text-xs"></i>
+            </a>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </main>
+  
+  <!-- Footer -->
+  <footer class="bg-gray-900 text-white py-16 mt-16">
+    <div class="container mx-auto px-6">
+      <div class="grid grid-cols-1 md:grid-cols-5 gap-8">
+        <!-- Company Info -->
+        <div class="col-span-1">
+          <h2 class="text-2xl font-bold mb-6">GottaWork</h2>
+          <p class="text-gray-400 mb-4">7101 Market Street Bandung, Indonesia</p>
+          <p class="text-gray-400 mb-2"><i class="fas fa-phone mr-2"></i> (+62) 123 456 789</p>
+          <p class="text-gray-400 mb-6"><i class="fas fa-envelope mr-2"></i> customer@gottawork.com</p>
+          <div class="flex space-x-4">
+            <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-youtube"></i></a>
+          </div>
+        </div>
+        
+        <!-- Company Links -->
+        <div class="col-span-1">
+          <h3 class="text-lg font-semibold mb-4">Company</h3>
+          <ul class="space-y-2">
+            <li><a href="#" class="text-gray-400 hover:text-white">Meeting Room</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white">Individual Desk</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white">Group Desk</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white">Private Office</a></li>
+          </ul>
+        </div>
+        
+        <!-- Locations Links -->
+        <div class="col-span-1">
+          <h3 class="text-lg font-semibold mb-4">Locations</h3>
+          <ul class="space-y-2">
+            <li><a href="#" class="text-gray-400 hover:text-white">Mall Bintaro Xchange</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white">Lampung City Mall</a></li>
+          </ul>
+        </div>
+        
+        <!-- Partnerships Links -->
+        <div class="col-span-1">
+          <h3 class="text-lg font-semibold mb-4">Partnerships</h3>
+          <ul class="space-y-2">
+            <li><a href="#" class="text-gray-400 hover:text-white">Event Venues</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white">Brokers</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white">Community Events</a></li>
+          </ul>
+        </div>
+        
+        <!-- Support/Spaces Links -->
+        <div class="col-span-1">
+          <h3 class="text-lg font-semibold mb-4">Spaces</h3>
+          <ul class="space-y-2">
+            <li><a href="#" class="text-gray-400 hover:text-white">Contact</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white">About</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white">Jobs</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white">Franchise</a></li>
+          </ul>
+        </div>
+      </div>
+      
+      <!-- Copyright -->
+      <div class="border-t border-gray-800 mt-12 pt-8 text-center text-gray-500 text-sm">
+        © 2025 GottaWork. Powered by GW
+      </div>
+    </div>
+  </footer>
+
+  <!-- Pop-up Form untuk Tambah Transaksi -->
+  <div id="formPopup" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
+    <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
+      <div class="flex justify-between items-center mb-4">
+        <h3 class="text-xl font-bold">Tambah Transaksi Baru</h3>
+        <button id="btnCloseForm" class="text-gray-500 hover:text-gray-700">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      
+      <form id="formTambahTransaksi">
+        <div class="mb-4">
+          <label for="tanggal" class="block text-gray-700 font-medium mb-2">Tanggal</label>
+          <input type="date" id="tanggal" name="tanggal" class="w-full px-3 py-2 border border-gray-300 rounded-md" required>
+        </div>
+        
+        <div class="mb-4">
+          <label for="deskripsi" class="block text-gray-700 font-medium mb-2">Deskripsi</label>
+          <input type="text" id="deskripsi" name="deskripsi" class="w-full px-3 py-2 border border-gray-300 rounded-md" placeholder="Masukkan deskripsi transaksi" required>
+        </div>
+        
+        <div class="mb-4">
+          <label for="kategori" class="block text-gray-700 font-medium mb-2">Kategori</label>
+          <select id="kategori" name="kategori" class="w-full px-3 py-2 border border-gray-300 rounded-md" required>
+            <option value="">Pilih Kategori</option>
+            <option value="Membership">Membership</option>
+            <option value="Ruang Meeting">Ruang Meeting</option>
+            <option value="Event Space">Event Space</option>
+            <option value="Layanan Tambahan">Layanan Tambahan</option>
+          </select>
+        </div>
+        
+        <div class="mb-4">
+          <label for="jumlah" class="block text-gray-700 font-medium mb-2">Jumlah (Rp)</label>
+          <input type="number" id="jumlah" name="jumlah" class="w-full px-3 py-2 border border-gray-300 rounded-md" placeholder="Masukkan jumlah pengeluaran" required>
+        </div>
+        
+        <div class="mb-4">
+          <label for="status" class="block text-gray-700 font-medium mb-2">Status</label>
+          <select id="status" name="status" class="w-full px-3 py-2 border border-gray-300 rounded-md" required>
+            <option value="">Pilih Status</option>
+            <option value="Selesai">Selesai</option>
+            <option value="Tertunda">Tertunda</option>
+          </select>
+        </div>
+        
+        <div class="flex justify-end space-x-2">
+          <button type="button" id="btnBatalForm" class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-100">Batal</button>
+          <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">Simpan</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Pop-up Form untuk Edit Transaksi -->
+  <div id="editFormPopup" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
+    <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
+      <div class="flex justify-between items-center mb-4">
+        <h3 class="text-xl font-bold">Edit Transaksi</h3>
+        <button id="btnCloseEditForm" class="text-gray-500 hover:text-gray-700">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      
+      <form id="formEditTransaksi">
+        <input type="hidden" id="edit_id" name="edit_id">
+        
+        <div class="mb-4">
+          <label for="edit_tanggal" class="block text-gray-700 font-medium mb-2">Tanggal</label>
+          <input type="date" id="edit_tanggal" name="edit_tanggal" class="w-full px-3 py-2 border border-gray-300 rounded-md" required>
+        </div>
+        
+        <div class="mb-4">
+          <label for="edit_deskripsi" class="block text-gray-700 font-medium mb-2">Deskripsi</label>
+          <input type="text" id="edit_deskripsi" name="edit_deskripsi" class="w-full px-3 py-2 border border-gray-300 rounded-md" placeholder="Masukkan deskripsi transaksi" required>
+        </div>
+        
+        <div class="mb-4">
+          <label for="edit_kategori" class="block text-gray-700 font-medium mb-2">Kategori</label>
+          <select id="edit_kategori" name="edit_kategori" class="w-full px-3 py-2 border border-gray-300 rounded-md" required>
+            <option value="">Pilih Kategori</option>
+            <option value="Membership">Membership</option>
+            <option value="Ruang Meeting">Ruang Meeting</option>
+            <option value="Event Space">Event Space</option>
+            <option value="Layanan Tambahan">Layanan Tambahan</option>
+          </select>
+        </div>
+        
+        <div class="mb-4">
+          <label for="edit_jumlah" class="block text-gray-700 font-medium mb-2">Jumlah (Rp)</label>
+          <input type="number" id="edit_jumlah" name="edit_jumlah" class="w-full px-3 py-2 border border-gray-300 rounded-md" placeholder="Masukkan jumlah pengeluaran" required>
+        </div>
+        
+        <div class="mb-4">
+          <label for="edit_status" class="block text-gray-700 font-medium mb-2">Status</label>
+          <select id="edit_status" name="edit_status" class="w-full px-3 py-2 border border-gray-300 rounded-md" required>
+            <option value="">Pilih Status</option>
+            <option value="Selesai">Selesai</option>
+            <option value="Tertunda">Tertunda</option>
+          </select>
+        </div>
+        
+        <div class="flex justify-end space-x-2">
+          <button type="button" id="btnBatalEditForm" class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-100">Batal</button>
+          <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">Simpan Perubahan</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // Simple tab switching functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      const tabs = document.querySelectorAll('.flex.mb-4.border-b button');
+      tabs.forEach(tab => {
+        tab.addEventListener('click', function() {
+          // Remove active class from all tabs
+          tabs.forEach(t => {
+            t.classList.remove('border-b-2', 'border-yellow-500', 'font-medium');
+          });
+          // Add active class to clicked tab
+          this.classList.add('border-b-2', 'border-yellow-500', 'font-medium');
+        });
+      });
+
+      // Popup form functionality for Tambah Transaksi
+      const btnTambahTransaksi = document.getElementById('btnTambahTransaksi');
+      const formPopup = document.getElementById('formPopup');
+      const btnCloseForm = document.getElementById('btnCloseForm');
+      const btnBatalForm = document.getElementById('btnBatalForm');
+      const formTambahTransaksi = document.getElementById('formTambahTransaksi');
+
+      // Open popup
+      btnTambahTransaksi.addEventListener('click', function() {
+        formPopup.classList.remove('hidden');
+      });
+
+      // Close popup
+      btnCloseForm.addEventListener('click', function() {
+        formPopup.classList.add('hidden');
+      });
+
+      btnBatalForm.addEventListener('click', function() {
+        formPopup.classList.add('hidden');
+      });
+
+      // Handle form submission
+      formTambahTransaksi.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Here you would normally send the data to the server
+        // For demo purposes, we'll just close the form
+        alert('Transaksi berhasil ditambahkan!');
+        formPopup.classList.add('hidden');
+        formTambahTransaksi.reset();
+      });
+
+      // Close popup when clicking outside
+      formPopup.addEventListener('click', function(e) {
+        if (e.target === formPopup) {
+          formPopup.classList.add('hidden');
+        }
+      });
+
+      // Edit Transaksi functionality
+      const editBtns = document.querySelectorAll('.edit-btn');
+      const editFormPopup = document.getElementById('editFormPopup');
+      const btnCloseEditForm = document.getElementById('btnCloseEditForm');
+      const btnBatalEditForm = document.getElementById('btnBatalEditForm');
+      const formEditTransaksi = document.getElementById('formEditTransaksi');
+      
+      // Open edit popup and fill with data
+      editBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+          const id = this.getAttribute('data-id');
+          const tanggal = this.getAttribute('data-tanggal');
+          const deskripsi = this.getAttribute('data-deskripsi');
+          const kategori = this.getAttribute('data-kategori');
+          const jumlah = this.getAttribute('data-jumlah');
+          const status = this.getAttribute('data-status');
+          
+          // Fill the form with data
+          document.getElementById('edit_id').value = id;
+          document.getElementById('edit_tanggal').value = tanggal;
+          document.getElementById('edit_deskripsi').value = deskripsi;
+          document.getElementById('edit_kategori').value = kategori;
+          document.getElementById('edit_jumlah').value = jumlah;
+          document.getElementById('edit_status').value = status;
+          
+          // Show the popup
+          editFormPopup.classList.remove('hidden');
+        });
+      });
+      
+      // Close edit popup
+      btnCloseEditForm.addEventListener('click', function() {
+        editFormPopup.classList.add('hidden');
+      });
+      
+      btnBatalEditForm.addEventListener('click', function() {
+        editFormPopup.classList.add('hidden');
+      });
+      
+      // Handle edit form submission
+      formEditTransaksi.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Get form data
+        const id = document.getElementById('edit_id').value;
+        const tanggal = document.getElementById('edit_tanggal').value;
+        const deskripsi = document.getElementById('edit_deskripsi').value;
+        const kategori = document.getElementById('edit_kategori').value;
+        const jumlah = document.getElementById('edit_jumlah').value;
+        const status = document.getElementById('edit_status').value;
+        
+        // Here you would normally send the data to the server
+        // For demo purposes, we'll just show an alert
+        alert(`Transaksi ID ${id} berhasil diperbarui!`);
+        
+        // Close the popup
+        editFormPopup.classList.add('hidden');
+      });
+      
+      // Close edit popup when clicking outside
+      editFormPopup.addEventListener('click', function(e) {
+        if (e.target === editFormPopup) {
+          editFormPopup.classList.add('hidden');
+        }
+      });
+    });
+  </script>
+</body>
+</html>
