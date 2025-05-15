@@ -1,12 +1,21 @@
 <?php
-$host = "localhost";
-$user = "root";
-$pass = "";
-$db = "database_gottawork";
+// Database configuration
+$host = 'localhost';
+$dbname = 'database_gottawork';
+$username = 'root';
+$password = '';
 
-$conn = new mysqli($host, $user, $pass, $db);
+// Create database connection
+try {
+    $conn = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
+    // Set the PDO error mode to exception
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch(PDOException $e) {
+    die("Koneksi gagal: " . $e->getMessage());
+}
 
-if ($conn->connect_error) {
-    die("Koneksi gagal: " . $conn->connect_error);
+// Start session if not already started
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
 }
 ?>
