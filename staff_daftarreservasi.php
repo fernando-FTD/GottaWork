@@ -1,4 +1,43 @@
-<?php include 'db.php'; ?>
+<?php include 'db.php'; 
+
+// Ambil data pencarian jika ada
+$search = isset($_GET['search']) ? $conn->real_escape_string($_GET['search']) : "";
+$query = "SELECT * FROM reservations";
+if ($search) {
+  $formatted_date = '';
+$formats = ['d/m/Y', 'd/m', 'm/Y'];
+foreach ($formats as $format) {
+  $date_obj = DateTime::createFromFormat($format, $search);
+  if ($date_obj && $date_obj->format($format) === $search) {
+    $formatted_date = $date_obj->format('Y-m-d');
+    break;
+  }
+}
+
+
+  // Cek apakah input adalah format waktu hh:mm
+  $is_time = preg_match('/^\d{1,2}:\d{2}$/', $search);
+
+  $query .= " WHERE 
+    reservation_code LIKE '%$search%' OR 
+    name LIKE '%$search%' OR 
+    workspace LIKE '%$search%' OR " .
+    ($formatted_date ? "date = '$formatted_date' OR " : "") .
+    ($is_time ? "(TIME_FORMAT(start_time, '%H:%i') = '$search' OR TIME_FORMAT(finish_time, '%H:%i') = '$search') OR " : "") .
+    "0"; // dummy kondisi untuk mengakhiri OR
+}
+
+$reservations = $conn->query($query);
+
+// Dummy data untuk manage workspace
+$workspaces = array_fill(0, 8, [
+  "title" => "Individual Desk",
+  "desc" => "Meja individu, untuk memberikan privasi dan meningkatkan konsentrasi",
+  "location" => "Lampung City Mall",
+  "image" => "placeholder.jpg" // Ganti dengan path asli nanti
+]);
+?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -18,10 +57,10 @@
 
     <!-- Navigation -->
     <nav class="hidden md:flex items-center space-x-6 text-sm">
-      <a href="staff_homepage.php" class="hover:text-yellow-400">Home</a>
+      <a href="#" class="hover:text-yellow-400">Home</a>
       <a href="#" class="hover:text-yellow-400">Reservation List</a>
-      <a href="mengaturworkspace.html" class="hover:text-yellow-400">Manage Workspace</a>
-      <a href="login.php" class="ml-4 border border-white px-3 py-1 rounded hover:bg-white hover:text-black transition">Log Out <span>›</span></a>
+      <a href="#" class="hover:text-yellow-400">Manage Workspace</a>
+      <a href="#" class="ml-4 border border-white px-3 py-1 rounded hover:bg-white hover:text-black transition">Log Out <span>›</span></a>
     </nav>
   </div>
 
@@ -49,62 +88,48 @@
     <p class="text-sm text-gray-500 mt-2">Jl. Teuku Umar No.1, Labuhan Ratu, Kec. Kedaton, Kota Bandar Lampung, Lampung 35132</p>
   </section>
 
-  <!-- Search Form -->
-  <div class="max-w-6xl mx-auto mb-4 px-4">
-    <form method="GET" action="index.php" class="flex items-center border border-gray-300 rounded px-3 py-2">
-      <input type="text" name="search" placeholder="Search Reservation" class="flex-grow outline-none" />
-      <button type="submit">
-        🔍
-      </button>
-    </form>
-  </div>
+<!-- SEARCH & TABLE -->
+<section class="bg-white py-3">
+  <div class="px-40">
+      <!-- Kotak pencarian -->
+      <form method="GET" action="" class="flex items-center border rounded px-3 py-2 w-[1200px]">
+        <input name="search" placeholder="Search Reservation" class="flex-grow outline-none text-sm" />
+        <button type="submit" class="ml-2 text-gray-600">🔍</button>
+      </form>
+    <br>
 
-  <!-- Reservation Table -->
-  <div class="max-w-6xl mx-auto bg-white shadow rounded overflow-hidden px-4">
-    <table class="min-w-full text-sm text-left">
-      <thead class="bg-yellow-400 text-black">
-        <tr>
-          <th class="p-2">Reservation Code</th>
-          <th class="p-2">Name</th>
-          <th class="p-2">Workspace</th>
-          <th class="p-2">Date</th>
-          <th class="p-2">Start Time</th>
-          <th class="p-2">Finish Time</th>
-          <th class="p-2">User Status</th>
-        </tr>
-      </thead>
-      <tbody>
-        <?php
-        $search = isset($_GET['search']) ? $conn->real_escape_string($_GET['search']) : '';
-        $sql = "SELECT * FROM reservations";
-        if ($search) {
-          $sql .= " WHERE reservation_code LIKE '%$search%' 
-            OR name LIKE '%$search%' 
-            OR workspace LIKE '%$search%' 
-            OR date LIKE '%$search%' 
-            OR user_status LIKE '%$search%'";
-        }
-        $result = $conn->query($sql);
-        if ($result->num_rows > 0):
-          while($row = $result->fetch_assoc()):
-        ?>
-        <tr class="border-t hover:bg-gray-100">
-          <td class="p-2"><?= $row['reservation_code'] ?></td>
-          <td class="p-2"><?= $row['name'] ?></td>
-          <td class="p-2"><?= $row['workspace'] ?></td>
-          <td class="p-2"><?= $row['date'] ?></td>
-          <td class="p-2"><?= $row['start_time'] ?></td>
-          <td class="p-2"><?= $row['finish_time'] ?></td>
-          <td class="p-2 text-<?= $row['user_status'] == 'Membership' ? 'red' : 'gray' ?>-500">
-            <?= $row['user_status'] ?>
-          </td>
-        </tr>
-        <?php endwhile; else: ?>
-        <tr><td colspan="7" class="p-4 text-center text-gray-500">No results found.</td></tr>
-        <?php endif; ?>
-      </tbody>
-    </table>
+
+    <div class="overflow-x-auto shadow rounded">
+      <table class="min-w-full text-sm text-left">
+        <thead class="bg-yellow-400 text-black">
+          <tr>
+            <th class="p-2">Reservation Code</th>
+            <th class="p-2">Name</th>
+            <th class="p-2">Workspace</th>
+            <th class="p-2">Date</th>
+            <th class="p-2">Start Time</th>
+            <th class="p-2">Finish Time</th>
+          </tr>
+        </thead>
+<tbody>
+  <?php if ($reservations->num_rows > 0): while ($row = $reservations->fetch_assoc()): ?>
+    <tr class="border-t hover:bg-gray-50">
+      <td class="p-2"><?= $row['reservation_code'] ?></td>
+      <td class="p-2"><?= $row['name'] ?></td>
+      <td class="p-2"><?= $row['workspace'] ?></td>
+      <td class="p-2"><?= date("d/m/Y", strtotime($row['date'])) ?></td>
+      <td class="p-2"><?= date("H:i", strtotime($row['start_time'])) ?></td>
+      <td class="p-2"><?= date("H:i", strtotime($row['finish_time'])) ?></td>
+    </tr>
+  <?php endwhile; else: ?>
+    <tr><td colspan="7" class="p-4 text-center text-gray-500">No results found.</td></tr>
+  <?php endif; ?>
+</tbody>
+
+      </table>
+    </div>
   </div>
+</section>
 
   <!-- Footer -->
   <footer class="bg-gray-800 text-white mt-16 p-10 text-sm">
