@@ -33,7 +33,7 @@ if ($_SESSION['role'] !== 'Administrator') {
         <a href="#" class="text-yellow-400 hover:text-yellow-500 transition-colors">
           Home
         </a>
-        <a href="#" class="text-white hover:text-yellow-400 transition-colors">
+        <a href="pendapatan.html" class="text-white hover:text-yellow-400 transition-colors">
           Keuangan
         </a>
         <a href="#" class="text-white hover:text-yellow-400 transition-colors">
@@ -57,7 +57,7 @@ if ($_SESSION['role'] !== 'Administrator') {
       <div class="flex justify-between items-center">
         <div class="flex space-x-4">
           <!-- Tombol Keuangan dengan style yang diminta -->
-          <a href="#" class="bg-yellow-400 text-black px-6 py-3 rounded font-medium flex items-center">
+          <a href="pendapatan.html" class="bg-yellow-400 text-black px-6 py-3 rounded font-medium flex items-center">
             Keuangan
             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
@@ -152,7 +152,7 @@ if ($_SESSION['role'] !== 'Administrator') {
         <!-- Company Info -->
         <div class="col-span-1">
           <h2 class="text-2xl font-bold mb-6">GottaWork</h2>
-          <p class="text-gray-400 mb-4">7101 Market Street Bandung, Indonesia</p>
+          <p class="text-gray-400 mb-4">7101 Market Street Lampung, Indonesia</p>
           <p class="text-gray-400 mb-2"><i class="fas fa-phone mr-2"></i> (+62) 123 456 789</p>
           <p class="text-gray-400 mb-6"><i class="fas fa-envelope mr-2"></i> customer@gottawork.com</p>
           <div class="flex space-x-4">
@@ -178,7 +178,7 @@ if ($_SESSION['role'] !== 'Administrator') {
         <div class="col-span-1">
           <h3 class="text-lg font-semibold mb-4">Locations</h3>
           <ul class="space-y-2">
-            <li><a href="#" class="text-gray-400 hover:text-white">Mall Bintaro Xchange</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white">ciplaz</a></li>
             <li><a href="#" class="text-gray-400 hover:text-white">Lampung City Mall</a></li>
           </ul>
         </div>
