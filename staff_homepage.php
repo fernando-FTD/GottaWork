@@ -37,19 +37,35 @@ $workspaces = array_fill(0, 8, [
 <body class="text-gray-800">
 
 <!-- HEADER -->
-<header class="bg-[#3e3e3e] text-white">
-  <div class="max-w-7xl mx-auto flex justify-between items-center px-6 py-4">
-    <h1 class="text-xl font-bold">GottaWork</h1>
-    <nav class="space-x-6 text-sm hidden md:flex">
-      <a href="#" class="text-orange-300">Home</a>
-      <a href="#">Reservation List</a>
-      <a href="#">Manage Workspace</a>
-      <a href="#" class="border border-white px-3 py-1 rounded hover:bg-white hover:text-black">Log Out ›</a>
-    </nav>
-  </div>
+<header class="bg-gray-600 text-white py-8">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center">
+                <div>
+                    <a href="/" class="text-2xl font-bold">GottaWork</a>
+                </div>
+                <nav>
+                    <ul class="flex items-center space-x-6">
+                        <li><a href="#" class="py-2">Home</a></li>
+                        <li><a href="daftar_reservasi.php" class="py-2">Daftar Reservasi</a></li>
+                        <li><a href="mengaturworkspace.html" class=" text-orange-400 py-2">Kelola Workspace</a></li>
+                        <li>
+                            <a href="login.php" class="border border-white text-white px-6 py-2 rounded-md flex items-center justify-center hover:bg-white hover:bg-opacity-10 transition-colors">
+                                Log Out
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                                </svg>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
 
   <!-- Hero Section -->
-  <div class="px-6 pb-16 pt-12 max-w-7xl mx-auto">
+<div class="bg-gray-600 text-white py-8">
+   <div class="container mx-auto px-4">
+    <div class="bg-gray-600 text-white py-8 px-6 pb-16 pt-12 max-w-7xl mx-auto">
     <p class="text-sm text-yellow-300 tracking-wide mb-2">— THE PEOPLE BEHIND THE BEST WORKSPACES</p>
     <h2 class="text-4xl font-bold leading-tight mb-4">Your Dedication Shapes the Future of Work</h2>
     <p class="text-gray-300 mb-6">Together, we create an inspiring work environment that supports productivity.</p>
@@ -58,6 +74,8 @@ $workspaces = array_fill(0, 8, [
       <button class="bg-yellow-400 text-black font-semibold px-4 py-2 rounded">Manage Workspace</button>
     </div>
   </div>
+   </div>
+</div>
 </header>
 
 <!-- RESERVATION LIST -->
@@ -152,32 +170,70 @@ $workspaces = array_fill(0, 8, [
 </section>
 
 <!-- FOOTER -->
-<footer class="bg-gray-900 text-white mt-16 text-sm">
-  <div class="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-6 px-6 py-10">
-    <div>
-      <h3 class="font-bold text-lg mb-2">GottaWork</h3>
-      <p>768 Market Street Bandar Lampung, Indonesia</p>
-      <p class="mt-2">📞 (+62) 123 456 789</p>
-      <p>✉️ customer@zottawork.com</p>
-      <div class="flex space-x-2 mt-2">
-        <a href="#">🌐</a><a href="#">📸</a><a href="#">🐦</a>
-      </div>
-    </div>
-    <div>
-      <h4 class="font-bold">Company</h4>
-      <ul><li>Meeting Room</li><li>Individual Desk</li><li>Group Desk</li><li>Private Office</li></ul>
-    </div>
-    <div>
-      <h4 class="font-bold">Locations</h4>
-      <ul><li>Mall Boemi Kedaton</li><li>Lampung City Mall</li></ul>
-    </div>
-    <div>
-      <h4 class="font-bold">Support</h4>
-      <ul><li>Book a Tour</li><li>Inquire</li><li>FAQ</li><li>Terms of Use</li></ul>
-    </div>
-  </div>
-  <div class="text-center text-gray-500 pb-6">&copy; 2025 GottaWork. Powered by GW</div>
-</footer>
+<footer class="bg-gray-900 text-white py-16 mt-16">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-5 gap-8">
+                <!-- Company Info -->
+                <div class="col-span-1">
+                    <h2 class="text-2xl font-bold mb-6">GottaWork</h2>
+                    <p class="text-gray-400 mb-4">7101 Market Street Lampung, Indonesia</p>
+                    <p class="text-gray-400 mb-2"><i class="fas fa-phone mr-2"></i> (+62) 123 456 789</p>
+                    <p class="text-gray-400 mb-6"><i class="fas fa-envelope mr-2"></i> customer@gottawork.com</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                
+                <!-- Company Links -->
+                <div class="col-span-1">
+                    <h3 class="text-lg font-semibold mb-4">Company</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white">Meeting Room</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Individual Desk</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Group Desk</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Private Office</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Locations Links -->
+                <div class="col-span-1">
+                    <h3 class="text-lg font-semibold mb-4">Locations</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white">Lampung City Mall</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Partnerships Links -->
+                <div class="col-span-1">
+                    <h3 class="text-lg font-semibold mb-4">Partnerships</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white">Event Venues</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Brokers</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Community Events</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Support/Spaces Links -->
+                <div class="col-span-1">
+                    <h3 class="text-lg font-semibold mb-4">Spaces</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white">Contact</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">About</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Jobs</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Franchise</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Copyright -->
+            <div class="border-t border-gray-800 mt-12 pt-8 text-center text-gray-500 text-sm">
+                © 2025 GottaWork. Powered by GW
+            </div>
+        </div>
+    </footer>
 
 </body>
 </html>
