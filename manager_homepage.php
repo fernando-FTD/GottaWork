@@ -1,3 +1,19 @@
+<?php
+require_once 'db.php';
+
+// Check if user is logged in
+if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
+    header("login.php");
+    exit;
+}
+
+// Check if user has admin role
+if ($_SESSION['role'] !== 'Administrator') {
+    header("manager_homepage.php");
+    exit;
+}
+?>
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -13,7 +29,7 @@
     <h1 class="text-xl font-bold">GottaWork</h1>
     <nav class="space-x-6 text-sm hidden md:flex">
       <a href="#" class="text-orange-300">Home</a>
-      <a href="#">Keuangan</a>
+      <a href="pendatapan.html">Keuangan</a>
       <a href="#">Skema Tarif</a>
       <a href="#" class="border border-white px-3 py-1 rounded hover:bg-white hover:text-black">Log Out ›</a>
     </nav>
