@@ -1,3 +1,19 @@
+<?php
+require_once 'db.php';
+
+// Check if user is logged in
+if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
+    header("login.php");
+    exit;
+}
+
+// Check if user has customer role
+if ($_SESSION['role'] !== 'Customer') {
+    header("homepage.php");
+    exit;
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
