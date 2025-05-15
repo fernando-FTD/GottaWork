@@ -38,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     
                     // Redirect based on role
                     switch ($row['role']) {
-                        case 'Administrator':
+                        case 'Manager':
                             header("location: manager_homepage.php");
                             break;
                         case 'Staff':
@@ -145,7 +145,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           <label>Role:</label>
           <select name="role" class="w-full p-2 mb-4" required>
             <option value="Customer">Customer</option>
-            <option value="Administrator">Administrator</option>
+            <option value="Manager">Manager</option>
             <option value="Staff">Staff</option>
           </select>
           

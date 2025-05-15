@@ -161,7 +161,7 @@ if ($_SESSION['role'] !== 'Customer') {
           <img src="assets/meetingroom.jpg" class="rounded-t-lg h-48 w-full object-cover" alt="Meeting Room">
           <div class="p-5">
             <h3 class="text-lg font-semibold mb-1">Meeting Room</h3>
-            <p class="text-sm text-gray-600 mb-2">Ruang pribadi untuk rapat, presentasi atau diskusi bersama</p>
+            <p class="text-sm text-gray-600 mb-2">Private space for meetings, presentations or joint discussions</p>
             <p class="text-sm text-gray-500 mb-2">📍 Mall Boemi Kedaton</p>
             <p class="text-sm text-orange-600 font-semibold mb-4">Rp 35k/hour</p>
             <a href="bookingdate.html" class="inline-block bg-yellow-400 text-gray-900 text-sm font-semibold px-4 py-2 rounded hover:bg-yellow-300">Book now →</a>
@@ -173,7 +173,7 @@ if ($_SESSION['role'] !== 'Customer') {
           <img src="assets/individualdesk.jpeg" class="rounded-t-lg h-48 w-full object-cover" alt="Individual Desk">
           <div class="p-5">
             <h3 class="text-lg font-semibold mb-1">Individual Desk</h3>
-            <p class="text-sm text-gray-600 mb-2">Meja individu untuk memberikan privasi dan meningkatkan konsentrasi</p>
+            <p class="text-sm text-gray-600 mb-2">Individual desks to provide privacy and improve concentration</p>
             <p class="text-sm text-gray-500 mb-2">📍 Lampung City Mall</p>
             <p class="text-sm text-orange-600 font-semibold mb-4">Rp 50k/hour</p>
             <a href="bookingdate.html" class="inline-block bg-yellow-400 text-gray-900 text-sm font-semibold px-4 py-2 rounded hover:bg-yellow-300">Book now →</a>
@@ -185,7 +185,7 @@ if ($_SESSION['role'] !== 'Customer') {
           <img src="assets/groupdesk.jpeg" class="rounded-t-lg h-48 w-full object-cover" alt="Group Desk">
           <div class="p-5">
             <h3 class="text-lg font-semibold mb-1">Group Desk</h3>
-            <p class="text-sm text-gray-600 mb-2">Meja fleksibel untuk kerja kelompok untuk meningkatkan produktivitas</p>
+            <p class="text-sm text-gray-600 mb-2">Flexible tables for group work to increase productivity</p>
             <p class="text-sm text-gray-500 mb-2">📍 Mall Boemi Kedaton</p>
             <p class="text-sm text-orange-600 font-semibold mb-4">Rp 20k/hour</p>
             <a href="bookingdate.html" class="inline-block bg-yellow-400 text-gray-900 text-sm font-semibold px-4 py-2 rounded hover:bg-yellow-300">Book now →</a>
@@ -197,7 +197,7 @@ if ($_SESSION['role'] !== 'Customer') {
           <img src="assets/privateoffice.jpeg"class="rounded-t-lg h-48 w-full object-cover" alt="Private Office">
           <div class="p-5">
             <h3 class="text-lg font-semibold mb-1">Private Office</h3>
-            <p class="text-sm text-gray-600 mb-2">Ruang kantor pribadi untuk individual atau tim</p>
+            <p class="text-sm text-gray-600 mb-2">Private office space for individuals or teams</p>
             <p class="text-sm text-gray-500 mb-2">📍 Mall Boemi Kedaton</p>
             <p class="text-sm text-orange-600 font-semibold mb-4">Rp 300k/week</p>
             <a href="bookingdate.html" class="inline-block bg-yellow-400 text-gray-900 text-sm font-semibold px-4 py-2 rounded hover:bg-yellow-300">Book now →</a>

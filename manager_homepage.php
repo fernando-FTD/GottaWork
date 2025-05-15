@@ -8,7 +8,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 }
 
 // Check if user has admin role
-if ($_SESSION['role'] !== 'Administrator') {
+if ($_SESSION['role'] !== 'Manager') {
     header("manager_homepage.php");
     exit;
 }
@@ -34,10 +34,10 @@ if ($_SESSION['role'] !== 'Administrator') {
           Home
         </a>
         <a href="pendapatan.html" class="text-white hover:text-yellow-400 transition-colors">
-          Keuangan
+          Finance
         </a>
         <a href="#" class="text-white hover:text-yellow-400 transition-colors">
-          Skema Tarif
+          Price Scheme
         </a>
         
         <a href="#" class="border border-white text-white px-6 py-2 rounded-md flex items-center justify-center hover:bg-white hover:bg-opacity-10 transition-colors">
@@ -50,23 +50,23 @@ if ($_SESSION['role'] !== 'Administrator') {
     <div class="container mx-auto px-8 pt-32">
       <div class="flex items-center text-yellow-400 mb-2">
         <i class="fas fa-chevron-down mr-1 text-xs"></i>
-        <span class="ml-1 text-sm uppercase">— Memimpin dengan data, bertumbuh dengan tujuan</span>
+        <span class="ml-1 text-sm uppercase">— Your Insights Show the Way</span>
       </div>
-      <h1 class="text-3xl font-bold mb-6 text-white">Wawasan Anda Menunjukkan Jalan</h1>
+      <h1 class="text-3xl font-bold mb-6 text-white">Leading with data, growing with purpose</h1>
       
       <div class="flex justify-between items-center">
         <div class="flex space-x-4">
-          <!-- Tombol Keuangan dengan style yang diminta -->
+          <!-- Tombol Finance dengan style yang diminta -->
           <a href="pendapatan.html" class="bg-yellow-400 text-black px-6 py-3 rounded font-medium flex items-center">
-            Keuangan
+            Finance
             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
             </svg>
           </a>
           
-          <!-- Tombol Skema Tarif dengan style yang diminta -->
+          <!-- Tombol Price Scheme dengan style yang diminta -->
           <a href="#" class="border border-yellow-400 text-yellow-400 px-6 py-3 rounded font-medium flex items-center">
-            Skema Tarif
+            Price Scheme
             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
             </svg>
@@ -76,51 +76,51 @@ if ($_SESSION['role'] !== 'Administrator') {
         <div class="flex items-center text-sm text-white">
           <span>Home</span>
           <i class="fas fa-chevron-right mx-1 text-xs"></i>
-          <span>Keuangan</span>
+          <span>Finance</span>
         </div>
       </div>
       
-      <p class="text-gray-300 mt-6 max-w-2xl">Bersama mewujudkan ruang kerja efisien melalui pengelolaan yang cermat untuk menghadirkan nilai bisnis terbaik.</p>
+      <p class="text-gray-300 mt-6 max-w-2xl">Together realize efficient workspaces through careful management to deliver the best business value.</p>
     </div>
   </div>
 </header>
 
-<!-- SECTION: KEUANGAN -->
+<!-- SECTION: Finance -->
 <section class="bg-teal-900 text-white">
   <div class="max-w-7xl mx-auto px-6 py-12">
-    <p class="text-sm text-yellow-300 mb-2 uppercase">— Keuangan</p>
-    <h2 class="text-3xl font-semibold mb-2">Keuangan</h2>
+    <p class="text-sm text-yellow-300 mb-2 uppercase">— Finance</p>
+    <h2 class="text-3xl font-semibold mb-2">Finance</h2>
   </div>
 </section>
 
 <section class="bg-white py-10">
   <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-6">
     <?php
-    $keuangan = [
+    $Finance = [
       ["title" => "Pendapatan", "desc" => "Pantau pemasukan", "img" => "img/pendapatan.jpg"],
       ["title" => "Pengeluaran", "desc" => "Pantau pengeluaran", "img" => "img/pengeluaran.jpg"],
       ["title" => "Statistik", "desc" => "Pantau statistik perusahaan", "img" => "img/statistik.jpg"],
     ];
-    foreach ($keuangan as $item):
+    foreach ($Finance as $item):
     ?>
     <div class="border rounded shadow overflow-hidden bg-white">
       <img src="<?= $item['img'] ?>" alt="<?= $item['title'] ?>" class="w-full h-48 object-cover">
       <div class="p-4">
         <h3 class="font-semibold text-lg mb-1"><?= $item['title'] ?></h3>
         <p class="text-sm text-gray-600 mb-3"><?= $item['desc'] ?></p>
-        <button class="bg-yellow-400 text-black px-4 py-1 rounded text-sm">Masuk ›</button>
+        <button class="bg-yellow-400 text-black px-4 py-1 rounded text-sm">Manage ›</button>
       </div>
     </div>
     <?php endforeach; ?>
   </div>
 </section>
 
-<!-- SECTION: SKEMA TARIF -->
+<!-- SECTION: Price Scheme -->
 <section class="bg-teal-900 text-white mt-16">
   <div class="max-w-7xl mx-auto px-6 py-12">
-    <p class="text-sm text-yellow-300 mb-2 uppercase">— Skema Tarif</p>
-    <h2 class="text-3xl font-semibold mb-2">Skema Tarif</h2>
-    <p class="text-sm text-white/70">Home › Skema Tarif</p>
+    <p class="text-sm text-yellow-300 mb-2 uppercase">— Price Scheme</p>
+    <h2 class="text-3xl font-semibold mb-2">Price Scheme</h2>
+    <p class="text-sm text-white/70">Home › Price Scheme</p>
   </div>
 </section>
 
@@ -137,7 +137,7 @@ if ($_SESSION['role'] !== 'Administrator') {
       <div class="p-4">
         <h3 class="font-semibold text-lg mb-1"><?= $item['title'] ?></h3>
         <p class="text-sm text-gray-600 mb-3"><?= $item['desc'] ?></p>
-        <button class="bg-yellow-400 text-black px-4 py-1 rounded text-sm">Masuk ›</button>
+        <button class="bg-yellow-400 text-black px-4 py-1 rounded text-sm">Manage ›</button>
       </div>
     </div>
     <?php endforeach; ?>
