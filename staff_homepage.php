@@ -15,17 +15,15 @@ $search = isset($_GET['search']) ? $conn->real_escape_string($_GET['search']) : 
 $query = "SELECT * FROM reservations";
 if ($search) {
   $formatted_date = '';
-$formats = ['d/m/Y', 'd/m', 'm/Y'];
-foreach ($formats as $format) {
-  $date_obj = DateTime::createFromFormat($format, $search);
-  if ($date_obj && $date_obj->format($format) === $search) {
-    $formatted_date = $date_obj->format('Y-m-d');
-    break;
+  $formats = ['d/m/Y', 'd/m', 'm/Y'];
+  foreach ($formats as $format) {
+    $date_obj = DateTime::createFromFormat($format, $search);
+    if ($date_obj && $date_obj->format($format) === $search) {
+      $formatted_date = $date_obj->format('Y-m-d');
+      break;
+    }
   }
-}
 
-
-  // Cek apakah input adalah format waktu hh:mm
   $is_time = preg_match('/^\d{1,2}:\d{2}$/', $search);
 
   $query .= " WHERE 
@@ -34,7 +32,7 @@ foreach ($formats as $format) {
     workspace LIKE '%$search%' OR " .
     ($formatted_date ? "date = '$formatted_date' OR " : "") .
     ($is_time ? "(TIME_FORMAT(start_time, '%H:%i') = '$search' OR TIME_FORMAT(finish_time, '%H:%i') = '$search') OR " : "") .
-    "0"; // dummy kondisi untuk mengakhiri OR
+    "0"; // dummy akhir
 }
 
 $reservations = $conn->query($query);
@@ -42,9 +40,9 @@ $reservations = $conn->query($query);
 // Dummy data untuk manage workspace
 $workspaces = array_fill(0, 8, [
   "title" => "Individual Desk",
-  "desc" => "Meja individu, untuk memberikan privasi dan meningkatkan konsentrasi",
+  "desc" => "Individual desks, to provide privacy and enhance concentration",
   "location" => "Lampung City Mall",
-  "image" => "placeholder.jpg" // Ganti dengan path asli nanti
+  "image" => "https://www.e-abangmantek.com/wp-content/uploads/2023/02/working-space-am.jpeg"
 ]);
 ?>
 
@@ -54,50 +52,50 @@ $workspaces = array_fill(0, 8, [
   <meta charset="UTF-8" />
   <title>Staff Homepage</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <style>body { font-family: 'Lora', serif; }</style>
 </head>
 <body class="text-gray-800">
 
 <!-- HEADER -->
 <header class="bg-gray-600 text-white py-8">
-        <div class="container mx-auto px-4">
-            <div class="flex justify-between items-center">
-                <div>
-                    <a href="/" class="text-2xl font-bold">GottaWork</a>
-                </div>
-                <nav>
-                    <ul class="flex items-center space-x-6">
-                        <li><a href="#" class="py-2">Home</a></li>
-                        <li><a href="staff_daftarreservasi.php" class="py-2">Daftar Reservasi</a></li>
-                        <li><a href="mengaturworkspace.html" class=" text-orange-400 py-2">Kelola Workspace</a></li>
-                        <li>
-                            <a href="login.php" class="border border-white text-white px-6 py-2 rounded-md flex items-center justify-center hover:bg-white hover:bg-opacity-10 transition-colors">
-                                Log Out
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                                </svg>
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
-        </div>
-    </header>
-
-  <!-- Hero Section -->
-<div class="bg-gray-600 text-white py-8">
-   <div class="container mx-auto px-4">
-    <div class="bg-gray-600 text-white py-8 px-6 pb-16 pt-12 max-w-7xl mx-auto">
-    <p class="text-sm text-yellow-300 tracking-wide mb-2">— THE PEOPLE BEHIND THE BEST WORKSPACES</p>
-    <h2 class="text-4xl font-bold leading-tight mb-4">Your Dedication Shapes the Future of Work</h2>
-    <p class="text-gray-300 mb-6">Together, we create an inspiring work environment that supports productivity.</p>
-    <div class="space-x-4">
-      <button class="bg-yellow-400 text-black font-semibold px-4 py-2 rounded">Reservation list</button>
-      <button class="bg-yellow-400 text-black font-semibold px-4 py-2 rounded">Manage Workspace</button>
+  <div class="container mx-auto px-4">
+    <div class="flex justify-between items-center">
+      <div>
+        <a href="staff_homepage.php" class="text-2xl font-bold">GottaWork</a>
+      </div>
+      <nav>
+        <ul class="flex items-center space-x-6">
+          <li><a href="staff_homepage.php" class="py-2">Home</a></li>
+          <li><a href="staff_daftarreservasi.php" class="py-2">Reservation List</a></li>
+          <li><a href="mengaturworkspace.html" class="text-orange-400 py-2">Manage Workspace</a></li>
+          <li>
+            <a href="login.php" class="border border-white text-white px-6 py-2 rounded-md flex items-center hover:bg-white hover:bg-opacity-10 transition-colors">
+              Log Out
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+              </svg>
+            </a>
+          </li>
+        </ul>
+      </nav>
     </div>
   </div>
-   </div>
-</div>
 </header>
+
+<!-- Hero Section -->
+<div class="bg-gray-600 text-white py-8">
+  <div class="container mx-auto px-4">
+    <div class="py-8 px-6 pb-16 pt-12 max-w-7xl mx-auto">
+      <p class="text-sm text-yellow-300 tracking-wide mb-2">— THE PEOPLE BEHIND THE BEST WORKSPACES</p>
+      <h2 class="text-4xl font-bold leading-tight mb-4">Your Dedication Shapes the Future of Work</h2>
+      <p class="text-gray-300 mb-6">Together, we create an inspiring work environment that supports productivity.</p>
+      <div class="space-x-4">
+        <a href="staff_daftarreservasi.php"><button class="bg-yellow-400 text-black font-semibold px-4 py-2 rounded">Reservation list</button></a>
+        <a href="mengaturworkspace.html"><button class="bg-yellow-400 text-black font-semibold px-4 py-2 rounded">Manage Workspace</button></a>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- RESERVATION LIST -->
 <section class="bg-teal-900 text-white">
@@ -112,18 +110,12 @@ $workspaces = array_fill(0, 8, [
 <section class="bg-white py-10">
   <div class="px-40">
     <div class="flex gap-4">
-      <!-- Kotak non-input -->
-      <div 
-  onclick="window.location.href='staff_daftarreservasi.php'" 
-  class="flex items-center border rounded px-3 py-2 w-[500px] cursor-pointer"
->
-  <span class="text-gray-700 text-sm">
-    Gotta Work at Mall Boemi Kedaton, Bandar Lampung, Lampung.
-  </span>
-</div>
+      <div onclick="window.location.href='staff_daftarreservasi.php'" class="flex items-center border rounded px-3 py-2 w-[500px] cursor-pointer">
+        <span class="text-gray-700 text-sm">
+          Gotta Work at Mall Boemi Kedaton, Bandar Lampung, Lampung.
+        </span>
+      </div>
 
-
-      <!-- Kotak pencarian -->
       <form method="GET" action="" class="flex items-center border rounded px-3 py-2 w-[680px]">
         <input name="search" placeholder="Search Reservation" class="flex-grow outline-none text-sm" />
         <button type="submit" class="ml-2 text-gray-600">🔍</button>
@@ -144,21 +136,20 @@ $workspaces = array_fill(0, 8, [
             <th class="p-2">Finish Time</th>
           </tr>
         </thead>
-<tbody>
-  <?php if ($reservations->num_rows > 0): while ($row = $reservations->fetch_assoc()): ?>
-    <tr class="border-t hover:bg-gray-50">
-      <td class="p-2"><?= $row['reservation_code'] ?></td>
-      <td class="p-2"><?= $row['name'] ?></td>
-      <td class="p-2"><?= $row['workspace'] ?></td>
-      <td class="p-2"><?= date("d/m/Y", strtotime($row['date'])) ?></td>
-      <td class="p-2"><?= date("H:i", strtotime($row['start_time'])) ?></td>
-      <td class="p-2"><?= date("H:i", strtotime($row['finish_time'])) ?></td>
-    </tr>
-  <?php endwhile; else: ?>
-    <tr><td colspan="7" class="p-4 text-center text-gray-500">No results found.</td></tr>
-  <?php endif; ?>
-</tbody>
-
+        <tbody>
+          <?php if ($reservations->num_rows > 0): while ($row = $reservations->fetch_assoc()): ?>
+            <tr class="border-t hover:bg-gray-50">
+              <td class="p-2"><?= $row['reservation_code'] ?></td>
+              <td class="p-2"><?= $row['name'] ?></td>
+              <td class="p-2"><?= $row['workspace'] ?></td>
+              <td class="p-2"><?= date("d/m/Y", strtotime($row['date'])) ?></td>
+              <td class="p-2"><?= date("H:i", strtotime($row['start_time'])) ?></td>
+              <td class="p-2"><?= date("H:i", strtotime($row['finish_time'])) ?></td>
+            </tr>
+          <?php endwhile; else: ?>
+            <tr><td colspan="6" class="p-4 text-center text-gray-500">No results found.</td></tr>
+          <?php endif; ?>
+        </tbody>
       </table>
     </div>
   </div>
@@ -181,10 +172,10 @@ $workspaces = array_fill(0, 8, [
         <option>All Spaces</option>
       </select>
       <select class="border px-4 py-2 rounded text-sm">
-        <option>All Lokasi</option>
+        <option>All location</option>
       </select>
     </div>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
       <?php foreach ($workspaces as $ws): ?>
         <div class="border rounded shadow overflow-hidden">
           <img src="<?= $ws['image'] ?>" alt="workspace image" class="w-full h-40 object-cover" />

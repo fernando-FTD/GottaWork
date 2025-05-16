@@ -1,4 +1,20 @@
 <?php
+require_once 'db.php';
+
+
+
+// Cek apakah user sudah login
+if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
+    header("Location: login.php");
+    exit;
+}
+
+// Cek apakah user adalah Manager
+if ($_SESSION['role'] !== 'Manager') {
+    header("Location: manager_homepage.php");
+    exit;
+}
+
 $koneksi = new mysqli("localhost", "root", "", "database_gottawork");
 if ($koneksi->connect_error) {
   die("Koneksi gagal: " . $koneksi->connect_error);
@@ -10,7 +26,6 @@ $result = $koneksi->query($query);
 while ($row = $result->fetch_assoc()) {
   $spaces[] = $row;
 }
-
 
 function getImageURL($title) {
   $title = strtolower($title);
@@ -26,29 +41,46 @@ function getImageURL($title) {
     return "https://via.placeholder.com/300x200?text=Workspace"; // default
   }
 }
-
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <title>Price Scheme - GottaWork</title>
+  <meta charset="UTF-8">
+  <title>Manager - Price Scheme</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { font-family: 'Lora', serif; }
+    .headerr { background-color: #6c6b6b; }
+  </style>
 </head>
-<body class="bg-white text-gray-800">
+<body class="text-gray-800">
 
-<header class="bg-gray-800 text-white">
-  <div class="max-w-7xl mx-auto py-6 px-4 flex justify-between items-center">
-    <div class="text-2xl font-bold">GottaWork</div>
-    <nav class="space-x-6 text-sm">
-      <a href="#" class="hover:underline">Home</a>
-      <a href="#" class="hover:underline">Finance</a>
-      <a href="#" class="text-yellow-400">Price Scheme</a>
-      <button class="ml-4 bg-gray-700 border border-white px-3 py-1 rounded text-sm">Log Out</button>
-    </nav>
+<!-- Header -->
+<header class="headerr text-white py-8">
+  <nav class="absolute w-full py-6 px-8 flex justify-between items-center z-10">
+    <a href="manager_homepage.php" class="text-white text-3xl font-bold">GottaWork</a>
+    <div class="flex items-center space-x-8">
+      <a href="manager_homepage.php" class="text-yellow-400 hover:text-yellow-500 transition-colors">Home</a>
+      <a href="pendapatan.html" class="text-white hover:text-yellow-400 transition-colors">Finance</a>
+      <a href="manager_skematarif.php" class="text-white hover:text-yellow-400 transition-colors">Price Scheme</a>
+      <a href="login.php" class="border border-white text-white px-6 py-2 rounded-md hover:bg-white hover:bg-opacity-10">Log Out ›</a>
+    </div>
+  </nav>
+
+  <div class="container mx-auto px-8 pt-32">
+    <h1 class="text-5xl font-bold mb-6 text-white">Price Scheme</h1>
+    <div class="flex">
+      <a href="manager_skematarif.php" class="bg-yellow-400 text-black px-6 py-3 rounded font-medium flex items-center">
+        Price Scheme
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        </svg>
+      </a>
+    </div>
   </div>
 </header>
 
+<!-- Section -->
 <section class="py-16">
   <div class="text-center mb-12">
     <p class="text-red-400 uppercase text-xs tracking-widest">Price Scheme</p>
@@ -56,17 +88,18 @@ function getImageURL($title) {
     <p class="text-sm text-gray-500 mt-2">Set up Price Scheme, current price workspace.</p>
   </div>
 
-  <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 px-4">
+  <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 px-4 py-5">
     <?php foreach ($spaces as $space): ?>
       <div class="bg-white border rounded shadow p-4">
-        <div class="h-40 bg-gray-100 mb-4 flex items-center justify-center text-gray-400">[Gambar <?= htmlspecialchars($space['title']) ?>]</div>
+        <img src="<?= htmlspecialchars(getImageURL($space['title'])) ?>" alt="<?= htmlspecialchars($space['title']) ?>" class="h-40 w-full object-cover mb-4 rounded">
         <h3 class="text-xl font-semibold mb-1"><?= htmlspecialchars($space['title']) ?></h3>
         <p class="text-sm text-gray-600 mb-2"><?= htmlspecialchars($space['description']) ?></p>
         <p class="text-red-500 font-bold mb-3 price-text">
           <?= htmlspecialchars($space['price']) ?>
           <span class="text-xs text-gray-500"><?= htmlspecialchars($space['unit']) ?></span>
         </p>
-        <button onclick="openModal('<?= htmlspecialchars($space['title']) ?>', '<?= $space['price'] ?>', this.closest('div'))" class="bg-yellow-400 text-black px-4 py-2 rounded shadow text-sm">
+        <button onclick="openModal('<?= htmlspecialchars($space['title']) ?>', '<?= htmlspecialchars($space['price']) ?>', this.closest('div'))"
+          class="bg-yellow-400 text-black px-4 py-2 rounded shadow text-sm">
           Edit Price
         </button>
       </div>
@@ -81,15 +114,16 @@ function getImageURL($title) {
     <form id="editPriceForm">
       <input type="hidden" id="editSpaceTitle">
       <label class="block text-sm font-medium mb-1">New Price</label>
-      <input type="text" id="newPrice" class="w-full border px-3 py-2 mb-4 rounded" placeholder="Misal: Rp 40k">
+      <input type="text" id="newPrice" class="w-full border px-3 py-2 mb-4 rounded" placeholder="Misal: Rp 40k" required>
       <div class="flex justify-end gap-2">
-        <button type="button" onclick="closeModal()" class="px-4 py-2 rounded bg-gray-300 hover:bg-gray-400">Batal</button>
+        <button type="button" onclick="closeModal()" class="px-4 py-2 rounded bg-gray-300 hover:bg-gray-400">Cancel</button>
         <button type="submit" class="px-4 py-2 rounded bg-yellow-400 hover:bg-yellow-500 text-black font-semibold">Save</button>
       </div>
     </form>
   </div>
 </div>
 
+<!-- Script -->
 <script>
   let selectedCard = null;
 
@@ -117,9 +151,7 @@ function getImageURL($title) {
 
     fetch("db_harga.php", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
       body: `title=${encodeURIComponent(title)}&price=${encodeURIComponent(newPrice)}`
     })
     .then(response => response.text())
@@ -127,7 +159,7 @@ function getImageURL($title) {
       if (data.trim() === "success") {
         console.log("Harga berhasil diperbarui.");
       } else {
-        console.error("Gagal memperbarui harga.");
+        console.error("Gagal memperbarui harga:", data);
       }
     })
     .catch(error => console.error("Error:", error));
@@ -136,7 +168,7 @@ function getImageURL($title) {
   });
 </script>
 
-<!-- FOOTER -->
+<!-- Footer -->
 <footer class="bg-gray-900 text-white mt-16 text-sm">
   <div class="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-6 px-6 py-10">
     <div>

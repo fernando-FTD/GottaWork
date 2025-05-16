@@ -1,4 +1,14 @@
-<?php include 'db.php'; 
+<?php
+// Koneksi database
+$host = "localhost";
+$user = "root";
+$pass = "";
+$dbname = "database_gottawork";
+
+$conn = new mysqli($host, $user, $pass, $dbname);
+if ($conn->connect_error) {
+  die("Connection failed: " . $conn->connect_error);
+}
 
 // Ambil data pencarian jika ada
 $search = isset($_GET['search']) ? $conn->real_escape_string($_GET['search']) : "";
@@ -32,12 +42,11 @@ $reservations = $conn->query($query);
 // Dummy data untuk manage workspace
 $workspaces = array_fill(0, 8, [
   "title" => "Individual Desk",
-  "desc" => "Meja individu, untuk memberikan privasi dan meningkatkan konsentrasi",
+  "desc" => "Individual desks to provide privacy and enhance concentration",
   "location" => "Lampung City Mall",
   "image" => "placeholder.jpg" // Ganti dengan path asli nanti
 ]);
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -46,6 +55,7 @@ $workspaces = array_fill(0, 8, [
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Reservation List</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <style>body { font-family: 'Lora', serif; }</style>
 </head>
 <body class="bg-white text-gray-800">
 
@@ -57,10 +67,10 @@ $workspaces = array_fill(0, 8, [
 
     <!-- Navigation -->
     <nav class="hidden md:flex items-center space-x-6 text-sm">
-      <a href="#" class="hover:text-yellow-400">Home</a>
-      <a href="#" class="hover:text-yellow-400">Reservation List</a>
-      <a href="#" class="hover:text-yellow-400">Manage Workspace</a>
-      <a href="#" class="ml-4 border border-white px-3 py-1 rounded hover:bg-white hover:text-black transition">Log Out <span>›</span></a>
+      <a href="staff_homepage.php" class="hover:text-yellow-400">Home</a>
+      <a href="staff_daftarreservasi.php" class="hover:text-yellow-400">Reservation List</a>
+      <a href="mengaturworkspace.html" class="hover:text-yellow-400">Manage Workspace</a>
+      <a href="login.php" class="ml-4 border border-white px-3 py-1 rounded hover:bg-white hover:text-black transition">Log Out <span>›</span></a>
     </nav>
   </div>
 
@@ -82,7 +92,7 @@ $workspaces = array_fill(0, 8, [
 
   <!-- Location Info -->
   <section class="text-center py-10">
-    <h2 class="text-sm text-red-500 tracking-widest">LOKASI</h2>
+    <h2 class="text-sm text-red-500 tracking-widest">location</h2>
     <h1 class="text-2xl font-bold">Mall Boemi Kedaton</h1>
     <p class="text-gray-600">Bandar Lampung, Lampung</p>
     <p class="text-sm text-gray-500 mt-2">Jl. Teuku Umar No.1, Labuhan Ratu, Kec. Kedaton, Kota Bandar Lampung, Lampung 35132</p>

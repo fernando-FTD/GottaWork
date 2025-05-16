@@ -20,27 +20,32 @@ if ($_SESSION['role'] !== 'Manager') {
   <meta charset="UTF-8">
   <title>Manager Homepage</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <style>body { font-family: 'Lora', serif; }
+.headerr {
+      background-color: #6c6b6b;
+    }
+  </style>
 </head>
 <body class="text-gray-800">
 
-<header class="bg-gray-700 text-white py-6 px-6">
+<header class="headerr text-white py-8">
   <div class="hero-section relative">
     <!-- Navigation -->
     <nav class="absolute w-full py-6 px-8 flex justify-between items-center z-10">
-      <a href="#" class="text-white text-3xl font-bold">GottaWork</a>
+      <a href="manager_homepage.php" class="text-white text-3xl font-bold">GottaWork</a>
       
       <div class="flex items-center space-x-8">
-        <a href="#" class="text-yellow-400 hover:text-yellow-500 transition-colors">
+        <a href="manager_homepage.php" class="text-yellow-400 hover:text-yellow-500 transition-colors">
           Home
         </a>
         <a href="pendapatan.html" class="text-white hover:text-yellow-400 transition-colors">
           Finance
         </a>
-        <a href="#" class="text-white hover:text-yellow-400 transition-colors">
+        <a href="manager_skematarif.php" class="text-white hover:text-yellow-400 transition-colors">
           Price Scheme
         </a>
         
-        <a href="#" class="border border-white text-white px-6 py-2 rounded-md flex items-center justify-center hover:bg-white hover:bg-opacity-10 transition-colors">
+        <a href="login.php" class="border border-white text-white px-6 py-2 rounded-md flex items-center justify-center hover:bg-white hover:bg-opacity-10 transition-colors">
           Log Out ›
         </a>
       </div>
@@ -53,7 +58,7 @@ if ($_SESSION['role'] !== 'Manager') {
         <span class="ml-1 text-sm uppercase">— Your Insights Show the Way</span>
       </div>
       <h1 class="text-3xl font-bold mb-6 text-white">Leading with data, growing with purpose</h1>
-      
+      <p class="text-gray-300 mt-6 max-w-2xl">Together realize efficient workspaces through careful management to deliver the best business value.</p>
       <div class="flex justify-between items-center">
         <div class="flex space-x-4">
           <!-- Tombol Finance dengan style yang diminta -->
@@ -79,8 +84,6 @@ if ($_SESSION['role'] !== 'Manager') {
           <span>Finance</span>
         </div>
       </div>
-      
-      <p class="text-gray-300 mt-6 max-w-2xl">Together realize efficient workspaces through careful management to deliver the best business value.</p>
     </div>
   </div>
 </header>
@@ -137,7 +140,7 @@ if ($_SESSION['role'] !== 'Manager') {
       <div class="p-4">
         <h3 class="font-semibold text-lg mb-1"><?= $item['title'] ?></h3>
         <p class="text-sm text-gray-600 mb-3"><?= $item['desc'] ?></p>
-        <button class="bg-yellow-400 text-black px-4 py-1 rounded text-sm">Manage ›</button>
+        <a href="manager_skematarif.php"><button class="bg-yellow-400 text-black px-4 py-1 rounded text-sm">Manage ›</button></a>
       </div>
     </div>
     <?php endforeach; ?>
