@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>GottaWork - Menunggu Pembayaran</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet" />
     <style>
       .popup-overlay {
@@ -38,67 +39,39 @@
         font-size: 24px;
         color: #666;
       }
+      .bg-custom-gray {
+      background-color: #7b7e80;
+    }
+    body{
+       font-family: 'Lora', serif;
+    }
     </style>
   </head>
-  <body class="bg-gray-100 font-sans">
-    <!-- Header -->
-    <header class="bg-gray-600 text-white py-8">
-      <div class="container mx-auto px-4">
-          <div class="flex justify-between items-center">
-              <div>
-                  <a href="/" class="text-2xl font-bold">GottaWork</a>
-              </div>
-              <nav>
-                  <ul class="flex items-center space-x-6">
-                      <li><a href="/home" class="py-2">Home</a></li>
-                      <li><a href="/daftar-reservasi" class="py-2">Location</a></li>
-                      <li><a href="/kelola-workspace" class="py-2">My Reservations</a></li>
-                      <li><a href="/kelola-workspace" class="text-orange-400 py-2">Pembayaran</a></li>
-                      <li><a href="/kelola-workspace" class=" py-2">Profile</a></li>
-                      <li>
-                          <a href="/logout" class="border border-white text-white px-6 py-2 rounded-md flex items-center justify-center hover:bg-white hover:bg-opacity-10 transition-colors">
-                              Book a Space
-                              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                              </svg>
-                          </a>
-                      </li>
-                  </ul>
-              </nav>
-          </div>
-      </div>
+
+  <body class>
+    <div class="bg-custom-gray">
+  <header class="text-white py-6 px-6 flex items-center justify-between max-w-7xl mx-auto">
+    <div class="text-2xl font-bold">GottaWork</div>
+    <nav class="flex items-center space-x-6">
+        <a href="homepage.php" class="text-white hover:text-orange-400 font-medium">Home</a>
+        <a href="ketersediaanws.html" class="text-white hover:text-orange-400 font-medium">Locations</a>
+        <a href="pembayaran.html" class="text-orange-400 font-medium underline-offset-4">Payment</a>
+        <a href="membatalkanreservasi.html" class="text-white hover:text-orange-400 font-medium">Reservation</a>
+        <a href="profile.html" class="text-white hover:text-orange-400 font-medium">Profile</a>
+        <a href="bookingdate.html" class="ml-4 border border-white text-white px-4 py-2 rounded hover:bg-white hover:text-gray-800 transition">
+          Book a Space <span class="ml-1">➤</span>
+        </a>
+    </nav>
   </header>
 
   <!-- Hero Section -->
-<section class="bg-gray-600 text-white py-8">
-  <div class="container mx-auto px-4">
-    <div class="mb-2">
-      <span class="text-yellow-500 font-semibold">— Pembayaran</span>
-    </div>
-    <div class="flex justify-between items-center">
-      <h1 class="text-4xl font-bold">Menunggu Pembayaran</h1>
-      <div class="flex items-center text-sm">
-        <a href="/home" class="text-white">Home</a>
-        <span class="mx-2">›</span>
-        <span>Pembayaran</span>
-      </div>
-    </div>
-    <div class="flex space-x-4 mt-4">
-      <button class="bg-yellow-300 text-black font-semibold px-4 py-2 rounded-md flex items-center">
-        Menunggu <br /> Pembayaran
-        <svg xmlns="http://www.w3.org/2000/svg" class="ml-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-        </svg>
-      </button>
-      <button class="bg-yellow-300 text-black font-semibold px-4 py-2 rounded-md flex items-center">
-        Sudah dibayar
-        <svg xmlns="http://www.w3.org/2000/svg" class="ml-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-        </svg>
-      </button>
-    </div>    
-  </div>
-</section>
+  <section class="px-6 py-16 max-w-7xl mx-auto">
+    <p class="text-yellow-400 uppercase text-sm tracking-widest">— PAYMENT</p>
+    <h1 class="text-5xl font-bold mt-4 leading-tight text-white">Waiting for Payment</h1>
+    <button class="mt-6 bg-yellow-400 text-gray-900 font-semibold px-6 py-2 rounded hover:bg-yellow-300">Waiting for Payment > </button>
+    <button class="mt-6 bg-yellow-400 text-gray-900 font-semibold px-6 py-2 rounded hover:bg-yellow-300">Sudah dibayar > </button>
+  </section>
+</div>
 
     <!-- Payment Details Section -->
     <section class="py-8 px-6">
@@ -132,7 +105,7 @@
           <!-- QR Code - Now positioned beside the details -->
           <div class="flex flex-col items-center justify-center">
             <div class="border-2 border-gray-300 p-2 rounded-md mb-2">
-              <img src="qriss.png" alt="QR Code" class="w-32 h-32" />
+              <img src="assets/qriss.jpg" alt="QR Code" class="w-32 h-32" />
             </div>
             <p class="text-gray-600 text-xs">KODE: XXXXX-XXXX</p>
           </div>
@@ -247,7 +220,7 @@
 
               <!-- QR Code -->
               <div class="border-2 border-gray-300 p-2 rounded-md">
-                <img src="qriss.png" alt="QR Code" class="w-32 h-32" />
+                <img src="assets/qriss.jpg" alt="QR Code" class="w-32 h-32" />
               </div>
               <div class="text-center text-xs text-gray-600 mt-1">NMID: IDXXXXXXXX</div>
             </div>
