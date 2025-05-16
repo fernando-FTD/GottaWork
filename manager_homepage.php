@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once 'db.php';
 
 // Check if user is logged in
@@ -58,7 +59,8 @@ if ($_SESSION['role'] !== 'Manager') {
         <span class="ml-1 text-sm uppercase">— Your Insights Show the Way</span>
       </div>
       <h1 class="text-3xl font-bold mb-6 text-white">Leading with data, growing with purpose</h1>
-      <p class="text-gray-300 mt-6 max-w-2xl">Together realize efficient workspaces through careful management to deliver the best business value.</p>
+      <h3 class="text-gray-300 mt-6 max-w-2xl">Together realize efficient workspaces through careful management to deliver the best business value.</h3>
+      <br>
       <div class="flex justify-between items-center">
         <div class="flex space-x-4">
           <!-- Tombol Finance dengan style yang diminta -->
@@ -100,15 +102,15 @@ if ($_SESSION['role'] !== 'Manager') {
   <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-6">
     <?php
     $Finance = [
-      ["title" => "Pendapatan", "desc" => "Pantau pemasukan", "img" => "img/pendapatan.jpg"],
-      ["title" => "Pengeluaran", "desc" => "Pantau pengeluaran", "img" => "img/pengeluaran.jpg"],
-      ["title" => "Statistik", "desc" => "Pantau statistik perusahaan", "img" => "img/statistik.jpg"],
+      ["title" => "Pendapatan", "desc" => "Pantau pemasukan", "img" => "https://radarlampung.disway.id/upload/28f353be6ec97564bc41050400697b64.jpg"],
+      ["title" => "Pengeluaran", "desc" => "Pantau pengeluaran", "img" => "https://radarlampung.disway.id/upload/28f353be6ec97564bc41050400697b64.jpg"],
+      ["title" => "Statistik", "desc" => "Pantau statistik perusahaan", "img" => "https://indopajak.id/wp-content/uploads/2024/07/jakub-zerdzicki-ip7GFn5JqX8-unsplash-1.jpg"],
     ];
     foreach ($Finance as $item):
     ?>
     <div class="border rounded shadow overflow-hidden bg-white">
       <img src="<?= $item['img'] ?>" alt="<?= $item['title'] ?>" class="w-full h-48 object-cover">
-      <div class="p-4">
+<div class="p-4">
         <h3 class="font-semibold text-lg mb-1"><?= $item['title'] ?></h3>
         <p class="text-sm text-gray-600 mb-3"><?= $item['desc'] ?></p>
         <button class="bg-yellow-400 text-black px-4 py-1 rounded text-sm">Manage ›</button>
@@ -131,13 +133,13 @@ if ($_SESSION['role'] !== 'Manager') {
   <div class="max-w-7xl mx-auto px-6 flex justify-center">
     <?php
     $skema = [
-      ["title" => "Harga", "desc" => "Harga Workspace", "img" => "img/harga.jpg"],
+      ["title" => "Harga", "desc" => "Harga Workspace", "img" => "https://assets.kompasiana.com/items/album/2015/11/08/images-563f5f2a117b61ae09d6e14b.jpg?v=400&t=o?t=o&v=770"],
     ];
     foreach ($skema as $item):
     ?>
     <div class="w-80 border rounded shadow overflow-hidden bg-white">
       <img src="<?= $item['img'] ?>" alt="<?= $item['title'] ?>" class="w-full h-48 object-cover">
-      <div class="p-4">
+<div class="p-4">
         <h3 class="font-semibold text-lg mb-1"><?= $item['title'] ?></h3>
         <p class="text-sm text-gray-600 mb-3"><?= $item['desc'] ?></p>
         <a href="manager_skematarif.php"><button class="bg-yellow-400 text-black px-4 py-1 rounded text-sm">Manage ›</button></a>
