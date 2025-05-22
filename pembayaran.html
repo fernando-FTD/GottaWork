@@ -1,12 +1,77 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>GottaWork - Menunggu Pembayaran</title>
+    <title>GottaWork - Waiting for Payment</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet" />
     <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .main-container {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        background-color: #374151;
+      }
+
+      .content-area {
+        flex: 1;
+        background-image: url("BAGROUND.jpg");
+        background-size: cover;
+        background-position: center;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .payment-card {
+        width: 100%;
+        max-width: 600px;
+        margin: auto;
+        background-color: white;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      .yellow-header,
+      .yellow-footer {
+        background-color: #fcd34d;
+        padding: 1rem;
+        text-align: center;
+      }
+
+      .card-content {
+        padding: 1.5rem;
+      }
+
+      .detail-row {
+        display: flex;
+        border-bottom: 1px solid #e5e7eb;
+        padding: 0.5rem 0;
+      }
+
+      .detail-label {
+        width: 40%;
+        color: #6b7280;
+      }
+
+      .detail-value {
+        width: 60%;
+      }
+
+      .qr-code {
+        border: 2px solid #e5e7eb;
+        padding: 0.5rem;
+        width: 120px;
+        height: 120px;
+      }
+
       .popup-overlay {
         position: fixed;
         top: 0;
@@ -17,212 +82,218 @@
         display: none;
         justify-content: center;
         align-items: center;
-        z-index: 1000;
+        z-index: 50;
       }
 
       .popup-content {
         background-color: white;
-        padding: 0;
-        border-radius: 8px;
-        width: 100%;
-        max-width: 420px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        border-radius: 0.5rem;
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
         overflow: hidden;
+        max-width: 28rem;
+        width: 100%;
+        position: relative;
       }
 
-      .popup-close {
+      .close-button {
         position: absolute;
-        top: 10px;
-        right: 10px;
+        top: 0.5rem;
+        right: 0.5rem;
+        color: #6b7280;
         cursor: pointer;
-        font-size: 24px;
-        color: #666;
       }
     </style>
   </head>
-  <body class="bg-gray-100 font-sans">
-    <!-- Header -->
-    <header class="bg-gray-600 text-white py-8">
-      <div class="container mx-auto px-4">
+  <body>
+    <div class="main-container">
+      <!-- Header -->
+      <header class="bg-gray-700 text-white py-2">
+        <div class="container mx-auto px-4">
           <div class="flex justify-between items-center">
-              <div>
-                  <a href="homepage.php" class="text-2xl font-bold">GottaWork</a>
-              </div>
-              <nav>
-                  <ul class="flex items-center space-x-6">
-                      <li><a href="/home" class="py-2">Home</a></li>
-                      <li><a href="/daftar-reservasi" class="py-2">Location</a></li>
-                      <li><a href="/kelola-workspace" class="py-2">My Reservations</a></li>
-                      <li><a href="/kelola-workspace" class="text-orange-400 py-2">Pembayaran</a></li>
-                      <li><a href="/kelola-workspace" class=" py-2">Profile</a></li>
-                      <li>
-                          <a href="/logout" class="border border-white text-white px-6 py-2 rounded-md flex items-center justify-center hover:bg-white hover:bg-opacity-10 transition-colors">
-                              Book a Space
-                              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                              </svg>
-                          </a>
-                      </li>
-                  </ul>
-              </nav>
+            <div>
+              <a href="/" class="text-xl font-bold"> GottaWork </a>
+            </div>
+            <nav>
+              <ul class="flex items-center space-x-4 text-sm">
+                <li><a href="/home" class="py-2">Home</a></li>
+                <li><a href="/location" class="py-2">Location</a></li>
+                <li><a href="/reservations" class="py-2 text-orange-400">Pembayaran</a></li>
+                <li><a href="/reservations" class="py-2">Reservations</a></li>
+                <li><a href="/profile" class="py-2">Profile</a></li>
+                <li>
+                  <a href="/book" class="border border-white text-white px-3 py-1 rounded-md text-xs"> Book a Space › </a>
+                </li>
+              </ul>
+            </nav>
           </div>
-      </div>
-  </header>
-
-  <!-- Hero Section -->
-<section class="bg-gray-600 text-white py-8">
-  <div class="container mx-auto px-4">
-    <div class="mb-2">
-      <span class="text-yellow-500 font-semibold">— Pembayaran</span>
-    </div>
-    <div class="flex justify-between items-center">
-      <h1 class="text-4xl font-bold">Menunggu Pembayaran</h1>
-      <div class="flex items-center text-sm">
-        <a href="/home" class="text-white">Home</a>
-        <span class="mx-2">›</span>
-        <span>Pembayaran</span>
-      </div>
-    </div>
-    <div class="flex space-x-4 mt-4">
-      <button class="bg-yellow-300 text-black font-semibold px-4 py-2 rounded-md flex items-center">
-        Menunggu <br /> Pembayaran
-        <svg xmlns="http://www.w3.org/2000/svg" class="ml-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-        </svg>
-      </button>
-      <button class="bg-yellow-300 text-black font-semibold px-4 py-2 rounded-md flex items-center">
-        Sudah dibayar
-        <svg xmlns="http://www.w3.org/2000/svg" class="ml-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-        </svg>
-      </button>
-    </div>    
-  </div>
-</section>
-
-    <!-- Payment Details Section -->
-    <section class="py-8 px-6">
-      <div class="container mx-auto max-w-4xl">
-        <div class="bg-yellow-300 p-4 text-center font-semibold mb-4 rounded">
-          <h2>PEMBAYARAN RESERVASI</h2>
-          <p class="text-sm mt-2">ID TRANSAKSI : 1234456 - 45 - TOTAL : 336.000</p>
         </div>
+      </header>
 
-        <div class="bg-white p-6 shadow-md mb-4 flex flex-col md:flex-row justify-between">
-          <!-- Order Details and QR Code in same row -->
-          <div class="flex-1">
-            <h2 class="text-2xl font-semibold mb-4">Detail pesanan</h2>
-            <div class="grid grid-cols-3 gap-2 mb-2">
-              <div class="text-gray-600">Desk Number</div>
-              <div class="col-span-2">001</div>
+      <!-- Content Area with Background Image -->
+      <div class="content-area">
+        <!-- Title Section -->
+        <div class="bg-gray-700 text-white py-4">
+          <div class="container mx-auto px-4">
+            <div class="mb-1">
+              <span class="text-yellow-400 text-sm">— Pembayaran</span>
             </div>
-            <div class="grid grid-cols-3 gap-2 mb-2">
-              <div class="text-gray-600">Nama penyewaan</div>
-              <div class="col-span-2">risnjurrr</div>
-            </div>
-            <div class="mt-6">
-              <h3 class="text-xl font-semibold">Nominal Pembayaran</h3>
-              <div class="grid grid-cols-3 gap-2 mt-2">
-                <div class="text-gray-600">Total pembayaran</div>
-                <div class="col-span-2">Rp.336.000</div>
+            <div class="flex justify-between items-center">
+              <h1 class="text-3xl font-bold">Waiting for Payment</h1>
+              <div class="flex items-center text-xs">
+                <a href="/home" class="text-white">Home</a>
+                <span class="mx-1">›</span>
+                <span>Payment</span>
               </div>
             </div>
-          </div>
-
-          <!-- QR Code - Now positioned beside the details -->
-          <div class="flex flex-col items-center justify-center">
-            <div class="border-2 border-gray-300 p-2 rounded-md mb-2">
-              <img src="qriss.png" alt="QR Code" class="w-32 h-32" />
+            <div class="flex space-x-2 mt-4">
+              <button class="bg-yellow-300 text-black font-semibold px-3 py-1 text-sm rounded">Waiting for Payment ›</button>
+              <button class="bg-yellow-300 text-black font-semibold px-3 py-1 text-sm rounded">Paid ›</button>
             </div>
-            <p class="text-gray-600 text-xs">KODE: XXXXX-XXXX</p>
           </div>
         </div>
 
-        <div id="paymentStatus" class="bg-yellow-300 p-4 text-center font-semibold rounded cursor-pointer">
-          <p>menunggu pembayaran</p>
-        </div>
-      </div>
-    </section>
+        <!-- Payment Card -->
+        <div class="payment-card my-8">
+          <!-- Yellow Header -->
+          <div class="yellow-header">
+            <h2 class="uppercase font-bold">RESERVATION PAYMENT</h2>
+            <p class="text-sm">ID TRANSACTION: 1234456 - 45 - TOTAL: 328.000</p>
+          </div>
 
-    <!-- Footer -->
-  <footer class="bg-gray-900 text-white py-16 mt-16">
-    <div class="container mx-auto px-6">
-      <div class="grid grid-cols-1 md:grid-cols-5 gap-8">
-        <!-- Company Info -->
-        <div class="col-span-1">
-          <h2 class="text-2xl font-bold mb-6">GottaWork</h2>
-          <p class="text-gray-400 mb-4">7101 Market Street Bandung, Indonesia</p>
-          <p class="text-gray-400 mb-2"><i class="fas fa-phone mr-2"></i> (+62) 123 456 789</p>
-          <p class="text-gray-400 mb-6"><i class="fas fa-envelope mr-2"></i> customer@gottawork.com</p>
-          <div class="flex space-x-4">
-            <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-facebook-f"></i></a>
-            <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-twitter"></i></a>
-            <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-instagram"></i></a>
-            <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-youtube"></i></a>
+          <!-- Card Content -->
+          <div class="card-content">
+            <div class="flex flex-col md:flex-row justify-between">
+              <!-- Order Details -->
+              <div class="flex-1">
+                <h2 class="text-2xl font-semibold mb-4">Order details</h2>
+
+                <div class="detail-row">
+                  <div class="detail-label">Desk Number</div>
+                  <div class="detail-value">001</div>
+                </div>
+
+                <div class="detail-row">
+                  <div class="detail-label">Tenant's name</div>
+                  <div class="detail-value">risnjurrr</div>
+                </div>
+
+                <h3 class="text-xl font-semibold mt-6 mb-2">Nominal Payment</h3>
+
+                <div class="detail-row">
+                  <div class="detail-label">Total Payment</div>
+                  <div class="detail-value">Rp.328.000</div>
+                </div>
+              </div>
+
+              <!-- QR Code -->
+              <div class="flex flex-col items-center justify-center mt-6 md:mt-0">
+                <div class="qr-code">
+                  <img src="grissss.jpg" alt="QR Code" />
+                </div>
+                <p class="text-gray-600 text-xs mt-1">CODE: XXXXX-XXXX</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Yellow Footer -->
+          <div id="paymentStatusButton" class="yellow-footer cursor-pointer">
+            <p class="font-semibold">Waiting for Payment</p>
           </div>
         </div>
-        
-        <!-- Company Links -->
-        <div class="col-span-1">
-          <h3 class="text-lg font-semibold mb-4">Company</h3>
-          <ul class="space-y-2">
-            <li><a href="#" class="text-gray-400 hover:text-white">Meeting Room</a></li>
-            <li><a href="#" class="text-gray-400 hover:text-white">Individual Desk</a></li>
-            <li><a href="#" class="text-gray-400 hover:text-white">Group Desk</a></li>
-            <li><a href="#" class="text-gray-400 hover:text-white">Private Office</a></li>
-          </ul>
-        </div>
-        
-        <!-- Locations Links -->
-        <div class="col-span-1">
-          <h3 class="text-lg font-semibold mb-4">Locations</h3>
-          <ul class="space-y-2">
-            <li><a href="#" class="text-gray-400 hover:text-white">Lampung City Mall</a></li>
-          </ul>
-        </div>
-        
-        <!-- Partnerships Links -->
-        <div class="col-span-1">
-          <h3 class="text-lg font-semibold mb-4">Partnerships</h3>
-          <ul class="space-y-2">
-            <li><a href="#" class="text-gray-400 hover:text-white">Event Venues</a></li>
-            <li><a href="#" class="text-gray-400 hover:text-white">Brokers</a></li>
-            <li><a href="#" class="text-gray-400 hover:text-white">Community Events</a></li>
-          </ul>
-        </div>
-        
-        <!-- Support/Spaces Links -->
-        <div class="col-span-1">
-          <h3 class="text-lg font-semibold mb-4">Spaces</h3>
-          <ul class="space-y-2">
-            <li><a href="#" class="text-gray-400 hover:text-white">Contact</a></li>
-            <li><a href="#" class="text-gray-400 hover:text-white">About</a></li>
-            <li><a href="#" class="text-gray-400 hover:text-white">Jobs</a></li>
-            <li><a href="#" class="text-gray-400 hover:text-white">Franchise</a></li>
-          </ul>
-        </div>
       </div>
-      
-      <!-- Copyright -->
-      <div class="border-t border-gray-800 mt-12 pt-8 text-center text-gray-500 text-sm">
-        © 2025 GottaWork. Powered by GW
-      </div>
+
+      <!-- Footer -->
+      <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-6">
+          <div class="grid grid-cols-5 gap-8">
+            <!-- Company Info -->
+            <div class="col-span-1">
+              <h2 class="text-xl font-bold mb-4">GottaWork</h2>
+              <p class="text-gray-400 text-sm mb-2">(+62) 123 456 789</p>
+              <p class="text-gray-400 text-sm mb-4">customer@gottawork.com</p>
+              <div class="flex space-x-2">
+                <a href="#" class="text-gray-400 hover:text-white">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z" />
+                  </svg>
+                </a>
+                <a href="#" class="text-gray-400 hover:text-white">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
+                    <path
+                      d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"
+                    />
+                  </svg>
+                </a>
+                <a href="#" class="text-gray-400 hover:text-white">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
+                    <path
+                      d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"
+                    />
+                  </svg>
+                </a>
+              </div>
+            </div>
+
+            <!-- Footer Columns -->
+            <div class="col-span-1">
+              <h3 class="text-sm font-semibold mb-3">Company</h3>
+              <ul class="space-y-1 text-xs text-gray-400">
+                <li><a href="#" class="hover:text-white">Meeting Room</a></li>
+                <li><a href="#" class="hover:text-white">Individual Desk</a></li>
+                <li><a href="#" class="hover:text-white">Group Desk</a></li>
+              </ul>
+            </div>
+
+            <div class="col-span-1">
+              <h3 class="text-sm font-semibold mb-3">Locations</h3>
+              <ul class="space-y-1 text-xs text-gray-400">
+                <li><a href="#" class="hover:text-white">Lampung City Mall</a></li>
+                <li><a href="#" class="hover:text-white">Jakarta Office</a></li>
+              </ul>
+            </div>
+
+            <div class="col-span-1">
+              <h3 class="text-sm font-semibold mb-3">Partnerships</h3>
+              <ul class="space-y-1 text-xs text-gray-400">
+                <li><a href="#" class="hover:text-white">Event Venues</a></li>
+                <li><a href="#" class="hover:text-white">Brokers</a></li>
+                <li><a href="#" class="hover:text-white">Community Events</a></li>
+              </ul>
+            </div>
+
+            <div class="col-span-1">
+              <h3 class="text-sm font-semibold mb-3">Spaces</h3>
+              <ul class="space-y-1 text-xs text-gray-400">
+                <li><a href="#" class="hover:text-white">Contact</a></li>
+                <li><a href="#" class="hover:text-white">About</a></li>
+                <li><a href="#" class="hover:text-white">Jobs</a></li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Copyright -->
+          <div class="border-t border-gray-700 mt-8 pt-4 text-center text-gray-500 text-xs">© 2025 GottaWork. Powered by GW</div>
+        </div>
+      </footer>
     </div>
-  </footer>
 
     <!-- Payment Success Popup -->
     <div id="paymentSuccessPopup" class="popup-overlay">
-      <div class="popup-content relative">
-        <span class="popup-close" onclick="closePopup()">&times;</span>
+      <div class="popup-content">
+        <button class="close-button" onclick="closePopup()">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
 
         <!-- Payment Success Content -->
         <div class="bg-yellow-300 py-4 px-6 text-center">
-          <h2 class="font-bold text-lg">PEMBAYARAN RESERVASI</h2>
-          <p class="text-sm">ID TRANSAKSI : 1244MK - 43 - TOTAL : 328.000</p>
+          <h2 class="font-bold text-lg">RESERVATION PAYMENT</h2>
+          <p class="text-sm">ID TRANSACTION: 1244MK - 43 - TOTAL: 328.000</p>
         </div>
 
         <div class="p-6">
-          <h3 class="text-2xl font-bold mb-4">Detail pesanan</h3>
+          <h3 class="text-2xl font-bold mb-4">Order details</h3>
 
           <div class="flex justify-between items-center border-b pb-2 mb-2">
             <span class="text-gray-600">Desk Number</span>
@@ -230,13 +301,13 @@
           </div>
 
           <div class="flex justify-between items-center border-b pb-2 mb-6">
-            <span class="text-gray-600">Nama penyewaan</span>
+            <span class="text-gray-600">Tenant's name</span>
             <span>risnjurrr</span>
           </div>
 
-          <h3 class="text-xl font-bold mb-2">Nominal Pembayaran</h3>
+          <h3 class="text-xl font-bold mb-2">Nominal Payment</h3>
           <div class="flex justify-between items-center border-b pb-2 mb-6">
-            <span class="text-gray-600">Total pembayaran</span>
+            <span class="text-gray-600">Total payment</span>
             <span>Rp.328.000</span>
           </div>
 
@@ -247,35 +318,37 @@
 
               <!-- QR Code -->
               <div class="border-2 border-gray-300 p-2 rounded-md">
-                <img src="qriss.png" alt="QR Code" class="w-32 h-32" />
+                <img src="grissss.jpg" alt="QR Code" width="128" height="128" />
               </div>
               <div class="text-center text-xs text-gray-600 mt-1">NMID: IDXXXXXXXX</div>
             </div>
           </div>
         </div>
 
-        <!-- Updated bottom section to match exactly with the example -->
+        <!-- Bottom section -->
         <div class="bg-yellow-300 py-4 px-6 text-center">
-          <p class="font-bold text-lg">Pembayaran Berhasil</p>
+          <p class="font-bold text-lg">Payment Successful</p>
         </div>
       </div>
     </div>
 
     <script>
+      // Get elements
+      const paymentStatusButton = document.getElementById("paymentStatusButton");
+      const paymentSuccessPopup = document.getElementById("paymentSuccessPopup");
+
       // Function to show payment success popup
       function showPopup() {
-        document.getElementById("paymentSuccessPopup").style.display = "flex";
+        paymentSuccessPopup.style.display = "flex";
       }
 
       // Function to close payment success popup
       function closePopup() {
-        document.getElementById("paymentSuccessPopup").style.display = "none";
+        paymentSuccessPopup.style.display = "none";
       }
 
-      // Event listener for payment status button
-      document.getElementById("paymentStatus").addEventListener("click", function () {
-        showPopup();
-      });
+      // Add event listener to payment status button
+      paymentStatusButton.addEventListener("click", showPopup);
     </script>
   </body>
 </html>
