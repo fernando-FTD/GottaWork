@@ -27,7 +27,7 @@ if ($_SESSION['role'] !== 'Customer') {
       font-family: 'Lora', serif;
     }
     .bg-custom-gray {
-      background-color: #7b7e80;
+      background-color: rgb(19 78 74);
     }
   </style>
 </head>
@@ -36,7 +36,7 @@ if ($_SESSION['role'] !== 'Customer') {
   <header class="text-white py-6 px-6 flex items-center justify-between max-w-7xl mx-auto">
     <div class="text-2xl font-bold">GottaWork</div>
     <nav class="flex items-center space-x-6">
-        <a href="homepage.html" class="text-orange-400 font-medium  underline-offset-4">Home</a>
+        <a href="homepage.php" class="text-orange-400 font-medium  underline-offset-4">Home</a>
         <a href="ketersediaanws.html" class="text-white hover:text-orange-400 font-medium">Locations</a>
         <a href="pembayaran.html" class="text-white hover:text-orange-400 font-medium">Payment</a>
         <a href="membatalkanreservasi.html" class="text-white hover:text-orange-400 font-medium">Reservation</a>
@@ -53,8 +53,7 @@ if ($_SESSION['role'] !== 'Customer') {
   <section class="px-6 py-16 max-w-7xl mx-auto">
     <p class="text-yellow-400 uppercase text-sm tracking-widest">The Features of Office</p>
     <h1 class="text-5xl font-bold mt-4 leading-tight">We’re the Perfect <br />Working Space for You</h1>
-    <p class="mt-4 max-w-2xl text-white/80">Amet diam lorem duo in amet. Rosa magic erat brand massa semper egestas sed ultrices enim lectus magna.</p>
-    <button class="mt-6 bg-yellow-400 text-gray-900 font-semibold px-6 py-2 rounded hover:bg-yellow-300">Learn more</button>
+    <p class="mt-4 max-w-2xl text-white/80">Discover a workspace designed to meet your every need. Our office features promote productivity, comfort, and creativity, making it easy for you to focus and thrive.</p>
   </section>
 
   <!-- Features Section -->
@@ -64,7 +63,9 @@ if ($_SESSION['role'] !== 'Customer') {
       <div>
         <p class="text-orange-500 uppercase text-sm font-semibold mb-2">Features</p>
         <h2 class="text-4xl font-bold mb-4">We Offer Creative Environment</h2>
-        <p class="text-gray-600 mb-8">Amet diam lorem dui ornare libero magnis erat blandit massa semper egestas sed ultrices enim lectus magna.</p>
+        <p class="text-gray-600 mb-8">Our coworking space fosters innovation and productivity with a modern, comfortable atmosphere designed to inspire creativity and collaboration. Whether you're working solo or with a team, you'll find the ideal setting to do your best work.
+
+</p>
         <img src="assets/background.png" class="rounded-lg shadow-lg">
       </div>
   
@@ -73,8 +74,8 @@ if ($_SESSION['role'] !== 'Customer') {
         <!-- Card Template -->
         <div class="bg-white border shadow p-6 rounded-lg">
           <div class="w-4 h-4 bg-teal-900 mb-4"></div>
-          <h3 class="text-xl font-bold mb-2">Office Space</h3>
-          <p class="text-gray-500 mb-4 text-sm">Amet diam lorem ornare libero magnis erat blandit massa lorem ornare libero magnis.</p>
+          <h3 class="text-xl font-bold mb-2">Meeting Room</h3>
+          <p class="text-gray-500 mb-4 text-sm">Private space for meetings, presentations or joint discussions.</p>
           <ul class="space-y-2 text-sm text-gray-600 mb-4">
             <li>✔ Flexible contracts</li>
             <li>✔ Access your office 24/7/365</li>
@@ -83,14 +84,14 @@ if ($_SESSION['role'] !== 'Customer') {
             <li>✔ Cancel anytime</li>
             <li>✔ High-speed internet access</li>
           </ul>
-          <button class="bg-yellow-400 text-sm text-gray-900 font-semibold px-4 py-2 rounded hover:bg-yellow-300">Learn more ➤</button>
+
         </div>
   
         <!-- Duplicate Card with different content -->
         <div class="bg-white border shadow p-6 rounded-lg">
           <div class="w-4 h-4 bg-teal-900 mb-4"></div>
-          <h3 class="text-xl font-bold mb-2">Dedicated Desk</h3>
-          <p class="text-gray-500 mb-4 text-sm">Amet diam lorem ornare libero magnis erat blandit massa lorem ornare libero magnis.</p>
+          <h3 class="text-xl font-bold mb-2">Individual Desk</h3>
+          <p class="text-gray-500 mb-4 text-sm">Individual desks to provide privacy and improve concentration.</p>
           <ul class="space-y-2 text-sm text-gray-600 mb-4">
             <li>✔ Flexible contracts</li>
             <li>✔ Access your office 24/7/365</li>
@@ -99,13 +100,13 @@ if ($_SESSION['role'] !== 'Customer') {
             <li>✔ Cancel anytime</li>
             <li>✔ High-speed internet access</li>
           </ul>
-          <button class="bg-yellow-400 text-sm text-gray-900 font-semibold px-4 py-2 rounded hover:bg-yellow-300">Learn more ➤</button>
+
         </div>
   
         <div class="bg-white border shadow p-6 rounded-lg">
           <div class="w-4 h-4 bg-teal-900 mb-4"></div>
-          <h3 class="text-xl font-bold mb-2">Virtual Office</h3>
-          <p class="text-gray-500 mb-4 text-sm">Amet diam lorem ornare libero magnis erat blandit massa lorem ornare libero magnis.</p>
+          <h3 class="text-xl font-bold mb-2">Group Desk</h3>
+          <p class="text-gray-500 mb-4 text-sm">Flexible tables for group work to increase productivity.</p>
           <ul class="space-y-2 text-sm text-gray-600 mb-4">
             <li>✔ Flexible contracts</li>
             <li>✔ Access your office 24/7/365</li>
@@ -114,13 +115,13 @@ if ($_SESSION['role'] !== 'Customer') {
             <li>✔ Cancel anytime</li>
             <li>✔ High-speed internet access</li>
           </ul>
-          <button class="bg-yellow-400 text-sm text-gray-900 font-semibold px-4 py-2 rounded hover:bg-yellow-300">Learn more ➤</button>
+
         </div>
   
         <div class="bg-white border shadow p-6 rounded-lg">
           <div class="w-4 h-4 bg-teal-900 mb-4"></div>
-          <h3 class="text-xl font-bold mb-2">Meeting Rooms</h3>
-          <p class="text-gray-500 mb-4 text-sm">Amet diam lorem ornare libero magnis erat blandit massa lorem ornare libero magnis.</p>
+          <h3 class="text-xl font-bold mb-2">Private Office</h3>
+          <p class="text-gray-500 mb-4 text-sm">Private office space for individuals or teams.</p>
           <ul class="space-y-2 text-sm text-gray-600 mb-4">
             <li>✔ Flexible contracts</li>
             <li>✔ Access your office 24/7/365</li>
@@ -129,7 +130,7 @@ if ($_SESSION['role'] !== 'Customer') {
             <li>✔ Cancel anytime</li>
             <li>✔ High-speed internet access</li>
           </ul>
-          <button class="bg-yellow-400 text-sm text-gray-900 font-semibold px-4 py-2 rounded hover:bg-yellow-300">Learn more ➤</button>
+
         </div>
       </div>
     </div>
@@ -147,7 +148,7 @@ if ($_SESSION['role'] !== 'Customer') {
           <h2 class="text-4xl font-bold">Explore Available Office Spaces</h2>
         </div>
         <div class="text-gray-600 text-sm max-w-md">
-          Fasilitas meja, kursi, dan ruang harian/bulanan dengan internet cepat dan suasana yang memotivasi produktivitas.
+          Daily/monthly desk, chair, and room facilities with fast internet and an atmosphere that motivates productivity.
           <div class="mt-3">
             <a href="ketersediaanws.html" class="inline-block border border-gray-800 px-4 py-2 text-sm font-medium hover:bg-gray-100 rounded">View all →</a>
           </div>
@@ -217,11 +218,11 @@ if ($_SESSION['role'] !== 'Customer') {
       </div>
   
       <!-- Text Content -->
-      <div class="bg-[#095151] text-white p-10 rounded-lg relative">
+      <div class="bg-[#234e52] text-white p-10 rounded-lg relative">
         <p class="uppercase text-orange-300 text-sm font-semibold mb-3 tracking-wide">Members</p>
         <h2 class="text-3xl font-bold mb-4">We Look After Our Members</h2>
         <p class="text-white/80 mb-6">
-          Kerja nyaman, fokus terjaga, produktivitas meningkat? Semua ada di GottaWork. Temukan ruang terbaikmu sekarang.
+          Work in comfort, stay focused, and boost your productivity? it’s all possible at GottaWork. Find your perfect workspace today.
         </p>
         <div class="grid grid-cols-2 gap-4 text-sm">
           <ul class="space-y-2 list-inside text-white/90">
@@ -244,7 +245,7 @@ if ($_SESSION['role'] !== 'Customer') {
       <p class="uppercase text-orange-400 text-sm font-semibold tracking-wide mb-3">Testimonials</p>
       <h2 class="text-3xl md:text-black font-bold mb-4">What Our Customer Says</h2>
       <p class="text-gray-600 mb-12">
-        Kerja nyaman, fokus terjaga, produktivitas meningkat? Semua ada di GottaWork. Temukan ruang terbaikmu sekarang!
+        Work in comfort, stay focused, and boost your productivity? It’s all possible at GottaWork. Find your perfect workspace today.
       </p>
   
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -252,30 +253,30 @@ if ($_SESSION['role'] !== 'Customer') {
         <div class="bg-white rounded-xl shadow p-6">
           <div class="text-orange-500 text-3xl mb-3">“</div>
           <p class="text-gray-600 mb-3 text-sm">
-            Kerja nyaman, fokus terjaga, produktivitas meningkat? Semua ada di GottaWork. Temukan ruang terbaikmu sekarang!
+            Work in comfort, stay focused, and boost your productivity? It’s all possible at GottaWork. Find your perfect workspace today.
           </p>
-          <p class="font-semibold text-black mt-4">John William</p>
-          <p class="text-gray-500 text-sm">Manager at Furniti</p>
+          <p class="font-semibold text-black mt-4">Justin Bieber</p>
+          <p class="text-gray-500 text-sm">Manager at PT.GW</p>
         </div>
   
         <!-- Card 2 (highlighted) -->
         <div class="bg-[#003D36] text-white rounded-xl shadow p-6 scale-105">
           <div class="text-3xl mb-3">“</div>
           <p class="mb-3 text-sm">
-            Kerja nyaman, fokus terjaga, produktivitas meningkat? Semua ada di GottaWork. Temukan ruang terbaikmu sekarang!
+            Work in comfort, stay focused, and boost your productivity? It’s all possible at GottaWork. Find your perfect workspace today.
           </p>
-          <p class="font-semibold mt-4">John William</p>
-          <p class="text-white/70 text-sm">Manager at Furniti</p>
+          <p class="font-semibold mt-4">Justin Bieber</p>
+          <p class="text-white/70 text-sm">Manager at PT.GW</p>
         </div>
   
         <!-- Card 3 -->
         <div class="bg-white rounded-xl shadow p-6">
           <div class="text-orange-500 text-3xl mb-3">“</div>
           <p class="text-gray-600 mb-3 text-sm">
-            Kerja nyaman, fokus terjaga, produktivitas meningkat? Semua ada di GottaWork. Temukan ruang terbaikmu sekarang!
+            Work in comfort, stay focused, and boost your productivity? It’s all possible at GottaWork. Find your perfect workspace today.
           </p>
-          <p class="font-semibold text-black mt-4">John William</p>
-          <p class="text-gray-500 text-sm">Manager at Furniti</p>
+          <p class="font-semibold text-black mt-4">Justin Bieber</p>
+          <p class="text-gray-500 text-sm">Manager at PT.GW</p>
         </div>
       </div>
     </div>

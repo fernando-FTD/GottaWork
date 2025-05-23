@@ -50,7 +50,7 @@ function getImageURL($title) {
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     body { font-family: 'Lora', serif; }
-    .headerr { background-color: #6c6b6b; }
+    .headerr { background-color: rgb(19 78 74); }
   </style>
 </head>
 <body class="text-gray-800">

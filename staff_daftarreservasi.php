@@ -60,7 +60,7 @@ $workspaces = array_fill(0, 8, [
 <body class="bg-white text-gray-800">
 
 <!-- Header Utama -->
-<header class="bg-[#3e3e3e] text-white">
+<header class="bg-teal-900 text-white">
   <div class="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
     <!-- Logo -->
     <h1 class="text-2xl font-bold">GottaWork</h1>

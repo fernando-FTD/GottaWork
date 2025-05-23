@@ -57,7 +57,7 @@ $workspaces = array_fill(0, 8, [
 <body class="text-gray-800">
 
 <!-- HEADER -->
-<header class="bg-gray-600 text-white py-8">
+<header class="bg-teal-900 text-white py-8">
   <div class="container mx-auto px-4">
     <div class="flex justify-between items-center">
       <div>
@@ -83,7 +83,7 @@ $workspaces = array_fill(0, 8, [
 </header>
 
 <!-- Hero Section -->
-<div class="bg-gray-600 text-white py-8">
+<div class="bg-teal-900 text-white py-8">
   <div class="container mx-auto px-4">
     <div class="py-8 px-6 pb-16 pt-12 max-w-7xl mx-auto">
       <p class="text-sm text-yellow-300 tracking-wide mb-2">— THE PEOPLE BEHIND THE BEST WORKSPACES</p>
