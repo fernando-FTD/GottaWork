@@ -27,7 +27,7 @@ if ($_SESSION['role'] !== 'Customer') {
       font-family: 'Lora', serif;
     }
     .bg-custom-gray {
-      background-color: rgb(19 78 74);
+      background-color: #095151;
     }
   </style>
 </head>
@@ -53,7 +53,8 @@ if ($_SESSION['role'] !== 'Customer') {
   <section class="px-6 py-16 max-w-7xl mx-auto">
     <p class="text-yellow-400 uppercase text-sm tracking-widest">The Features of Office</p>
     <h1 class="text-5xl font-bold mt-4 leading-tight">We’re the Perfect <br />Working Space for You</h1>
-    <p class="mt-4 max-w-2xl text-white/80">Discover a workspace designed to meet your every need. Our office features promote productivity, comfort, and creativity, making it easy for you to focus and thrive.</p>
+    <p class="mt-4 max-w-2xl text-white/80">Comfortable work, maintained focus, increased productivity? It's all at GottaWork. Find your best space now!</p>
+    
   </section>
 
   <!-- Features Section -->
@@ -63,9 +64,7 @@ if ($_SESSION['role'] !== 'Customer') {
       <div>
         <p class="text-orange-500 uppercase text-sm font-semibold mb-2">Features</p>
         <h2 class="text-4xl font-bold mb-4">We Offer Creative Environment</h2>
-        <p class="text-gray-600 mb-8">Our coworking space fosters innovation and productivity with a modern, comfortable atmosphere designed to inspire creativity and collaboration. Whether you're working solo or with a team, you'll find the ideal setting to do your best work.
-
-</p>
+        <p class="text-gray-600 mb-8">Amet diam lorem dui ornare libero magnis erat blandit massa semper egestas sed ultrices enim lectus magna.</p>
         <img src="assets/background.png" class="rounded-lg shadow-lg">
       </div>
   
@@ -74,8 +73,8 @@ if ($_SESSION['role'] !== 'Customer') {
         <!-- Card Template -->
         <div class="bg-white border shadow p-6 rounded-lg">
           <div class="w-4 h-4 bg-teal-900 mb-4"></div>
-          <h3 class="text-xl font-bold mb-2">Meeting Room</h3>
-          <p class="text-gray-500 mb-4 text-sm">Private space for meetings, presentations or joint discussions.</p>
+          <h3 class="text-xl font-bold mb-2">Office Space</h3>
+          <p class="text-gray-500 mb-4 text-sm">Amet diam lorem ornare libero magnis erat blandit massa lorem ornare libero magnis.</p>
           <ul class="space-y-2 text-sm text-gray-600 mb-4">
             <li>✔ Flexible contracts</li>
             <li>✔ Access your office 24/7/365</li>
@@ -84,14 +83,14 @@ if ($_SESSION['role'] !== 'Customer') {
             <li>✔ Cancel anytime</li>
             <li>✔ High-speed internet access</li>
           </ul>
-
+          <a href="ketersediaanws.html" class="bg-yellow-400 text-sm text-gray-900 font-semibold px-4 py-2 rounded hover:bg-yellow-300">Learn more ➤</a>
         </div>
   
         <!-- Duplicate Card with different content -->
         <div class="bg-white border shadow p-6 rounded-lg">
           <div class="w-4 h-4 bg-teal-900 mb-4"></div>
-          <h3 class="text-xl font-bold mb-2">Individual Desk</h3>
-          <p class="text-gray-500 mb-4 text-sm">Individual desks to provide privacy and improve concentration.</p>
+          <h3 class="text-xl font-bold mb-2">Dedicated Desk</h3>
+          <p class="text-gray-500 mb-4 text-sm">Amet diam lorem ornare libero magnis erat blandit massa lorem ornare libero magnis.</p>
           <ul class="space-y-2 text-sm text-gray-600 mb-4">
             <li>✔ Flexible contracts</li>
             <li>✔ Access your office 24/7/365</li>
@@ -100,13 +99,13 @@ if ($_SESSION['role'] !== 'Customer') {
             <li>✔ Cancel anytime</li>
             <li>✔ High-speed internet access</li>
           </ul>
-
+           <a href="ketersediaanws.html" class="bg-yellow-400 text-sm text-gray-900 font-semibold px-4 py-2 rounded hover:bg-yellow-300">Learn more ➤</a>
         </div>
   
         <div class="bg-white border shadow p-6 rounded-lg">
           <div class="w-4 h-4 bg-teal-900 mb-4"></div>
-          <h3 class="text-xl font-bold mb-2">Group Desk</h3>
-          <p class="text-gray-500 mb-4 text-sm">Flexible tables for group work to increase productivity.</p>
+          <h3 class="text-xl font-bold mb-2">Virtual Office</h3>
+          <p class="text-gray-500 mb-4 text-sm">Amet diam lorem ornare libero magnis erat blandit massa lorem ornare libero magnis.</p>
           <ul class="space-y-2 text-sm text-gray-600 mb-4">
             <li>✔ Flexible contracts</li>
             <li>✔ Access your office 24/7/365</li>
@@ -115,13 +114,13 @@ if ($_SESSION['role'] !== 'Customer') {
             <li>✔ Cancel anytime</li>
             <li>✔ High-speed internet access</li>
           </ul>
-
+          <a href="ketersediaanws.html" class="bg-yellow-400 text-sm text-gray-900 font-semibold px-4 py-2 rounded hover:bg-yellow-300">Learn more ➤</a>
         </div>
   
         <div class="bg-white border shadow p-6 rounded-lg">
           <div class="w-4 h-4 bg-teal-900 mb-4"></div>
-          <h3 class="text-xl font-bold mb-2">Private Office</h3>
-          <p class="text-gray-500 mb-4 text-sm">Private office space for individuals or teams.</p>
+          <h3 class="text-xl font-bold mb-2">Meeting Rooms</h3>
+          <p class="text-gray-500 mb-4 text-sm">Amet diam lorem ornare libero magnis erat blandit massa lorem ornare libero magnis.</p>
           <ul class="space-y-2 text-sm text-gray-600 mb-4">
             <li>✔ Flexible contracts</li>
             <li>✔ Access your office 24/7/365</li>
@@ -130,7 +129,7 @@ if ($_SESSION['role'] !== 'Customer') {
             <li>✔ Cancel anytime</li>
             <li>✔ High-speed internet access</li>
           </ul>
-
+           <a href="ketersediaanws.html" class="bg-yellow-400 text-sm text-gray-900 font-semibold px-4 py-2 rounded hover:bg-yellow-300">Learn more ➤</a>
         </div>
       </div>
     </div>
@@ -140,20 +139,19 @@ if ($_SESSION['role'] !== 'Customer') {
   
   <!-- Office Spaces Section -->
 <section class="bg-white text-gray-800 py-20">
-    <div class="max-w-7xl mx-auto px-6">
-      <!-- Header -->
-      <div class="mb-12 flex justify-between items-start flex-wrap gap-4">
-        <div>
-          <p class="text-teal-600 uppercase text-sm font-semibold mb-1 tracking-wide">Locations</p>
-          <h2 class="text-4xl font-bold">Explore Available Office Spaces</h2>
-        </div>
-        <div class="text-gray-600 text-sm max-w-md">
-          Daily/monthly desk, chair, and room facilities with fast internet and an atmosphere that motivates productivity.
-          <div class="mt-3">
-            <a href="ketersediaanws.html" class="inline-block border border-gray-800 px-4 py-2 text-sm font-medium hover:bg-gray-100 rounded">View all →</a>
-          </div>
+  <div class="max-w-7xl mx-auto px-6">
+    <!-- Header -->
+    <div class="mb-12">
+      <p class="text-teal-600 uppercase text-sm font-semibold mb-1 tracking-wide">Locations</p>
+      <h2 class="text-4xl font-bold">Explore Available Office Spaces</h2>
+      <div class="text-gray-600 text-sm max-w-md mt-4">
+        Daily/monthly desk, chair and room facilities with fast internet and an atmosphere that motivates productivity.
+        <div class="mt-3">
+          <a href="ketersediaanws.html" class="inline-block border border-gray-800 px-4 py-2 text-sm font-medium hover:bg-gray-100 rounded">View all →</a>
         </div>
       </div>
+    </div>
+
   
       <!-- Cards -->
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -207,36 +205,6 @@ if ($_SESSION['role'] !== 'Customer') {
       </div>
     </div>
   </section>
-  
-  <!-- Members Section -->
-<section class="bg-white">
-    <div class="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-10 py-20 items-center">
-  
-      <!-- Image -->
-      <div>
-        <img src="assets/member.jpeg" alt="Meeting" class="rounded-lg shadow-lg w-full">
-      </div>
-  
-      <!-- Text Content -->
-      <div class="bg-[#234e52] text-white p-10 rounded-lg relative">
-        <p class="uppercase text-orange-300 text-sm font-semibold mb-3 tracking-wide">Members</p>
-        <h2 class="text-3xl font-bold mb-4">We Look After Our Members</h2>
-        <p class="text-white/80 mb-6">
-          Work in comfort, stay focused, and boost your productivity? it’s all possible at GottaWork. Find your perfect workspace today.
-        </p>
-        <div class="grid grid-cols-2 gap-4 text-sm">
-          <ul class="space-y-2 list-inside text-white/90">
-            <li>✅ Free Risk Assessment</li>
-            <li>✅ Accounting Services</li>
-          </ul>
-          <ul class="space-y-2 list-inside text-white/90">
-            <li>✅ Global Coworking Access</li>
-            <li>✅ Legal Consult</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </section>
 
   <!-- Testimonials Section -->
 <section class="bg-gray-50 py-20">
@@ -245,7 +213,7 @@ if ($_SESSION['role'] !== 'Customer') {
       <p class="uppercase text-orange-400 text-sm font-semibold tracking-wide mb-3">Testimonials</p>
       <h2 class="text-3xl md:text-black font-bold mb-4">What Our Customer Says</h2>
       <p class="text-gray-600 mb-12">
-        Work in comfort, stay focused, and boost your productivity? It’s all possible at GottaWork. Find your perfect workspace today.
+        Comfortable work, maintained focus, increased productivity? It's all at GottaWork. Find your best space now!
       </p>
   
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -253,30 +221,30 @@ if ($_SESSION['role'] !== 'Customer') {
         <div class="bg-white rounded-xl shadow p-6">
           <div class="text-orange-500 text-3xl mb-3">“</div>
           <p class="text-gray-600 mb-3 text-sm">
-            Work in comfort, stay focused, and boost your productivity? It’s all possible at GottaWork. Find your perfect workspace today.
+            Comfortable work, maintained focus, increased productivity? It's all at GottaWork. Find your best space now!
           </p>
-          <p class="font-semibold text-black mt-4">Justin Bieber</p>
-          <p class="text-gray-500 text-sm">Manager at PT.GW</p>
+          <p class="font-semibold text-black mt-4">John William</p>
+          <p class="text-gray-500 text-sm">Manager at Furniti</p>
         </div>
   
         <!-- Card 2 (highlighted) -->
         <div class="bg-[#003D36] text-white rounded-xl shadow p-6 scale-105">
           <div class="text-3xl mb-3">“</div>
           <p class="mb-3 text-sm">
-            Work in comfort, stay focused, and boost your productivity? It’s all possible at GottaWork. Find your perfect workspace today.
+            Comfortable work, maintained focus, increased productivity? It's all at GottaWork. Find your best space now!
           </p>
-          <p class="font-semibold mt-4">Justin Bieber</p>
-          <p class="text-white/70 text-sm">Manager at PT.GW</p>
+          <p class="font-semibold mt-4">John William</p>
+          <p class="text-white/70 text-sm">Manager at Furniti</p>
         </div>
   
         <!-- Card 3 -->
         <div class="bg-white rounded-xl shadow p-6">
           <div class="text-orange-500 text-3xl mb-3">“</div>
           <p class="text-gray-600 mb-3 text-sm">
-            Work in comfort, stay focused, and boost your productivity? It’s all possible at GottaWork. Find your perfect workspace today.
+            Comfortable work, maintained focus, increased productivity? It's all at GottaWork. Find your best space now!
           </p>
-          <p class="font-semibold text-black mt-4">Justin Bieber</p>
-          <p class="text-gray-500 text-sm">Manager at PT.GW</p>
+          <p class="font-semibold text-black mt-4">John William</p>
+          <p class="text-gray-500 text-sm">Manager at Furniti</p>
         </div>
       </div>
     </div>
