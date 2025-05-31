@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GottaWork - Manage Account Profile</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f8f9fa;
+      }
+
+      /* Header */
+      .header {
+        background-color: #2c6e49;
+        color: white;
+        padding: 15px 0;
+      }
+
+      .nav {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 20px;
+      }
+
+      .logo {
+        font-size: 20px;
+        font-weight: bold;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 30px;
+        list-style: none;
+      }
+
+      .nav-links a {
+        color: white;
+        text-decoration: none;
+        font-size: 14px;
+      }
+
+      .post-job-btn {
+        background-color: transparent;
+        border: 1px solid white;
+        color: white;
+        padding: 8px 16px;
+        border-radius: 4px;
+        text-decoration: none;
+        font-size: 14px;
+      }
+
+      /* Main Content */
+      .main-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 40px 20px;
+      }
+
+      .breadcrumb {
+        color: #6c757d;
+        font-size: 14px;
+        margin-bottom: 10px;
+      }
+
+      .page-title {
+        font-size: 36px;
+        color: white;
+        margin-bottom: 30px;
+      }
+
+      .header-section {
+        background-color: #2c6e49;
+        padding: 40px 20px;
+        margin: -40px -20px 40px -20px;
+      }
+
+      .header-content {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .action-buttons {
+        display: flex;
+        gap: 10px;
+        margin-top: 20px;
+      }
+
+      .btn {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+        text-decoration: none;
+        display: inline-block;
+      }
+
+      .btn-primary {
+        background-color: #ffc107;
+        color: #000;
+      }
+
+      .btn-secondary {
+        background-color: #6c757d;
+        color: white;
+      }
+
+      .btn-success {
+        background-color: #28a745;
+        color: white;
+      }
+
+      .btn-danger {
+        background-color: #dc3545;
+        color: white;
+      }
+
+      /* Profile Section */
+      .profile-section {
+        display: flex;
+        gap: 30px;
+        margin-bottom: 40px;
+      }
+
+      .profile-card {
+        background-color: #ffc107;
+        padding: 20px;
+        border-radius: 8px;
+        width: 200px;
+      }
+
+      .profile-info {
+        background-color: #ffc107;
+        padding: 20px;
+        border-radius: 8px;
+        flex: 1;
+      }
+
+      .profile-field {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 15px;
+        align-items: center;
+      }
+
+      .field-label {
+        font-weight: 600;
+        color: #333;
+      }
+
+      .field-value {
+        color: #666;
+      }
+
+      .field-input {
+        padding: 8px 12px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 14px;
+        width: 200px;
+      }
+
+      /* Modal */
+      .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 1000;
+      }
+
+      .modal-content {
+        background-color: white;
+        margin: 20% auto;
+        padding: 30px;
+        border-radius: 8px;
+        width: 400px;
+        text-align: center;
+        position: relative;
+      }
+
+      .modal-title {
+        font-size: 18px;
+        margin-bottom: 20px;
+        color: #333;
+      }
+
+      .modal-buttons {
+        display: flex;
+        gap: 15px;
+        justify-content: center;
+      }
+
+      /* Success Page */
+      .success-section {
+        text-align: center;
+        padding: 60px 20px;
+      }
+
+      .success-title {
+        font-size: 24px;
+        color: #333;
+        margin-bottom: 20px;
+      }
+
+      .success-message {
+        font-size: 18px;
+        color: #666;
+        margin-bottom: 40px;
+      }
+
+      /* Footer */
+      .footer {
+        background-color: #2c2c2c;
+        color: white;
+        padding: 40px 0;
+        margin-top: 80px;
+      }
+
+      .footer-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 30px;
+        padding: 0 20px;
+      }
+
+      .footer-section h4 {
+        margin-bottom: 15px;
+        font-size: 16px;
+      }
+
+      .footer-section a {
+        color: #ccc;
+        text-decoration: none;
+        font-size: 14px;
+        display: block;
+        margin-bottom: 8px;
+      }
+
+      .footer-bottom {
+        text-align: center;
+        padding-top: 20px;
+        border-top: 1px solid #444;
+        margin-top: 30px;
+        color: #999;
+        font-size: 12px;
+      }
+
+      /* Hide/Show States */
+      .view-mode,
+      .edit-mode,
+      .success-mode {
+        display: none;
+      }
+
+      .view-mode.active,
+      .edit-mode.active,
+      .success-mode.active {
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header -->
+    <header class="header">
+      <nav class="nav">
+        <div class="logo">GottaWork</div>
+        <ul class="nav-links">
+          <li><a href="#">Home</a></li>
+          <li><a href="#">Locations</a></li>
+          <li><a href="#">Payment</a></li>
+          <li><a href="#">Partnerships</a></li>
+          <li><a href="#" style="color: #ffc107">Profile</a></li>
+        </ul>
+        <a href="#" class="post-job-btn">Post a Paper ↓</a>
+      </nav>
+    </header>
+
+    <!-- Header Section -->
+    <div class="header-section">
+      <div class="header-content">
+        <div class="breadcrumb">← PROFILE</div>
+        <h1 class="page-title">Manage Account Profile</h1>
+        <div class="action-buttons">
+          <button class="btn btn-primary" id="editBtn">EDIT PROFILE</button>
+          <button class="btn btn-secondary">GET OWNER LINK</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- View Mode (Initial State) -->
+      <div class="view-mode active">
+        <div class="profile-section">
+          <div class="profile-card">
+            <div style="background-color: white; padding: 15px; border-radius: 4px; margin-bottom: 15px">
+              <div style="font-size: 14px; color: #666; margin-bottom: 5px">Profile</div>
+              <div style="font-weight: bold">My Profile</div>
+            </div>
+            <div style="background-color: white; padding: 15px; border-radius: 4px">
+              <div style="font-size: 14px; color: #666">Settings</div>
+            </div>
+          </div>
+          <div class="profile-info">
+            <div class="profile-field">
+              <span class="field-label">Name</span>
+              <span class="field-value">John Doe</span>
+            </div>
+            <div class="profile-field">
+              <span class="field-label">Email account</span>
+              <span class="field-value">john.doe@example.com</span>
+            </div>
+            <div class="profile-field">
+              <span class="field-label">Mobile number</span>
+              <span class="field-value">+62 812 3456 7890</span>
+            </div>
+            <div class="profile-field">
+              <span class="field-label">Role</span>
+              <span class="field-value">User</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Edit Mode -->
+      <div class="edit-mode">
+        <div class="profile-section">
+          <div class="profile-card">
+            <div style="background-color: white; padding: 15px; border-radius: 4px; margin-bottom: 15px">
+              <div style="font-size: 14px; color: #666; margin-bottom: 5px">Profile</div>
+              <div style="font-weight: bold">My Profile</div>
+            </div>
+            <div style="background-color: white; padding: 15px; border-radius: 4px">
+              <div style="font-size: 14px; color: #666">Settings</div>
+            </div>
+          </div>
+          <div class="profile-info">
+            <div class="profile-field">
+              <span class="field-label">Name</span>
+              <input type="text" class="field-input" value="John Doe" id="nameInput" />
+            </div>
+            <div class="profile-field">
+              <span class="field-label">Email account</span>
+              <input type="email" class="field-input" value="john.doe@example.com" id="emailInput" />
+            </div>
+            <div class="profile-field">
+              <span class="field-label">Mobile number</span>
+              <input type="text" class="field-input" value="+62 812 3456 7890" id="phoneInput" />
+            </div>
+            <div class="profile-field">
+              <span class="field-label">Role</span>
+              <span class="field-value">User</span>
+            </div>
+            <div style="margin-top: 30px">
+              <button class="btn btn-success" id="saveBtn">Save changes</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Success Mode -->
+      <div class="success-mode">
+        <div class="success-section">
+          <div class="breadcrumb">← SETTINGS</div>
+          <h2 class="success-title">Explore your profile</h2>
+          <p class="success-message">perubahan berhasil</p>
+          <button class="btn btn-primary" id="viewProfileBtn">View all →</button>
+        </div>
+      </div>
+    </main>
+
+    <!-- Confirmation Modal -->
+    <div class="modal" id="confirmModal">
+      <div class="modal-content">
+        <h3 class="modal-title">Apakah Anda yakin ingin mengubah profil?</h3>
+        <div class="modal-buttons">
+          <button class="btn btn-danger" id="cancelBtn">No</button>
+          <button class="btn btn-success" id="confirmBtn">Yes</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h4>GottaWork</h4>
+          <a href="#">About us</a>
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Use</a>
+        </div>
+        <div class="footer-section">
+          <h4>Company</h4>
+          <a href="#">How it works</a>
+          <a href="#">Pricing</a>
+          <a href="#">Our Story</a>
+        </div>
+        <div class="footer-section">
+          <h4>Locations</h4>
+          <a href="#">Get Started Today</a>
+          <a href="#">New York Office</a>
+          <a href="#">London Office</a>
+        </div>
+        <div class="footer-section">
+          <h4>Partnerships</h4>
+          <a href="#">Reseller Program</a>
+          <a href="#">Partnership</a>
+          <a href="#">Testimonials</a>
+        </div>
+        <div class="footer-section">
+          <h4>Support</h4>
+          <a href="#">Help</a>
+          <a href="#">FAQ</a>
+          <a href="#">Contact Us</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>📞 +62) 123 456 789</p>
+        <p>✉ contact@gottawork.com</p>
+        <p>© 2024 GottaWork. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <script>
+      // Get all necessary elements
+      const editBtn = document.getElementById("editBtn");
+      const saveBtn = document.getElementById("saveBtn");
+      const confirmBtn = document.getElementById("confirmBtn");
+      const cancelBtn = document.getElementById("cancelBtn");
+      const viewProfileBtn = document.getElementById("viewProfileBtn");
+      const confirmModal = document.getElementById("confirmModal");
+
+      const viewMode = document.querySelector(".view-mode");
+      const editMode = document.querySelector(".edit-mode");
+      const successMode = document.querySelector(".success-mode");
+
+      // Switch to edit mode
+      editBtn.addEventListener("click", function () {
+        viewMode.classList.remove("active");
+        editMode.classList.add("active");
+      });
+
+      // Show confirmation modal when save is clicked
+      saveBtn.addEventListener("click", function () {
+        confirmModal.style.display = "block";
+      });
+
+      // Cancel - close modal
+      cancelBtn.addEventListener("click", function () {
+        confirmModal.style.display = "none";
+      });
+
+      // Confirm - save changes and show success
+      confirmBtn.addEventListener("click", function () {
+        // Get values from inputs
+        const name = document.getElementById("nameInput").value;
+        const email = document.getElementById("emailInput").value;
+        const phone = document.getElementById("phoneInput").value;
+
+        // Update the view mode with new values
+        const viewFields = viewMode.querySelectorAll(".field-value");
+        viewFields[0].textContent = name;
+        viewFields[1].textContent = email;
+        viewFields[2].textContent = phone;
+
+        // Hide modal and switch to success mode
+        confirmModal.style.display = "none";
+        editMode.classList.remove("active");
+        successMode.classList.add("active");
+      });
+
+      // Go back to view mode from success
+      viewProfileBtn.addEventListener("click", function () {
+        successMode.classList.remove("active");
+        viewMode.classList.add("active");
+      });
+
+      // Close modal when clicking outside
+      window.addEventListener("click", function (event) {
+        if (event.target === confirmModal) {
+          confirmModal.style.display = "none";
+        }
+      });
+    </script>
+  </body>
+</html>
