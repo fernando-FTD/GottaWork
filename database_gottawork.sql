@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jun 01, 2025 at 06:43 AM
+-- Generation Time: Jun 01, 2025 at 02:17 PM
 -- Server version: 5.7.39
 -- PHP Version: 8.1.10
 
@@ -20,6 +20,32 @@ SET time_zone = "+00:00";
 --
 -- Database: `database_gottawork`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `bookings`
+--
+
+CREATE TABLE `bookings` (
+  `id` int(11) NOT NULL,
+  `name` varchar(100) DEFAULT NULL,
+  `email` varchar(100) DEFAULT NULL,
+  `start_date` date DEFAULT NULL,
+  `end_date` date DEFAULT NULL,
+  `start_time` time DEFAULT NULL,
+  `end_time` time DEFAULT NULL,
+  `workspace` varchar(50) DEFAULT NULL,
+  `desk_number` varchar(10) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `bookings`
+--
+
+INSERT INTO `bookings` (`id`, `name`, `email`, `start_date`, `end_date`, `start_time`, `end_time`, `workspace`, `desk_number`, `created_at`) VALUES
+(1, 'Carissa', 'carissa@gmail.com', '2025-06-01', '2025-06-01', '21:00:00', '22:00:00', 'Individual', '1', '2025-06-01 14:06:50');
 
 -- --------------------------------------------------------
 
@@ -141,6 +167,12 @@ INSERT INTO `workspaces` (`id`, `name`, `description`, `location`, `price`, `dur
 --
 
 --
+-- Indexes for table `bookings`
+--
+ALTER TABLE `bookings`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `harga`
 --
 ALTER TABLE `harga`
@@ -168,6 +200,12 @@ ALTER TABLE `workspaces`
 --
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `bookings`
+--
+ALTER TABLE `bookings`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `harga`
