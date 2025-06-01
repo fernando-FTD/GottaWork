@@ -59,6 +59,16 @@
         font-size: 14px;
       }
 
+      /* Mobile Menu Toggle */
+      .mobile-menu-toggle {
+        display: none;
+        background: none;
+        border: none;
+        color: white;
+        font-size: 18px;
+        cursor: pointer;
+      }
+
       /* Main Content */
       .main-content {
         max-width: 1200px;
@@ -93,6 +103,7 @@
         display: flex;
         gap: 10px;
         margin-top: 20px;
+        flex-wrap: wrap;
       }
 
       .btn {
@@ -137,6 +148,7 @@
         padding: 20px;
         border-radius: 8px;
         width: 200px;
+        flex-shrink: 0;
       }
 
       .profile-info {
@@ -156,10 +168,13 @@
       .field-label {
         font-weight: 600;
         color: #333;
+        min-width: 120px;
       }
 
       .field-value {
         color: #666;
+        flex: 1;
+        text-align: right;
       }
 
       .field-input {
@@ -168,6 +183,7 @@
         border-radius: 4px;
         font-size: 14px;
         width: 200px;
+        max-width: 100%;
       }
 
       /* Modal */
@@ -188,6 +204,7 @@
         padding: 30px;
         border-radius: 8px;
         width: 400px;
+        max-width: 90%;
         text-align: center;
         position: relative;
       }
@@ -202,6 +219,7 @@
         display: flex;
         gap: 15px;
         justify-content: center;
+        flex-wrap: wrap;
       }
 
       /* Success Page */
@@ -273,6 +291,245 @@
       .success-mode.active {
         display: block;
       }
+
+      /* RESPONSIVE DESIGN */
+
+      /* Tablet Styles (768px - 1024px) */
+      @media screen and (max-width: 1024px) {
+        .nav {
+          padding: 0 15px;
+        }
+
+        .nav-links {
+          gap: 20px;
+        }
+
+        .nav-links a {
+          font-size: 13px;
+        }
+
+        .main-content {
+          padding: 30px 15px;
+        }
+
+        .page-title {
+          font-size: 28px;
+        }
+
+        .header-section {
+          padding: 30px 15px;
+          margin: -30px -15px 30px -15px;
+        }
+
+        .profile-section {
+          gap: 20px;
+        }
+
+        .profile-card {
+          width: 180px;
+        }
+
+        .field-input {
+          width: 180px;
+        }
+
+        .footer-content {
+          grid-template-columns: repeat(3, 1fr);
+          gap: 25px;
+          padding: 0 15px;
+        }
+      }
+
+      /* Mobile Styles (max-width: 768px) */
+      @media screen and (max-width: 768px) {
+        .nav {
+          flex-wrap: wrap;
+          position: relative;
+        }
+
+        .mobile-menu-toggle {
+          display: block;
+        }
+
+        .nav-links {
+          display: none;
+          width: 100%;
+          flex-direction: column;
+          gap: 15px;
+          margin-top: 15px;
+          padding-top: 15px;
+          border-top: 1px solid #0a6565;
+        }
+
+        .nav-links.mobile-active {
+          display: flex;
+        }
+
+        .post-job-btn {
+          display: none;
+        }
+
+        .nav-links.mobile-active ~ .post-job-btn {
+          display: block;
+          margin-top: 15px;
+          text-align: center;
+        }
+
+        .main-content {
+          padding: 20px 10px;
+        }
+
+        .page-title {
+          font-size: 24px;
+        }
+
+        .header-section {
+          padding: 20px 10px;
+          margin: -20px -10px 20px -10px;
+        }
+
+        .action-buttons {
+          flex-direction: column;
+          gap: 8px;
+        }
+
+        .btn {
+          width: 100%;
+          text-align: center;
+        }
+
+        .profile-section {
+          flex-direction: column;
+          gap: 15px;
+        }
+
+        .profile-card {
+          width: 100%;
+        }
+
+        .profile-field {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 8px;
+        }
+
+        .field-label {
+          min-width: auto;
+        }
+
+        .field-value {
+          text-align: left;
+        }
+
+        .field-input {
+          width: 100%;
+        }
+
+        .modal-content {
+          margin: 30% auto;
+          padding: 20px;
+          width: 95%;
+        }
+
+        .modal-title {
+          font-size: 16px;
+        }
+
+        .modal-buttons {
+          flex-direction: column;
+          gap: 10px;
+        }
+
+        .modal-buttons .btn {
+          width: 100%;
+        }
+
+        .success-section {
+          padding: 40px 10px;
+        }
+
+        .success-title {
+          font-size: 20px;
+        }
+
+        .success-message {
+          font-size: 16px;
+        }
+
+        .footer-content {
+          grid-template-columns: repeat(2, 1fr);
+          gap: 20px;
+          padding: 0 10px;
+        }
+
+        .footer-section:last-child {
+          grid-column: 1 / -1;
+        }
+      }
+
+      /* Small Mobile Styles (max-width: 480px) */
+      @media screen and (max-width: 480px) {
+        .logo {
+          font-size: 18px;
+        }
+
+        .page-title {
+          font-size: 20px;
+        }
+
+        .profile-card > div {
+          padding: 12px !important;
+        }
+
+        .profile-info {
+          padding: 15px;
+        }
+
+        .field-label {
+          font-size: 14px;
+        }
+
+        .field-value {
+          font-size: 14px;
+        }
+
+        .btn {
+          padding: 12px 16px;
+          font-size: 14px;
+        }
+
+        .modal-content {
+          padding: 15px;
+        }
+
+        .footer-content {
+          grid-template-columns: 1fr;
+          text-align: center;
+        }
+
+        .footer-section:last-child {
+          grid-column: auto;
+        }
+      }
+
+      /* Landscape orientation for tablets */
+      @media screen and (max-width: 1024px) and (orientation: landscape) {
+        .header-section {
+          padding: 25px 15px;
+        }
+
+        .page-title {
+          font-size: 26px;
+        }
+
+        .action-buttons {
+          flex-direction: row;
+        }
+
+        .profile-section {
+          flex-direction: row;
+        }
+      }
     </style>
   </head>
   <body>
@@ -280,7 +537,8 @@
     <header class="header">
       <nav class="nav">
         <div class="logo">GottaWork</div>
-        <ul class="nav-links">
+        <button class="mobile-menu-toggle" id="mobileMenuToggle">☰</button>
+        <ul class="nav-links" id="navLinks">
           <li><a href="#">Home</a></li>
           <li><a href="#">Locations</a></li>
           <li><a href="#">Payment</a></li>
@@ -438,6 +696,14 @@
     </footer>
 
     <script>
+      // Mobile menu toggle functionality
+      const mobileMenuToggle = document.getElementById("mobileMenuToggle");
+      const navLinks = document.getElementById("navLinks");
+
+      mobileMenuToggle.addEventListener("click", function () {
+        navLinks.classList.toggle("mobile-active");
+      });
+
       // Get all necessary elements
       const editBtn = document.getElementById("editBtn");
       const saveBtn = document.getElementById("saveBtn");
@@ -495,6 +761,20 @@
       window.addEventListener("click", function (event) {
         if (event.target === confirmModal) {
           confirmModal.style.display = "none";
+        }
+      });
+
+      // Close mobile menu when clicking outside
+      document.addEventListener("click", function (event) {
+        if (!event.target.closest(".nav") && navLinks.classList.contains("mobile-active")) {
+          navLinks.classList.remove("mobile-active");
+        }
+      });
+
+      // Handle window resize
+      window.addEventListener("resize", function () {
+        if (window.innerWidth > 768) {
+          navLinks.classList.remove("mobile-active");
         }
       });
     </script>
