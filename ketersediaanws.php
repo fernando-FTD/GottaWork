@@ -63,7 +63,7 @@ if ($result->num_rows > 0) {
   <section class="max-w-7xl mx-auto px-6 py-12">
     <h4 class="text-green-600 font-semibold uppercase text-sm mb-2">—Locations</h4>
     <h2 class="text-4xl font-bold mb-4">Explore Available Office Spaces</h2>
-    <p class="text-gray-500 mb-10">Fasilitas meja, kursi, dan ruang harian/bulanan dengan internet cepat dan suasana yang memotivasi produktivitas.</p>
+    <p class="text-gray-500 mb-10">Daily/monthly desk, chair and room facilities with fast internet and an atmosphere that motivates productivity.</p>
 
     <!-- Grid workspace baris pertama -->
     <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
