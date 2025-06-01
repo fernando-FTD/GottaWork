@@ -1,10 +1,10 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.2
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: May 15, 2025 at 04:22 PM
--- Server version: 8.0.30
+-- Generation Time: Jun 01, 2025 at 06:43 AM
+-- Server version: 5.7.39
 -- PHP Version: 8.1.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -28,12 +28,12 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `harga` (
-  `id` int NOT NULL,
+  `id` int(11) NOT NULL,
   `title` varchar(255) DEFAULT NULL,
   `description` text,
   `price` varchar(50) DEFAULT NULL,
   `unit` varchar(10) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `harga`
@@ -52,14 +52,14 @@ INSERT INTO `harga` (`id`, `title`, `description`, `price`, `unit`) VALUES
 --
 
 CREATE TABLE `reservations` (
-  `id` int NOT NULL,
+  `id` int(11) NOT NULL,
   `reservation_code` varchar(100) DEFAULT NULL,
   `name` varchar(100) DEFAULT NULL,
   `workspace` varchar(50) DEFAULT NULL,
   `date` date DEFAULT NULL,
   `start_time` time DEFAULT NULL,
   `finish_time` time DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `reservations`
@@ -85,7 +85,6 @@ INSERT INTO `reservations` (`id`, `reservation_code`, `name`, `workspace`, `date
 (17, 'meet0404202503150515abosal', 'Abang Saleh', 'Meeting Room', '2025-04-04', '11:00:00', '14:00:00'),
 (18, 'indi0404202503150515cikbes', 'Cikgu Besar', 'Individual Desk', '2025-04-04', '11:00:00', '12:00:00');
 
-
 -- --------------------------------------------------------
 
 --
@@ -93,13 +92,13 @@ INSERT INTO `reservations` (`id`, `reservation_code`, `name`, `workspace`, `date
 --
 
 CREATE TABLE `users` (
-  `id` int NOT NULL,
+  `id` int(11) NOT NULL,
   `name` varchar(100) NOT NULL,
   `email` varchar(100) NOT NULL,
   `role` enum('Customer','Manager','Staff') NOT NULL,
   `password` varchar(255) NOT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `users`
@@ -108,7 +107,34 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`id`, `name`, `email`, `role`, `password`, `created_at`) VALUES
 (1, 'Admin', 'admin@gottawork.com', 'Manager', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', '2025-05-15 15:08:39'),
 (3, 'nando', 'nandovivo181@gmail.com', 'Customer', '$2y$10$l4E7Tv4KHG49l/Z53aCGB.QO6NUHjL/Nu1I.RD8s.ss1gFaMiUfBC', '2025-05-15 15:29:52'),
-(5, 'rizqi', 'rizqi123@gmail.com', 'Staff', '$2y$10$Fcoag3oNuQfjtIxvcaqDp..D6H8ppdSzo/nqQlIHmXymimX1BoqJG', '2025-05-15 16:01:07');
+(5, 'rizqi', 'rizqi123@gmail.com', 'Staff', '$2y$10$Fcoag3oNuQfjtIxvcaqDp..D6H8ppdSzo/nqQlIHmXymimX1BoqJG', '2025-05-15 16:01:07'),
+(7, 'Carissa', 'carissa@gmail.com', 'Customer', '$2y$10$4M3rBJgF74ZdN.TF3IAHDekzRr3bYPEPgBYUZEwSSoAwYYIMPhciu', '2025-05-22 16:08:44');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `workspaces`
+--
+
+CREATE TABLE `workspaces` (
+  `id` int(11) NOT NULL,
+  `name` varchar(100) DEFAULT NULL,
+  `description` text,
+  `location` varchar(100) DEFAULT NULL,
+  `price` int(11) DEFAULT NULL,
+  `duration_unit` varchar(10) DEFAULT NULL,
+  `image_path` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `workspaces`
+--
+
+INSERT INTO `workspaces` (`id`, `name`, `description`, `location`, `price`, `duration_unit`, `image_path`) VALUES
+(1, 'Meeting Room', 'Private space for meetings and presentations', 'Mall Boemi Kedaton', 35000, 'hour', 'assets/meetingroom.jpg'),
+(2, 'Individual Desk', 'Individual desks to improve concentration', 'Lampung City Mall', 5000, 'hour', 'assets/individualdesk.jpeg'),
+(3, 'Group Desk', 'Flexible tables for group work', 'Mall Boemi Kedaton', 20000, 'hour', 'assets/groupdesk.jpeg'),
+(4, 'Private Office', 'Private office space for individuals or teams', 'Mall Boemi Kedaton', 300000, 'week', 'assets/privateoffice.jpeg');
 
 --
 -- Indexes for dumped tables
@@ -134,6 +160,12 @@ ALTER TABLE `users`
   ADD UNIQUE KEY `email` (`email`);
 
 --
+-- Indexes for table `workspaces`
+--
+ALTER TABLE `workspaces`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -141,19 +173,25 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `harga`
 --
 ALTER TABLE `harga`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `reservations`
 --
 ALTER TABLE `reservations`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT for table `workspaces`
+--
+ALTER TABLE `workspaces`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
