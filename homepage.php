@@ -37,7 +37,7 @@ if ($_SESSION['role'] !== 'Customer') {
     <div class="text-2xl font-bold">GottaWork</div>
     <nav class="flex items-center space-x-6">
         <a href="homepage.php" class="text-orange-400 font-medium  underline-offset-4">Home</a>
-        <a href="ketersediaanws.html" class="text-white hover:text-orange-400 font-medium">Locations</a>
+        <a href="ketersediaanws.php" class="text-white hover:text-orange-400 font-medium">Locations</a>
         <a href="pembayaran.html" class="text-white hover:text-orange-400 font-medium">Payment</a>
         <a href="membatalkanreservasi.html" class="text-white hover:text-orange-400 font-medium">Reservation</a>
         <a href="#" class="text-white hover:text-orange-400 font-medium">Profile</a>
@@ -83,7 +83,7 @@ if ($_SESSION['role'] !== 'Customer') {
             <li>✔ Cancel anytime</li>
             <li>✔ High-speed internet access</li>
           </ul>
-          <a href="ketersediaanws.html" class="bg-yellow-400 text-sm text-gray-900 font-semibold px-4 py-2 rounded hover:bg-yellow-300">Learn more ➤</a>
+          <a href="ketersediaanws.php" class="bg-yellow-400 text-sm text-gray-900 font-semibold px-4 py-2 rounded hover:bg-yellow-300">Learn more ➤</a>
         </div>
   
         <!-- Duplicate Card with different content -->
@@ -99,7 +99,7 @@ if ($_SESSION['role'] !== 'Customer') {
             <li>✔ Cancel anytime</li>
             <li>✔ High-speed internet access</li>
           </ul>
-           <a href="ketersediaanws.html" class="bg-yellow-400 text-sm text-gray-900 font-semibold px-4 py-2 rounded hover:bg-yellow-300">Learn more ➤</a>
+           <a href="ketersediaanws.php" class="bg-yellow-400 text-sm text-gray-900 font-semibold px-4 py-2 rounded hover:bg-yellow-300">Learn more ➤</a>
         </div>
   
         <div class="bg-white border shadow p-6 rounded-lg">
@@ -114,7 +114,7 @@ if ($_SESSION['role'] !== 'Customer') {
             <li>✔ Cancel anytime</li>
             <li>✔ High-speed internet access</li>
           </ul>
-          <a href="ketersediaanws.html" class="bg-yellow-400 text-sm text-gray-900 font-semibold px-4 py-2 rounded hover:bg-yellow-300">Learn more ➤</a>
+          <a href="ketersediaanws.php" class="bg-yellow-400 text-sm text-gray-900 font-semibold px-4 py-2 rounded hover:bg-yellow-300">Learn more ➤</a>
         </div>
   
         <div class="bg-white border shadow p-6 rounded-lg">
@@ -129,7 +129,7 @@ if ($_SESSION['role'] !== 'Customer') {
             <li>✔ Cancel anytime</li>
             <li>✔ High-speed internet access</li>
           </ul>
-           <a href="ketersediaanws.html" class="bg-yellow-400 text-sm text-gray-900 font-semibold px-4 py-2 rounded hover:bg-yellow-300">Learn more ➤</a>
+           <a href="ketersediaanws.php" class="bg-yellow-400 text-sm text-gray-900 font-semibold px-4 py-2 rounded hover:bg-yellow-300">Learn more ➤</a>
         </div>
       </div>
     </div>
@@ -147,7 +147,7 @@ if ($_SESSION['role'] !== 'Customer') {
       <div class="text-gray-600 text-sm max-w-md mt-4">
         Daily/monthly desk, chair and room facilities with fast internet and an atmosphere that motivates productivity.
         <div class="mt-3">
-          <a href="ketersediaanws.html" class="inline-block border border-gray-800 px-4 py-2 text-sm font-medium hover:bg-gray-100 rounded">View all →</a>
+          <a href="ketersediaanws.php" class="inline-block border border-gray-800 px-4 py-2 text-sm font-medium hover:bg-gray-100 rounded">View all →</a>
         </div>
       </div>
     </div>
