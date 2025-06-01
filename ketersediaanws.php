@@ -1,17 +1,13 @@
 <?php
-// Koneksi ke database
 $conn = new mysqli("localhost", "root", "", "database_gottawork");
 
-// Cek koneksi
 if ($conn->connect_error) {
     die("Koneksi gagal: " . $conn->connect_error);
 }
 
-// Ambil data workspaces
 $sql = "SELECT * FROM workspaces";
 $result = $conn->query($sql);
 
-// Simpan data ke array agar bisa digunakan 2 kali
 $workspaces = [];
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
@@ -64,7 +60,6 @@ if ($result->num_rows > 0) {
     </div>
   </header>
 
-  <!-- Konten utama -->
   <section class="max-w-7xl mx-auto px-6 py-12">
     <h4 class="text-green-600 font-semibold uppercase text-sm mb-2">—Locations</h4>
     <h2 class="text-4xl font-bold mb-4">Explore Available Office Spaces</h2>
