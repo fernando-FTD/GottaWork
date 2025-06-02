@@ -54,26 +54,30 @@ $workspaces = ["Individual Desk","Meeting Room","Group Desk","Private Office"];
     </nav>
   </div>
 
-  <div class="max-w-7xl mx-auto px-6 pt-6 pb-12">
-    <div class="text-sm text-white/70 mb-4">Home › Reservation list</div>
+    <div class="max-w-7xl mx-auto px-6 pt-6 pb-12">
+      <div class="text-sm text-white/70 mb-4">Home › Reservation list</div>
 
-    <h2 class="text-4xl font-bold mb-6">Reservation list</h2>
+      <h2 class="text-4xl font-bold mb-6">Reservation list</h2>
 
-    <div class="space-x-4">
-      <button class="bg-yellow-400 hover:bg-yellow-300 text-black font-medium px-4 py-2 rounded shadow-sm transition">Reservation list</button>
-      <button class="bg-yellow-400 hover:bg-yellow-300 text-black font-medium px-4 py-2 rounded shadow-sm transition">Manage Workspace</button>
+      <div class="space-x-4">
+      <a href="staff_daftarreservasi.php"
+      role="button"
+      class="inline-block bg-yellow-400 hover:bg-yellow-300 text-black font-medium px-4 py-2 rounded shadow-sm transition">Reservation List</a>
+      <a href="staff_manageworkspace.php"
+      role="button"
+      class="inline-block bg-yellow-400 hover:bg-yellow-300 text-black font-medium px-4 py-2 rounded shadow-sm transition">Manage Workspace</a>
     </div>
   </div>
 </header>
 
   <section class="text-center py-10">
-    <h2 class="text-sm text-red-500 tracking-widest">location</h2>
+    <h2 class="text-sm text-red-500 tracking-widest">LOCATION</h2>
     <h1 class="text-2xl font-bold">Mall Boemi Kedaton</h1>
     <p class="text-gray-600">Bandar Lampung, Lampung</p>
     <p class="text-sm text-gray-500 mt-2">Jl. Teuku Umar No.1, Labuhan Ratu, Kec. Kedaton, Kota Bandar Lampung, Lampung 35132</p>
   </section>
 
-  <section class="px-40 py-4 flex items-center space-x-2">
+  <section class="container mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col md:flex-row md:items-center md:space-x-2 space-y-4 md:space-y-0">
     <button id="openDrawer"
             class="flex items-center bg-teal-900 text-white px-3 py-2 rounded hover:bg-teal-800 transition">
       <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
@@ -179,7 +183,7 @@ $workspaces = ["Individual Desk","Meeting Room","Group Desk","Private Office"];
 
 
   <section class="bg-white py-3">
-    <div class="px-40">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
       <div class="overflow-x-auto shadow rounded">
         <table class="min-w-full text-sm text-left">
           <thead class="bg-yellow-400 text-black">
