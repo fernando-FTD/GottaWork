@@ -696,7 +696,6 @@
     </footer>
 
     <script>
-      // Mobile menu toggle functionality
       const mobileMenuToggle = document.getElementById("mobileMenuToggle");
       const navLinks = document.getElementById("navLinks");
 
@@ -704,7 +703,6 @@
         navLinks.classList.toggle("mobile-active");
       });
 
-      // Get all necessary elements
       const editBtn = document.getElementById("editBtn");
       const saveBtn = document.getElementById("saveBtn");
       const confirmBtn = document.getElementById("confirmBtn");
@@ -716,62 +714,51 @@
       const editMode = document.querySelector(".edit-mode");
       const successMode = document.querySelector(".success-mode");
 
-      // Switch to edit mode
       editBtn.addEventListener("click", function () {
         viewMode.classList.remove("active");
         editMode.classList.add("active");
       });
 
-      // Show confirmation modal when save is clicked
       saveBtn.addEventListener("click", function () {
         confirmModal.style.display = "block";
       });
 
-      // Cancel - close modal
       cancelBtn.addEventListener("click", function () {
         confirmModal.style.display = "none";
       });
 
-      // Confirm - save changes and show success
       confirmBtn.addEventListener("click", function () {
-        // Get values from inputs
         const name = document.getElementById("nameInput").value;
         const email = document.getElementById("emailInput").value;
         const phone = document.getElementById("phoneInput").value;
 
-        // Update the view mode with new values
         const viewFields = viewMode.querySelectorAll(".field-value");
         viewFields[0].textContent = name;
         viewFields[1].textContent = email;
         viewFields[2].textContent = phone;
 
-        // Hide modal and switch to success mode
         confirmModal.style.display = "none";
         editMode.classList.remove("active");
         successMode.classList.add("active");
       });
 
-      // Go back to view mode from success
       viewProfileBtn.addEventListener("click", function () {
         successMode.classList.remove("active");
         viewMode.classList.add("active");
       });
 
-      // Close modal when clicking outside
       window.addEventListener("click", function (event) {
         if (event.target === confirmModal) {
           confirmModal.style.display = "none";
         }
       });
 
-      // Close mobile menu when clicking outside
       document.addEventListener("click", function (event) {
         if (!event.target.closest(".nav") && navLinks.classList.contains("mobile-active")) {
           navLinks.classList.remove("mobile-active");
         }
       });
 
-      // Handle window resize
       window.addEventListener("resize", function () {
         if (window.innerWidth > 768) {
           navLinks.classList.remove("mobile-active");
