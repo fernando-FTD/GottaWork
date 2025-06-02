@@ -60,9 +60,9 @@ function getImageURL($title) {
   <nav class="absolute w-full py-6 px-8 flex justify-between items-center z-10">
     <a href="manager_homepage.php" class="text-white text-3xl font-bold">GottaWork</a>
     <div class="flex items-center space-x-8">
-      <a href="manager_homepage.php" class="text-yellow-400 hover:text-yellow-500 transition-colors">Home</a>
+      <a href="manager_homepage.php"  class="text-white hover:text-yellow-400 transition-colors">Home</a>
       <a href="pendapatan.html" class="text-white hover:text-yellow-400 transition-colors">Finance</a>
-      <a href="manager_skematarif.php" class="text-white hover:text-yellow-400 transition-colors">Price Scheme</a>
+      <a href="manager_skematarif.php" class="text-yellow-400 hover:text-yellow-500 transition-colors">Price Scheme</a>
       <a href="login.php" class="border border-white text-white px-6 py-2 rounded-md hover:bg-white hover:bg-opacity-10">Log Out ›</a>
     </div>
   </nav>
