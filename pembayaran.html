@@ -392,32 +392,26 @@
     </div>
 
     <script>
-      // Get elements
       const paymentStatusButton = document.getElementById("paymentStatusButton");
       const paymentSuccessPopup = document.getElementById("paymentSuccessPopup");
       const mobileMenuButton = document.getElementById("mobileMenuButton");
       const mobileMenu = document.getElementById("mobileMenu");
 
-      // Function to show payment success popup
       function showPopup() {
         paymentSuccessPopup.style.display = "flex";
       }
 
-      // Function to close payment success popup
       function closePopup() {
         paymentSuccessPopup.style.display = "none";
       }
 
-      // Function to toggle mobile menu
       function toggleMobileMenu() {
         mobileMenu.classList.toggle("active");
       }
 
-      // Add event listeners
       paymentStatusButton.addEventListener("click", showPopup);
       mobileMenuButton.addEventListener("click", toggleMobileMenu);
 
-      // Close mobile menu when clicking on a link
       const mobileMenuLinks = mobileMenu.querySelectorAll("a");
       mobileMenuLinks.forEach((link) => {
         link.addEventListener("click", () => {
@@ -425,7 +419,6 @@
         });
       });
 
-      // Close mobile menu when clicking outside
       document.addEventListener("click", (e) => {
         if (!mobileMenuButton.contains(e.target) && !mobileMenu.contains(e.target)) {
           mobileMenu.classList.remove("active");
