@@ -1,769 +1,425 @@
 <!DOCTYPE html>
 <html lang="id">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>GottaWork - Manage Account Profile</title>
-    <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GottaWork - Manage Account Profile</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  <style>
+    body { font-family: 'Lora', serif; }
+    .headerr { background-color: rgb(19 78 74); }
+    
+    /* Profile specific styles */
+    .profile-card {
+      background-color: #ffc107;
+      padding: 20px;
+      border-radius: 8px;
+      width: 200px;
+      flex-shrink: 0;
+    }
 
-      body {
-        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-        background-color: #f8f9fa;
-      }
+    .profile-info {
+      background-color: #ffc107;
+      padding: 20px;
+      border-radius: 8px;
+      flex: 1;
+    }
 
-      /* Header */
-      .header {
-        background-color: #095151;
-        color: white;
-        padding: 15px 0;
-      }
+    .profile-field {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 15px;
+      align-items: center;
+    }
 
-      .nav {
-        max-width: 1200px;
-        margin: 0 auto;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 0 20px;
-      }
+    .field-label {
+      font-weight: 600;
+      color: #333;
+      min-width: 120px;
+    }
 
-      .logo {
-        font-size: 20px;
-        font-weight: bold;
-      }
+    .field-value {
+      color: #666;
+      flex: 1;
+      text-align: right;
+    }
 
-      .nav-links {
-        display: flex;
-        gap: 30px;
-        list-style: none;
-      }
+    .field-input {
+      padding: 8px 12px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 14px;
+      width: 200px;
+      max-width: 100%;
+    }
 
-      .nav-links a {
-        color: white;
-        text-decoration: none;
-        font-size: 14px;
-      }
+    /* Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+    }
 
-      .post-job-btn {
-        background-color: transparent;
-        border: 1px solid white;
-        color: white;
-        padding: 8px 16px;
-        border-radius: 4px;
-        text-decoration: none;
-        font-size: 14px;
-      }
+    .modal-content {
+      background-color: white;
+      margin: 20% auto;
+      padding: 30px;
+      border-radius: 8px;
+      width: 400px;
+      max-width: 90%;
+      text-align: center;
+      position: relative;
+    }
 
-      /* Mobile Menu Toggle */
-      .mobile-menu-toggle {
-        display: none;
-        background: none;
-        border: none;
-        color: white;
-        font-size: 18px;
-        cursor: pointer;
-      }
+    .modal-title {
+      font-size: 18px;
+      margin-bottom: 20px;
+      color: #333;
+    }
 
-      /* Main Content */
-      .main-content {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 40px 20px;
-      }
+    .modal-buttons {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
 
-      .breadcrumb {
-        color: #6c757d;
-        font-size: 14px;
-        margin-bottom: 10px;
-      }
+    /* Hide/Show States */
+    .view-mode,
+    .edit-mode,
+    .success-mode {
+      display: none;
+    }
 
-      .page-title {
-        font-size: 36px;
-        color: white;
-        margin-bottom: 30px;
-      }
+    .view-mode.active,
+    .edit-mode.active,
+    .success-mode.active {
+      display: block;
+    }
 
-      .header-section {
-        background-color: #2c6e49;
-        padding: 40px 20px;
-        margin: -40px -20px 40px -20px;
-      }
-
-      .header-content {
-        max-width: 1200px;
-        margin: 0 auto;
-      }
-
-      .action-buttons {
-        display: flex;
-        gap: 10px;
-        margin-top: 20px;
-        flex-wrap: wrap;
-      }
-
-      .btn {
-        padding: 10px 20px;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        font-size: 14px;
-        text-decoration: none;
-        display: inline-block;
-      }
-
-      .btn-primary {
-        background-color: #ffc107;
-        color: #000;
-      }
-
-      .btn-secondary {
-        background-color: #6c757d;
-        color: white;
-      }
-
-      .btn-success {
-        background-color: #28a745;
-        color: white;
-      }
-
-      .btn-danger {
-        background-color: #dc3545;
-        color: white;
-      }
-
-      /* Profile Section */
+    /* Responsive */
+    @media screen and (max-width: 768px) {
       .profile-section {
-        display: flex;
-        gap: 30px;
-        margin-bottom: 40px;
+        flex-direction: column;
+        gap: 15px;
       }
 
       .profile-card {
-        background-color: #ffc107;
-        padding: 20px;
-        border-radius: 8px;
-        width: 200px;
-        flex-shrink: 0;
-      }
-
-      .profile-info {
-        background-color: #ffc107;
-        padding: 20px;
-        border-radius: 8px;
-        flex: 1;
+        width: 100%;
       }
 
       .profile-field {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 15px;
-        align-items: center;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
       }
 
       .field-label {
-        font-weight: 600;
-        color: #333;
-        min-width: 120px;
+        min-width: auto;
       }
 
       .field-value {
-        color: #666;
-        flex: 1;
-        text-align: right;
+        text-align: left;
       }
 
       .field-input {
-        padding: 8px 12px;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        font-size: 14px;
-        width: 200px;
-        max-width: 100%;
-      }
-
-      /* Modal */
-      .modal {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
         width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.5);
-        z-index: 1000;
       }
 
       .modal-content {
-        background-color: white;
-        margin: 20% auto;
-        padding: 30px;
-        border-radius: 8px;
-        width: 400px;
-        max-width: 90%;
-        text-align: center;
-        position: relative;
+        margin: 30% auto;
+        padding: 20px;
+        width: 95%;
       }
-
-      .modal-title {
-        font-size: 18px;
-        margin-bottom: 20px;
-        color: #333;
-      }
-
-      .modal-buttons {
-        display: flex;
-        gap: 15px;
-        justify-content: center;
-        flex-wrap: wrap;
-      }
-
-      /* Success Page */
-      .success-section {
-        text-align: center;
-        padding: 60px 20px;
-      }
-
-      .success-title {
-        font-size: 24px;
-        color: #333;
-        margin-bottom: 20px;
-      }
-
-      .success-message {
-        font-size: 18px;
-        color: #666;
-        margin-bottom: 40px;
-      }
-
-      /* Footer */
-      .footer {
-        background-color: #2c2c2c;
-        color: white;
-        padding: 40px 0;
-        margin-top: 80px;
-      }
-
-      .footer-content {
-        max-width: 1200px;
-        margin: 0 auto;
-        display: grid;
-        grid-template-columns: repeat(5, 1fr);
-        gap: 30px;
-        padding: 0 20px;
-      }
-
-      .footer-section h4 {
-        margin-bottom: 15px;
-        font-size: 16px;
-      }
-
-      .footer-section a {
-        color: #ccc;
-        text-decoration: none;
-        font-size: 14px;
-        display: block;
-        margin-bottom: 8px;
-      }
-
-      .footer-bottom {
-        text-align: center;
-        padding-top: 20px;
-        border-top: 1px solid #444;
-        margin-top: 30px;
-        color: #999;
-        font-size: 12px;
-      }
-
-      /* Hide/Show States */
-      .view-mode,
-      .edit-mode,
-      .success-mode {
-        display: none;
-      }
-
-      .view-mode.active,
-      .edit-mode.active,
-      .success-mode.active {
-        display: block;
-      }
-
-      /* RESPONSIVE DESIGN */
-
-      /* Tablet Styles (768px - 1024px) */
-      @media screen and (max-width: 1024px) {
-        .nav {
-          padding: 0 15px;
-        }
-
-        .nav-links {
-          gap: 20px;
-        }
-
-        .nav-links a {
-          font-size: 13px;
-        }
-
-        .main-content {
-          padding: 30px 15px;
-        }
-
-        .page-title {
-          font-size: 28px;
-        }
-
-        .header-section {
-          padding: 30px 15px;
-          margin: -30px -15px 30px -15px;
-        }
-
-        .profile-section {
-          gap: 20px;
-        }
-
-        .profile-card {
-          width: 180px;
-        }
-
-        .field-input {
-          width: 180px;
-        }
-
-        .footer-content {
-          grid-template-columns: repeat(3, 1fr);
-          gap: 25px;
-          padding: 0 15px;
-        }
-      }
-
-      /* Mobile Styles (max-width: 768px) */
-      @media screen and (max-width: 768px) {
-        .nav {
-          flex-wrap: wrap;
-          position: relative;
-        }
-
-        .mobile-menu-toggle {
-          display: block;
-        }
-
-        .nav-links {
-          display: none;
-          width: 100%;
-          flex-direction: column;
-          gap: 15px;
-          margin-top: 15px;
-          padding-top: 15px;
-          border-top: 1px solid #0a6565;
-        }
-
-        .nav-links.mobile-active {
-          display: flex;
-        }
-
-        .post-job-btn {
-          display: none;
-        }
-
-        .nav-links.mobile-active ~ .post-job-btn {
-          display: block;
-          margin-top: 15px;
-          text-align: center;
-        }
-
-        .main-content {
-          padding: 20px 10px;
-        }
-
-        .page-title {
-          font-size: 24px;
-        }
-
-        .header-section {
-          padding: 20px 10px;
-          margin: -20px -10px 20px -10px;
-        }
-
-        .action-buttons {
-          flex-direction: column;
-          gap: 8px;
-        }
-
-        .btn {
-          width: 100%;
-          text-align: center;
-        }
-
-        .profile-section {
-          flex-direction: column;
-          gap: 15px;
-        }
-
-        .profile-card {
-          width: 100%;
-        }
-
-        .profile-field {
-          flex-direction: column;
-          align-items: flex-start;
-          gap: 8px;
-        }
-
-        .field-label {
-          min-width: auto;
-        }
-
-        .field-value {
-          text-align: left;
-        }
-
-        .field-input {
-          width: 100%;
-        }
-
-        .modal-content {
-          margin: 30% auto;
-          padding: 20px;
-          width: 95%;
-        }
-
-        .modal-title {
-          font-size: 16px;
-        }
-
-        .modal-buttons {
-          flex-direction: column;
-          gap: 10px;
-        }
-
-        .modal-buttons .btn {
-          width: 100%;
-        }
-
-        .success-section {
-          padding: 40px 10px;
-        }
-
-        .success-title {
-          font-size: 20px;
-        }
-
-        .success-message {
-          font-size: 16px;
-        }
-
-        .footer-content {
-          grid-template-columns: repeat(2, 1fr);
-          gap: 20px;
-          padding: 0 10px;
-        }
-
-        .footer-section:last-child {
-          grid-column: 1 / -1;
-        }
-      }
-
-      /* Small Mobile Styles (max-width: 480px) */
-      @media screen and (max-width: 480px) {
-        .logo {
-          font-size: 18px;
-        }
-
-        .page-title {
-          font-size: 20px;
-        }
-
-        .profile-card > div {
-          padding: 12px !important;
-        }
-
-        .profile-info {
-          padding: 15px;
-        }
-
-        .field-label {
-          font-size: 14px;
-        }
-
-        .field-value {
-          font-size: 14px;
-        }
-
-        .btn {
-          padding: 12px 16px;
-          font-size: 14px;
-        }
-
-        .modal-content {
-          padding: 15px;
-        }
-
-        .footer-content {
-          grid-template-columns: 1fr;
-          text-align: center;
-        }
-
-        .footer-section:last-child {
-          grid-column: auto;
-        }
-      }
-
-      /* Landscape orientation for tablets */
-      @media screen and (max-width: 1024px) and (orientation: landscape) {
-        .header-section {
-          padding: 25px 15px;
-        }
-
-        .page-title {
-          font-size: 26px;
-        }
-
-        .action-buttons {
-          flex-direction: row;
-        }
-
-        .profile-section {
-          flex-direction: row;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <!-- Header -->
-    <header class="header">
-      <nav class="nav">
-        <div class="logo">GottaWork</div>
-        <button class="mobile-menu-toggle" id="mobileMenuToggle">☰</button>
-        <ul class="nav-links" id="navLinks">
-          <li><a href="#">Home</a></li>
-          <li><a href="#">Locations</a></li>
-          <li><a href="#">Payment</a></li>
-          <li><a href="#">Partnerships</a></li>
-          <li><a href="#" style="color: #ffc107">Profile</a></li>
-        </ul>
-        <a href="#" class="post-job-btn">Post a Paper ↓</a>
+    }
+  </style>
+</head>
+<body class="flex flex-col min-h-screen">
+  <!-- Header -->
+  <header class="headerr text-white py-8">
+    <div class="hero-section relative">
+      <!-- Navigation -->
+      <nav class="absolute w-full py-6 px-8 flex justify-between items-center z-10">
+        <a href="#" class="text-white text-3xl font-bold">GottaWork</a>
+        
+        <div class="flex items-center space-x-8">
+          <a href="manager_homepage.php" class="text-white hover:text-yellow-400 transition-colors">
+            Home
+          </a>
+          <a href="pendapatan.php" class="text-white hover:text-yellow-400 transition-colors">
+            Finance
+          </a>
+          <a href="manager_skematarif.php" class="text-white hover:text-yellow-400 transition-colors">
+            Price Scheme
+          </a>
+          <a href="mengelolah_profil.php" class="text-yellow-400 text-white hover:text-yellow-400 transition-colors">
+            Profile
+          </a>
+          
+          <a href="login.php" class="border border-white text-white px-6 py-2 rounded-md flex items-center justify-center hover:bg-white hover:bg-opacity-10 transition-colors">
+            Log Out
+          </a>
+        </div>
       </nav>
-    </header>
+      
+      <!-- Page Title -->
+      <div class="container mx-auto px-8 pt-32">
+        <div class="flex items-center text-yellow-400 mb-2">
+          <i class="fas fa-chevron-down mr-1 text-xs"></i>
+          <span class="ml-1 text-sm">Profile</span>
+        </div>
+        <h1 class="text-3xl font-bold mb-6 text-white">Manage Account Profile</h1>
+        
+        <div class="flex justify-between items-center">
+          <div class="flex space-x-4">
+            <button id="editBtn" class="bg-yellow-400 text-black px-6 py-3 rounded font-medium flex items-center">
+              Edit Profile
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+              </svg>
+            </button>
+          </div>
+          
+          <div class="flex items-center text-sm text-white">
+            <span>Home</span>
+            <i class="fas fa-chevron-right mx-1 text-xs"></i>
+            <span>Profile</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
 
-    <!-- Header Section -->
-    <div class="header-section">
-      <div class="header-content">
-        <div class="breadcrumb">← PROFILE</div>
-        <h1 class="page-title">Manage Account Profile</h1>
-        <div class="action-buttons">
-          <button class="btn btn-primary" id="editBtn">EDIT PROFILE</button>
-          <button class="btn btn-secondary">GET OWNER LINK</button>
+  <!-- Main Content -->
+  <main class="container mx-auto px-6 py-8 flex-1">
+    <!-- View Mode (Initial State) -->
+    <div class="view-mode active">
+      <div class="flex gap-6 mb-8">
+        <div class="profile-card">
+          <div class="bg-white p-4 rounded mb-4">
+            <div class="text-sm text-gray-600 mb-1">Profile</div>
+            <div class="font-bold">My Profile</div>
+          </div>
+          <div class="bg-white p-4 rounded">
+            <div class="text-sm text-gray-600">Settings</div>
+          </div>
+        </div>
+        
+        <div class="profile-info">
+          <div class="profile-field">
+            <span class="field-label">Name</span>
+            <span class="field-value">John Doe</span>
+          </div>
+          <div class="profile-field">
+            <span class="field-label">Email account</span>
+            <span class="field-value">john.doe@example.com</span>
+          </div>
+          <div class="profile-field">
+            <span class="field-label">Mobile number</span>
+            <span class="field-value">+62 812 3456 7890</span>
+          </div>
+          <div class="profile-field">
+            <span class="field-label">Role</span>
+            <span class="field-value">Manager</span>
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- Main Content -->
-    <main class="main-content">
-      <!-- View Mode (Initial State) -->
-      <div class="view-mode active">
-        <div class="profile-section">
-          <div class="profile-card">
-            <div style="background-color: white; padding: 15px; border-radius: 4px; margin-bottom: 15px">
-              <div style="font-size: 14px; color: #666; margin-bottom: 5px">Profile</div>
-              <div style="font-weight: bold">My Profile</div>
-            </div>
-            <div style="background-color: white; padding: 15px; border-radius: 4px">
-              <div style="font-size: 14px; color: #666">Settings</div>
-            </div>
+    <!-- Edit Mode -->
+    <div class="edit-mode">
+      <div class="flex gap-6 mb-8">
+        <div class="profile-card">
+          <div class="bg-white p-4 rounded mb-4">
+            <div class="text-sm text-gray-600 mb-1">Profile</div>
+            <div class="font-bold">My Profile</div>
           </div>
-          <div class="profile-info">
-            <div class="profile-field">
-              <span class="field-label">Name</span>
-              <span class="field-value">John Doe</span>
-            </div>
-            <div class="profile-field">
-              <span class="field-label">Email account</span>
-              <span class="field-value">john.doe@example.com</span>
-            </div>
-            <div class="profile-field">
-              <span class="field-label">Mobile number</span>
-              <span class="field-value">+62 812 3456 7890</span>
-            </div>
-            <div class="profile-field">
-              <span class="field-label">Role</span>
-              <span class="field-value">User</span>
-            </div>
+          <div class="bg-white p-4 rounded">
+            <div class="text-sm text-gray-600">Settings</div>
           </div>
         </div>
-      </div>
-
-      <!-- Edit Mode -->
-      <div class="edit-mode">
-        <div class="profile-section">
-          <div class="profile-card">
-            <div style="background-color: white; padding: 15px; border-radius: 4px; margin-bottom: 15px">
-              <div style="font-size: 14px; color: #666; margin-bottom: 5px">Profile</div>
-              <div style="font-weight: bold">My Profile</div>
-            </div>
-            <div style="background-color: white; padding: 15px; border-radius: 4px">
-              <div style="font-size: 14px; color: #666">Settings</div>
-            </div>
+        
+        <div class="profile-info">
+          <div class="profile-field">
+            <span class="field-label">Name</span>
+            <input type="text" class="field-input" value="John Doe" id="nameInput" />
           </div>
-          <div class="profile-info">
-            <div class="profile-field">
-              <span class="field-label">Name</span>
-              <input type="text" class="field-input" value="John Doe" id="nameInput" />
-            </div>
-            <div class="profile-field">
-              <span class="field-label">Email account</span>
-              <input type="email" class="field-input" value="john.doe@example.com" id="emailInput" />
-            </div>
-            <div class="profile-field">
-              <span class="field-label">Mobile number</span>
-              <input type="text" class="field-input" value="+62 812 3456 7890" id="phoneInput" />
-            </div>
-            <div class="profile-field">
-              <span class="field-label">Role</span>
-              <span class="field-value">User</span>
-            </div>
-            <div style="margin-top: 30px">
-              <button class="btn btn-success" id="saveBtn">Save changes</button>
-            </div>
+          <div class="profile-field">
+            <span class="field-label">Email account</span>
+            <input type="email" class="field-input" value="john.doe@example.com" id="emailInput" />
           </div>
-        </div>
-      </div>
-
-      <!-- Success Mode -->
-      <div class="success-mode">
-        <div class="success-section">
-          <div class="breadcrumb">← SETTINGS</div>
-          <h2 class="success-title">Explore your profile</h2>
-          <p class="success-message">perubahan berhasil</p>
-          <button class="btn btn-primary" id="viewProfileBtn">View all →</button>
-        </div>
-      </div>
-    </main>
-
-    <!-- Confirmation Modal -->
-    <div class="modal" id="confirmModal">
-      <div class="modal-content">
-        <h3 class="modal-title">Apakah Anda yakin ingin mengubah profil?</h3>
-        <div class="modal-buttons">
-          <button class="btn btn-danger" id="cancelBtn">No</button>
-          <button class="btn btn-success" id="confirmBtn">Yes</button>
+          <div class="profile-field">
+            <span class="field-label">Mobile number</span>
+            <input type="text" class="field-input" value="+62 812 3456 7890" id="phoneInput" />
+          </div>
+          <div class="profile-field">
+            <span class="field-label">Role</span>
+            <span class="field-value">Manager</span>
+          </div>
+          <div class="mt-8">
+            <button class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded font-medium" id="saveBtn">
+              Save Changes
+            </button>
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- Footer -->
-    <footer class="footer">
-      <div class="footer-content">
-        <div class="footer-section">
-          <h4>GottaWork</h4>
-          <a href="#">About us</a>
-          <a href="#">Privacy Policy</a>
-          <a href="#">Terms of Use</a>
+    <!-- Success Mode -->
+    <div class="success-mode">
+      <div class="text-center py-16">
+        <div class="flex items-center justify-center text-yellow-400 mb-4">
+          <i class="fas fa-chevron-left mr-1 text-xs"></i>
+          <span class="ml-1 text-sm">SETTINGS</span>
         </div>
-        <div class="footer-section">
-          <h4>Company</h4>
-          <a href="#">How it works</a>
-          <a href="#">Pricing</a>
-          <a href="#">Our Story</a>
+        <h2 class="text-2xl font-bold text-gray-800 mb-4">Explore your profile</h2>
+        <p class="text-lg text-gray-600 mb-8">Perubahan berhasil disimpan</p>
+        <button class="bg-yellow-400 text-black px-6 py-3 rounded font-medium flex items-center mx-auto" id="viewProfileBtn">
+          View all
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-gray-900 text-white py-16 mt-16">
+    <div class="container mx-auto px-6">
+      <div class="grid grid-cols-1 md:grid-cols-5 gap-8">
+        <!-- Company Info -->
+        <div class="col-span-1">
+          <h2 class="text-2xl font-bold mb-6">GottaWork</h2>
+          <p class="text-gray-400 mb-4">7101 Market Street Bandung, Indonesia</p>
+          <p class="text-gray-400 mb-2"><i class="fas fa-phone mr-2"></i> (+62) 123 456 789</p>
+          <p class="text-gray-400 mb-6"><i class="fas fa-envelope mr-2"></i> customer@gottawork.com</p>
+          <div class="flex space-x-4">
+            <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-youtube"></i></a>
+          </div>
         </div>
-        <div class="footer-section">
-          <h4>Locations</h4>
-          <a href="#">Get Started Today</a>
-          <a href="#">New York Office</a>
-          <a href="#">London Office</a>
+        
+        <!-- Company Links -->
+        <div class="col-span-1">
+          <h3 class="text-lg font-semibold mb-4">Company</h3>
+          <ul class="space-y-2">
+            <li><a href="#" class="text-gray-400 hover:text-white">Meeting Room</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white">Individual Desk</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white">Group Desk</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white">Private Office</a></li>
+          </ul>
         </div>
-        <div class="footer-section">
-          <h4>Partnerships</h4>
-          <a href="#">Reseller Program</a>
-          <a href="#">Partnership</a>
-          <a href="#">Testimonials</a>
+        
+        <!-- Locations Links -->
+        <div class="col-span-1">
+          <h3 class="text-lg font-semibold mb-4">Locations</h3>
+          <ul class="space-y-2">
+            <li><a href="#" class="text-gray-400 hover:text-white">Mall Bintaro Xchange</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white">Lampung City Mall</a></li>
+          </ul>
         </div>
-        <div class="footer-section">
-          <h4>Support</h4>
-          <a href="#">Help</a>
-          <a href="#">FAQ</a>
-          <a href="#">Contact Us</a>
+        
+        <!-- Partnerships Links -->
+        <div class="col-span-1">
+          <h3 class="text-lg font-semibold mb-4">Partnerships</h3>
+          <ul class="space-y-2">
+            <li><a href="#" class="text-gray-400 hover:text-white">Event Venues</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white">Brokers</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white">Community Events</a></li>
+          </ul>
+        </div>
+        
+        <!-- Support/Spaces Links -->
+        <div class="col-span-1">
+          <h3 class="text-lg font-semibold mb-4">Spaces</h3>
+          <ul class="space-y-2">
+            <li><a href="#" class="text-gray-400 hover:text-white">Contact</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white">About</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white">Jobs</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white">Franchise</a></li>
+          </ul>
         </div>
       </div>
-      <div class="footer-bottom">
-        <p>📞 +62) 123 456 789</p>
-        <p>✉ contact@gottawork.com</p>
-        <p>© 2024 GottaWork. All rights reserved.</p>
+      
+      <!-- Copyright -->
+      <div class="border-t border-gray-800 mt-12 pt-8 text-center text-gray-500 text-sm">
+        © 2025 GottaWork. Powered by GW
       </div>
-    </footer>
+    </div>
+  </footer>
 
-    <script>
-      const mobileMenuToggle = document.getElementById("mobileMenuToggle");
-      const navLinks = document.getElementById("navLinks");
+  <!-- Confirmation Modal -->
+  <div class="modal" id="confirmModal">
+    <div class="modal-content">
+      <h3 class="modal-title">Apakah Anda yakin ingin mengubah profil?</h3>
+      <div class="modal-buttons">
+        <button class="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded" id="cancelBtn">No</button>
+        <button class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded" id="confirmBtn">Yes</button>
+      </div>
+    </div>
+  </div>
 
-      mobileMenuToggle.addEventListener("click", function () {
-        navLinks.classList.toggle("mobile-active");
-      });
+  <script>
+    const editBtn = document.getElementById("editBtn");
+    const saveBtn = document.getElementById("saveBtn");
+    const confirmBtn = document.getElementById("confirmBtn");
+    const cancelBtn = document.getElementById("cancelBtn");
+    const viewProfileBtn = document.getElementById("viewProfileBtn");
+    const confirmModal = document.getElementById("confirmModal");
 
-      const editBtn = document.getElementById("editBtn");
-      const saveBtn = document.getElementById("saveBtn");
-      const confirmBtn = document.getElementById("confirmBtn");
-      const cancelBtn = document.getElementById("cancelBtn");
-      const viewProfileBtn = document.getElementById("viewProfileBtn");
-      const confirmModal = document.getElementById("confirmModal");
+    const viewMode = document.querySelector(".view-mode");
+    const editMode = document.querySelector(".edit-mode");
+    const successMode = document.querySelector(".success-mode");
 
-      const viewMode = document.querySelector(".view-mode");
-      const editMode = document.querySelector(".edit-mode");
-      const successMode = document.querySelector(".success-mode");
+    editBtn.addEventListener("click", function () {
+      viewMode.classList.remove("active");
+      editMode.classList.add("active");
+    });
 
-      editBtn.addEventListener("click", function () {
-        viewMode.classList.remove("active");
-        editMode.classList.add("active");
-      });
+    saveBtn.addEventListener("click", function () {
+      confirmModal.style.display = "block";
+    });
 
-      saveBtn.addEventListener("click", function () {
-        confirmModal.style.display = "block";
-      });
+    cancelBtn.addEventListener("click", function () {
+      confirmModal.style.display = "none";
+    });
 
-      cancelBtn.addEventListener("click", function () {
+    confirmBtn.addEventListener("click", function () {
+      const name = document.getElementById("nameInput").value;
+      const email = document.getElementById("emailInput").value;
+      const phone = document.getElementById("phoneInput").value;
+
+      // Update view mode values
+      const viewFields = viewMode.querySelectorAll(".field-value");
+      viewFields[0].textContent = name;
+      viewFields[1].textContent = email;
+      viewFields[2].textContent = phone;
+
+      confirmModal.style.display = "none";
+      editMode.classList.remove("active");
+      successMode.classList.add("active");
+    });
+
+    viewProfileBtn.addEventListener("click", function () {
+      successMode.classList.remove("active");
+      viewMode.classList.add("active");
+    });
+
+    // Close modal when clicking outside
+    window.addEventListener("click", function (event) {
+      if (event.target === confirmModal) {
         confirmModal.style.display = "none";
-      });
-
-      confirmBtn.addEventListener("click", function () {
-        const name = document.getElementById("nameInput").value;
-        const email = document.getElementById("emailInput").value;
-        const phone = document.getElementById("phoneInput").value;
-
-        const viewFields = viewMode.querySelectorAll(".field-value");
-        viewFields[0].textContent = name;
-        viewFields[1].textContent = email;
-        viewFields[2].textContent = phone;
-
-        confirmModal.style.display = "none";
-        editMode.classList.remove("active");
-        successMode.classList.add("active");
-      });
-
-      viewProfileBtn.addEventListener("click", function () {
-        successMode.classList.remove("active");
-        viewMode.classList.add("active");
-      });
-
-      window.addEventListener("click", function (event) {
-        if (event.target === confirmModal) {
-          confirmModal.style.display = "none";
-        }
-      });
-
-      document.addEventListener("click", function (event) {
-        if (!event.target.closest(".nav") && navLinks.classList.contains("mobile-active")) {
-          navLinks.classList.remove("mobile-active");
-        }
-      });
-
-      window.addEventListener("resize", function () {
-        if (window.innerWidth > 768) {
-          navLinks.classList.remove("mobile-active");
-        }
-      });
-    </script>
-  </body>
+      }
+    });
+  </script>
+</body>
 </html>
