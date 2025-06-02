@@ -200,43 +200,36 @@
         const mobileMenuButton = document.getElementById("mobileMenuButton");
         const mobileMenu = document.getElementById("mobileMenu");
 
-        // Mobile menu toggle
         mobileMenuButton.addEventListener("click", function () {
           mobileMenu.classList.toggle("hidden");
         });
 
-        // Close mobile menu when clicking outside
         document.addEventListener("click", function (event) {
           if (!mobileMenuButton.contains(event.target) && !mobileMenu.contains(event.target)) {
             mobileMenu.classList.add("hidden");
           }
         });
 
-        // Show modal when Cancel button is clicked
         cancelButton.addEventListener("click", function () {
           modal.classList.remove("hidden");
         });
 
-        // Hide modal when No button is clicked
         noButton.addEventListener("click", function () {
           modal.classList.add("hidden");
         });
 
-        // Close modal when clicking outside
         modal.addEventListener("click", function (event) {
           if (event.target === modal) {
             modal.classList.add("hidden");
           }
         });
 
-        // Show success message when Yes button is clicked
         yesButton.addEventListener("click", function () {
           modalContent.innerHTML = `
             <h3 class="font-semibold mb-6 text-green-700 text-base lg:text-lg">Reservasi berhasil dibatalkan!</h3>
             <button id="closeButton" class="w-full sm:w-auto bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded transition-colors">Tutup</button>
           `;
 
-          // Add event listener for the new Close button
           document.getElementById("closeButton").addEventListener("click", function () {
             modal.classList.add("hidden");
           });
