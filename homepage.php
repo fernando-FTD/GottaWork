@@ -38,7 +38,6 @@ if ($_SESSION['role'] !== 'Customer') {
     <nav class="flex items-center space-x-6">
         <a href="homepage.php" class="text-orange-400 font-medium  underline-offset-4">Home</a>
         <a href="ketersediaanws.php" class="text-white hover:text-orange-400 font-medium">Locations</a>
-        <a href="pembayaran.html" class="text-white hover:text-orange-400 font-medium">Payment</a>
         <a href="membatalkanreservasi.html" class="text-white hover:text-orange-400 font-medium">Reservation</a>
         <a href="#" class="text-white hover:text-orange-400 font-medium">Profile</a>
   
