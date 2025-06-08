@@ -39,7 +39,7 @@ if ($_SESSION['role'] !== 'Customer') {
         <a href="homepage.php" class="text-orange-400 font-medium  underline-offset-4">Home</a>
         <a href="ketersediaanws.php" class="text-white hover:text-orange-400 font-medium">Locations</a>
         <a href="membatalkanreservasi.html" class="text-white hover:text-orange-400 font-medium">Reservation</a>
-        <a href="#" class="text-white hover:text-orange-400 font-medium">Profile</a>
+        <a href="profile.php" class="text-white hover:text-orange-400 font-medium">Profile</a>
   
         <!-- Book a Space Button -->
         <a href="bookingdate.html" class="ml-4 border border-white text-white px-4 py-2 rounded hover:bg-white hover:text-gray-800 transition">
