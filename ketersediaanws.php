@@ -42,7 +42,7 @@ if ($result->num_rows > 0) {
         <a href="homepage.php" class="text-white hover:text-orange-400 font-medium">Home</a>
         <a href="ketersediaanws.php" class="text-orange-400 font-medium underline-offset-4">Locations</a>
         <a href="membatalkanreservasi.html" class="text-white hover:text-orange-400 font-medium">Reservation</a>
-        <a href="profile.html" class="text-white hover:text-orange-400 font-medium">Profile</a>
+        <a href="profile.php" class="text-white hover:text-orange-400 font-medium">Profile</a>
         <a href="bookingdate.html" class="ml-4 border border-white text-white px-4 py-2 rounded hover:bg-white hover:text-gray-800 transition">Book a Space ➤</a>
       </nav>
     </div>
