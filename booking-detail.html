@@ -79,6 +79,7 @@
       <p>End Time: <span id="end-time"></span></p>
       <p>Workspace: <span id="workspace-text"></span></p>
       <p>Selected Desk: <span id="desk-number"></span></p>
+      <p><b>Hubungi No ini untuk melanjutkan pembayaran: 08123456789</b></p>
     </div>
 
     <div class="button-area">
@@ -128,7 +129,7 @@
   .then(response => response.json())
   .then(result => {
     if (result.status === "success") {
-      window.location.href = "pembayaran.html";
+      window.location.href = "membatalkanreservasi.html";
     } else {
       alert("Gagal: " + result.message);
     }
