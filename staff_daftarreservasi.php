@@ -39,36 +39,71 @@ $workspaces = ["Individual Desk","Meeting Room","Group Desk","Private Office"];
   <title>Reservation List</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>body { font-family: 'Lora', serif; }</style>
+  <style>
+  .headerr {
+      background-color: rgb(19 78 74);
+    }
+  </style>
 </head>
 <body class="bg-white text-gray-800">
 
-<header class="bg-teal-900 text-white">
-  <div class="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
-    <h1 class="text-2xl font-bold">GottaWork</h1>
+<header class="headerr text-white py-4 md:py-8 relative">
+  <div class="container mx-auto px-4">
+    <!-- Baris Atas: Logo dan Navigasi -->
+    <div class="flex justify-between items-center">
+      <!-- Logo -->
+      <div>
+        <a href="staff_homepage.php" class="text-xl md:text-2xl font-bold text-white">GottaWork</a>
+      </div>
 
-    <nav class="hidden md:flex items-center space-x-6 text-sm">
-      <a href="staff_homepage.php" class="hover:text-yellow-400">Home</a>
-      <a href="staff_daftarreservasi.php" class="hover:text-yellow-400">Reservation List</a>
-      <a href="mengaturworkspace.html" class="hover:text-yellow-400">Manage Workspace</a>
-      <a href="login.php" class="ml-4 border border-white px-3 py-1 rounded hover:bg-white hover:text-black transition">Log Out <span>›</span></a>
-    </nav>
-  </div>
+      <!-- Navigasi -->
+      <nav class="desktop-nav">
+        <ul class="flex items-center space-x-6">
+          <li><a href="staff_homepage.php" class="py-2 text-white hover:underline">Home</a></li>
+          <li><a href="staff_daftarreservasi.php" class="text-orange-400 font-semibold py-2">Reservation List</a></li>
+          <li><a href="mengaturworkspace.html" class="py-2 text-white hover:underline">Manage Workspace</a></li>
+          <li>
+            <a href="login.php" class="border border-white text-white px-6 py-2 rounded-md flex items-center justify-center hover:bg-white hover:text-[#234e52] transition-colors">
+              Log Out
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+              </svg>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
 
-    <div class="max-w-7xl mx-auto px-6 pt-6 pb-12">
-      <div class="text-sm text-white/70 mb-4">Home › Reservation list</div>
+    <!-- Baris Bawah: Judul + Tombol kiri, breadcrumb kanan -->
+    <div class="mt-6 flex flex-col md:flex-row md:justify-between md:items-start gap-4">
+      <!-- Kiri: Judul + tombol -->
+      <div>
+        <div class="mb-2">
+        <span class="text-yellow-500 font-semibold text-sm md:text-base">— Reservation List</span>
+      </div>
+        <h1 class="text-2xl md:text-4xl font-bold mb-2">Reservation List</h1>
+        <div class="space-x-4">
+          <a href="staff_daftarreservasi.php"
+            role="button"
+            class="inline-block bg-yellow-400 hover:bg-yellow-300 text-black font-medium px-4 py-2 rounded shadow-sm transition">Reservation List</a>
+          <a href="mengaturworkspace.html"
+            role="button"
+            class="inline-block bg-yellow-400 hover:bg-yellow-300 text-black font-medium px-4 py-2 rounded shadow-sm transition">Manage Workspace</a>
+        </div>
+      </div>
 
-      <h2 class="text-4xl font-bold mb-6">Reservation list</h2>
+      <!-- Kanan: Breadcrumb -->
+      <div class="flex items-center text-xs md:text-sm mt-6 md:mt-16">
+        <a href="staff_homepage.php" class="text-white hover:underline">Home</a>
+        <span class="mx-2">›</span>
+        <span>Reservation List</span>
+      </div>
 
-      <div class="space-x-4">
-      <a href="staff_daftarreservasi.php"
-      role="button"
-      class="inline-block bg-yellow-400 hover:bg-yellow-300 text-black font-medium px-4 py-2 rounded shadow-sm transition">Reservation List</a>
-      <a href="staff_manageworkspace.php"
-      role="button"
-      class="inline-block bg-yellow-400 hover:bg-yellow-300 text-black font-medium px-4 py-2 rounded shadow-sm transition">Manage Workspace</a>
     </div>
   </div>
 </header>
+
+
 
   <section class="text-center py-10">
     <h2 class="text-sm text-red-500 tracking-widest">LOCATION</h2>
@@ -238,44 +273,72 @@ $workspaces = ["Individual Desk","Meeting Room","Group Desk","Private Office"];
   </script>
 
 
-  <footer class="bg-gray-800 text-white mt-16 p-10 text-sm">
-    <div class="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-6">
-      <div>
-        <h3 class="font-bold text-lg">GottaWork</h3>
-        <p class="text-gray-400">768 Market Street Bandar Lampung, Indonesia</p>
-        <p class="mt-2">📞 (+62) 123 456 789</p>
-        <p>✉️ customer@gottawork.com</p>
-        <div class="flex space-x-2 mt-2">
-          <a href="#">🌐</a>
-          <a href="#">📸</a>
-          <a href="#">🐦</a>
+  <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-16 mt-16">
+      <div class="container mx-auto px-6">
+        <div class="grid grid-cols-1 md:grid-cols-5 gap-8">
+          <!-- Company Info -->
+          <div class="col-span-1">
+            <h2 class="text-2xl font-bold mb-6">GottaWork</h2>
+            <p class="text-gray-400 mb-4">7101 Market Street Bandung, Indonesia</p>
+            <p class="text-gray-400 mb-2"><i class="fas fa-phone mr-2"></i> (+62) 123 456 789</p>
+            <p class="text-gray-400 mb-6"><i class="fas fa-envelope mr-2"></i> customer@gottawork.com</p>
+            <div class="flex space-x-4">
+              <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-facebook-f"></i></a>
+              <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-twitter"></i></a>
+              <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-instagram"></i></a>
+              <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-youtube"></i></a>
+            </div>
+          </div>
+          
+          <!-- Company Links -->
+          <div class="col-span-1">
+            <h3 class="text-lg font-semibold mb-4">Company</h3>
+            <ul class="space-y-2">
+              <li><a href="#" class="text-gray-400 hover:text-white">Meeting Room</a></li>
+              <li><a href="#" class="text-gray-400 hover:text-white">Individual Desk</a></li>
+              <li><a href="#" class="text-gray-400 hover:text-white">Group Desk</a></li>
+              <li><a href="#" class="text-gray-400 hover:text-white">Private Office</a></li>
+            </ul>
+          </div>
+          
+          <!-- Locations Links -->
+          <div class="col-span-1">
+            <h3 class="text-lg font-semibold mb-4">Locations</h3>
+            <ul class="space-y-2">
+              <li><a href="#" class="text-gray-400 hover:text-white">Mall Bintaro Xchange</a></li>
+              <li><a href="#" class="text-gray-400 hover:text-white">Lampung City Mall</a></li>
+            </ul>
+          </div>
+          
+          <!-- Partnerships Links -->
+          <div class="col-span-1">
+            <h3 class="text-lg font-semibold mb-4">Partnerships</h3>
+            <ul class="space-y-2">
+              <li><a href="#" class="text-gray-400 hover:text-white">Event Venues</a></li>
+              <li><a href="#" class="text-gray-400 hover:text-white">Brokers</a></li>
+              <li><a href="#" class="text-gray-400 hover:text-white">Community Events</a></li>
+            </ul>
+          </div>
+          
+          <!-- Support/Spaces Links -->
+          <div class="col-span-1">
+            <h3 class="text-lg font-semibold mb-4">Spaces</h3>
+            <ul class="space-y-2">
+              <li><a href="#" class="text-gray-400 hover:text-white">Contact</a></li>
+              <li><a href="#" class="text-gray-400 hover:text-white">About</a></li>
+              <li><a href="#" class="text-gray-400 hover:text-white">Jobs</a></li>
+              <li><a href="#" class="text-gray-400 hover:text-white">Franchise</a></li>
+            </ul>
+          </div>
+        </div>
+        
+        <!-- Copyright -->
+        <div class="border-t border-gray-800 mt-12 pt-8 text-center text-gray-500 text-sm">
+          © 2025 GottaWork. Powered by GW
         </div>
       </div>
-      <div>
-        <h4 class="font-bold">Company</h4>
-        <ul>
-          <li>Meeting Room</li>
-          <li>Individual Desk</li>
-          <li>Group Desk</li>
-          <li>Private Office</li>
-        </ul>
-      </div>
-      <div>
-        <h4 class="font-bold">Locations</h4>
-        <ul><li>Lampung City Mall</li></ul>
-      </div>
-      <div>
-        <h4 class="font-bold">Support</h4>
-        <ul>
-          <li>Book a Tour</li>
-          <li>Inquire</li>
-          <li>FAQ</li>
-          <li>Terms of Use</li>
-        </ul>
-      </div>
-    </div>
-    <div class="text-center text-gray-500 mt-6">&copy; 2025 GottaWork. Powered by GW</div>
-  </footer>
+    </footer>
 
   <script>
 window.addEventListener('load', () => {
