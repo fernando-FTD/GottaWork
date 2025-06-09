@@ -59,9 +59,9 @@ $workspaces = ["Individual Desk","Meeting Room","Group Desk","Private Office"];
       <!-- Navigasi -->
       <nav class="desktop-nav">
         <ul class="flex items-center space-x-6">
-          <li><a href="staff_homepage.php" class="py-2 text-white hover:underline">Home</a></li>
-          <li><a href="staff_daftarreservasi.php" class="text-orange-400 font-semibold py-2">Reservation List</a></li>
-          <li><a href="mengaturworkspace.html" class="py-2 text-white hover:underline">Manage Workspace</a></li>
+          <li><a href="staff_homepage.php" class="text-white hover:text-orange-400 font-medium">Home</a></li>
+          <li><a href="staff_daftarreservasi.php" class="text-orange-400 font-medium  underline-offset-4">Reservation List</a></li>
+          <li><a href="mengaturworkspace.html" class="text-white hover:text-orange-400 font-medium">Manage Workspace</a></li>
           <li>
             <a href="login.php" class="border border-white text-white px-6 py-2 rounded-md flex items-center justify-center hover:bg-white hover:text-[#234e52] transition-colors">
               Log Out
