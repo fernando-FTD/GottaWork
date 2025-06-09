@@ -65,9 +65,9 @@ $workspaces = array_fill(0, 8, [
       </div>
       <nav>
         <ul class="flex items-center space-x-6">
-          <li><a href="staff_homepage.php" class="py-2">Home</a></li>
-          <li><a href="staff_daftarreservasi.php" class="py-2">Reservation List</a></li>
-          <li><a href="mengaturworkspace.html" class="text-orange-400 py-2">Manage Workspace</a></li>
+          <li><a href="staff_homepage.php" class="text-orange-400 font-semibold py-2">Home</a></li>
+          <li><a href="staff_daftarreservasi.php" class="py-2 text-white hover:underline">Reservation List</a></li>
+          <li><a href="mengaturworkspace.html" class="py-2 text-white hover:underline">Manage Workspace</a></li>
           <li>
             <a href="login.php" class="border border-white text-white px-6 py-2 rounded-md flex items-center hover:bg-white hover:bg-opacity-10 transition-colors">
               Log Out
@@ -194,70 +194,71 @@ $workspaces = array_fill(0, 8, [
   </div>
 </section>
 
-<!-- FOOTER -->
-<footer class="bg-gray-900 text-white py-16 mt-16">
-        <div class="container mx-auto px-6">
-            <div class="grid grid-cols-1 md:grid-cols-5 gap-8">
-                <!-- Company Info -->
-                <div class="col-span-1">
-                    <h2 class="text-2xl font-bold mb-6">GottaWork</h2>
-                    <p class="text-gray-400 mb-4">7101 Market Street Lampung, Indonesia</p>
-                    <p class="text-gray-400 mb-2"><i class="fas fa-phone mr-2"></i> (+62) 123 456 789</p>
-                    <p class="text-gray-400 mb-6"><i class="fas fa-envelope mr-2"></i> customer@gottawork.com</p>
-                    <div class="flex space-x-4">
-                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-instagram"></i></a>
-                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-youtube"></i></a>
-                    </div>
-                </div>
-                
-                <!-- Company Links -->
-                <div class="col-span-1">
-                    <h3 class="text-lg font-semibold mb-4">Company</h3>
-                    <ul class="space-y-2">
-                        <li><a href="#" class="text-gray-400 hover:text-white">Meeting Room</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white">Individual Desk</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white">Group Desk</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white">Private Office</a></li>
-                    </ul>
-                </div>
-                
-                <!-- Locations Links -->
-                <div class="col-span-1">
-                    <h3 class="text-lg font-semibold mb-4">Locations</h3>
-                    <ul class="space-y-2">
-                        <li><a href="#" class="text-gray-400 hover:text-white">Lampung City Mall</a></li>
-                    </ul>
-                </div>
-                
-                <!-- Partnerships Links -->
-                <div class="col-span-1">
-                    <h3 class="text-lg font-semibold mb-4">Partnerships</h3>
-                    <ul class="space-y-2">
-                        <li><a href="#" class="text-gray-400 hover:text-white">Event Venues</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white">Brokers</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white">Community Events</a></li>
-                    </ul>
-                </div>
-                
-                <!-- Support/Spaces Links -->
-                <div class="col-span-1">
-                    <h3 class="text-lg font-semibold mb-4">Spaces</h3>
-                    <ul class="space-y-2">
-                        <li><a href="#" class="text-gray-400 hover:text-white">Contact</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white">About</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white">Jobs</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white">Franchise</a></li>
-                    </ul>
-                </div>
+<!-- Footer -->
+    <footer class="bg-gray-900 text-white py-16 mt-16">
+      <div class="container mx-auto px-6">
+        <div class="grid grid-cols-1 md:grid-cols-5 gap-8">
+          <!-- Company Info -->
+          <div class="col-span-1">
+            <h2 class="text-2xl font-bold mb-6">GottaWork</h2>
+            <p class="text-gray-400 mb-4">7101 Market Street Bandung, Indonesia</p>
+            <p class="text-gray-400 mb-2"><i class="fas fa-phone mr-2"></i> (+62) 123 456 789</p>
+            <p class="text-gray-400 mb-6"><i class="fas fa-envelope mr-2"></i> customer@gottawork.com</p>
+            <div class="flex space-x-4">
+              <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-facebook-f"></i></a>
+              <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-twitter"></i></a>
+              <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-instagram"></i></a>
+              <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-youtube"></i></a>
             </div>
-            
-            <!-- Copyright -->
-            <div class="border-t border-gray-800 mt-12 pt-8 text-center text-gray-500 text-sm">
-                © 2025 GottaWork. Powered by GW
-            </div>
+          </div>
+          
+          <!-- Company Links -->
+          <div class="col-span-1">
+            <h3 class="text-lg font-semibold mb-4">Company</h3>
+            <ul class="space-y-2">
+              <li><a href="#" class="text-gray-400 hover:text-white">Meeting Room</a></li>
+              <li><a href="#" class="text-gray-400 hover:text-white">Individual Desk</a></li>
+              <li><a href="#" class="text-gray-400 hover:text-white">Group Desk</a></li>
+              <li><a href="#" class="text-gray-400 hover:text-white">Private Office</a></li>
+            </ul>
+          </div>
+          
+          <!-- Locations Links -->
+          <div class="col-span-1">
+            <h3 class="text-lg font-semibold mb-4">Locations</h3>
+            <ul class="space-y-2">
+              <li><a href="#" class="text-gray-400 hover:text-white">Mall Bintaro Xchange</a></li>
+              <li><a href="#" class="text-gray-400 hover:text-white">Lampung City Mall</a></li>
+            </ul>
+          </div>
+          
+          <!-- Partnerships Links -->
+          <div class="col-span-1">
+            <h3 class="text-lg font-semibold mb-4">Partnerships</h3>
+            <ul class="space-y-2">
+              <li><a href="#" class="text-gray-400 hover:text-white">Event Venues</a></li>
+              <li><a href="#" class="text-gray-400 hover:text-white">Brokers</a></li>
+              <li><a href="#" class="text-gray-400 hover:text-white">Community Events</a></li>
+            </ul>
+          </div>
+          
+          <!-- Support/Spaces Links -->
+          <div class="col-span-1">
+            <h3 class="text-lg font-semibold mb-4">Spaces</h3>
+            <ul class="space-y-2">
+              <li><a href="#" class="text-gray-400 hover:text-white">Contact</a></li>
+              <li><a href="#" class="text-gray-400 hover:text-white">About</a></li>
+              <li><a href="#" class="text-gray-400 hover:text-white">Jobs</a></li>
+              <li><a href="#" class="text-gray-400 hover:text-white">Franchise</a></li>
+            </ul>
+          </div>
         </div>
+        
+        <!-- Copyright -->
+        <div class="border-t border-gray-800 mt-12 pt-8 text-center text-gray-500 text-sm">
+          © 2025 GottaWork. Powered by GW
+        </div>
+      </div>
     </footer>
 
 </body>
