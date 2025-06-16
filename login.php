@@ -91,7 +91,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       position: absolute;
       width: 100%;
       height: 100%;
-      background-image: url('Gambar/loginregister.jpg');
+      background-image: url('assets/loginregister.jpg');
       background-size: cover;
       background-position: center;
     }
