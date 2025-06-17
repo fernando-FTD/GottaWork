@@ -1,5 +1,28 @@
 <?php
+// Mulai output buffering untuk mencegah error "headers already sent"
+ob_start();
+
 require_once 'db.php';
+
+// Periksa jika pengguna sudah login, jika ya, arahkan ke halaman yang sesuai
+if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
+    switch ($_SESSION['role']) {
+        case 'Manager':
+            header("location: manager/manager_homepage.php");
+            break;
+        case 'Staff':
+            header("location: staff/staff_homepage.php");
+            break;
+        case 'Customer':
+            header("location: customer/homepage.php");
+            break;
+        default:
+            // Fallback ke halaman login jika peran tidak dikenali
+            header("location: login.php");
+            break;
+    }
+    exit; // Hentikan eksekusi skrip setelah redirect
+}
 
 $error = '';
 
@@ -36,21 +59,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $_SESSION['email'] = $row['email'];
                     $_SESSION['role'] = $row['role'];
                     
-                    // Redirect based on role
+                    // Redirect based on role ke folder yang benar
                     switch ($row['role']) {
                         case 'Manager':
-                            header("location: manager_homepage.php");
+                            header("location: manager/manager_homepage.php");
                             break;
                         case 'Staff':
-                            header("location: staff_homepage.php");
+                            header("location: staff/staff_homepage.php");
                             break;
                         case 'Customer':
-                            header("location: homepage.php");
+                            header("location: customer/homepage.php");
                             break;
                         default:
                             header("location: index.php");
                             break;
                     }
+                    // Kirim buffer dan hentikan eksekusi
+                    ob_end_flush();
                     exit;
                 } else {
                     // Password is not valid
@@ -74,13 +99,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>GottaWork - Login</title>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
-  <style>body { font-family: 'Lora', serif; }
   <style>
     body, html {
       margin: 0;
       padding: 0;
       height: 100%;
-      font-family: Lora;
+      font-family: 'Lora', serif;
     }
     .container {
       position: relative;
@@ -131,7 +155,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <div class="container">
     <div class="bg-image"></div>
     <div class="form-overlay">
-      <a href="index.html" class="back-button">← Back</a>
       <div class="auth-form">
         <h2 class="text-center text-xl font-bold mb-6">LOGIN</h2>
         
@@ -162,3 +185,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   </div>
 </body>
 </html>
+<?php
+// Kirim output buffer ke browser di akhir skrip
+ob_end_flush();
+?>

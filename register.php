@@ -81,7 +81,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       position: absolute;
       width: 100%;
       height: 100%;
-      background-image: url('Gambar/loginregister.jpg');
+      background-image: url('assets/loginregister.jpg');
       background-size: cover;
       background-position: center;
     }
@@ -126,7 +126,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <div class="container">
     <div class="bg-image"></div>
     <div class="form-overlay">
-      <a href="index.html" class="back-button">← Back</a>
       <div class="auth-form">
         <h2 class="text-center text-xl font-bold mb-6">REGISTER</h2>
         

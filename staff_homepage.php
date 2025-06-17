@@ -1,41 +1,35 @@
 <?php
-// Koneksi database
-$host = "localhost";
-$user = "root";
-$pass = "";
-$dbname = "database_gottawork";
+require_once 'db.php';
 
-$conn = new mysqli($host, $user, $pass, $dbname);
-if ($conn->connect_error) {
-  die("Connection failed: " . $conn->connect_error);
+// Memeriksa apakah pengguna sudah login. Jika tidak, arahkan ke halaman login
+if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
+  header("Location: login.php");
+  exit;
 }
 
-// Ambil data pencarian jika ada
-$search = isset($_GET['search']) ? $conn->real_escape_string($_GET['search']) : "";
+// Memeriksa apakah pengguna memiliki peran 'Staff'.
+// Jika tidak, arahkan ke logout untuk keamanan
+if ($_SESSION['role'] !== 'Staff') {
+  header("Location: logout.php");
+  exit;
+}
+
+// Mengambil data pencarian jika ada
+$search = isset($_GET['search']) ? trim($_GET['search']) : "";
 $query = "SELECT * FROM reservations";
-if ($search) {
-  $formatted_date = '';
-  $formats = ['d/m/Y', 'd/m', 'm/Y'];
-  foreach ($formats as $format) {
-    $date_obj = DateTime::createFromFormat($format, $search);
-    if ($date_obj && $date_obj->format($format) === $search) {
-      $formatted_date = $date_obj->format('Y-m-d');
-      break;
-    }
-  }
+$params = [];
 
-  $is_time = preg_match('/^\d{1,2}:\d{2}$/', $search);
-
-  $query .= " WHERE 
-    reservation_code LIKE '%$search%' OR 
-    name LIKE '%$search%' OR 
-    workspace LIKE '%$search%' OR " .
-    ($formatted_date ? "date = '$formatted_date' OR " : "") .
-    ($is_time ? "(TIME_FORMAT(start_time, '%H:%i') = '$search' OR TIME_FORMAT(finish_time, '%H:%i') = '$search') OR " : "") .
-    "0"; // dummy akhir
+// Query pencarian yang aman menggunakan prepared statements
+if (!empty($search)) {
+  $query .= " WHERE reservation_code LIKE :search 
+              OR name LIKE :search 
+              OR workspace LIKE :search";
+  $params[':search'] = "%$search%";
 }
 
-$reservations = $conn->query($query);
+$stmt = $conn->prepare($query);
+$stmt->execute($params);
+$reservations = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 // Dummy data untuk manage workspace
 $workspaces = array_fill(0, 8, [
@@ -56,7 +50,6 @@ $workspaces = array_fill(0, 8, [
 </head>
 <body class="text-gray-800">
 
-<!-- HEADER -->
 <header class="bg-teal-900 text-white py-8">
   <div class="container mx-auto px-4">
     <div class="flex justify-between items-center">
@@ -65,11 +58,12 @@ $workspaces = array_fill(0, 8, [
       </div>
       <nav>
         <ul class="flex items-center space-x-6">
+          <li><span class="text-white">Halo, <?php echo htmlspecialchars($_SESSION['name']); ?>!</span></li>
           <li><a href="staff_homepage.php" class="text-orange-400 font-medium  underline-offset-4">Home</a></li>
           <li><a href="staff_daftarreservasi.php" class="text-white hover:text-orange-400 font-medium">Reservation List</a></li>
           <li><a href="mengaturworkspace.html" class="text-white hover:text-orange-400 font-medium">Manage Workspace</a></li>
           <li>
-            <a href="login.php" class="border border-white text-white px-6 py-2 rounded-md flex items-center hover:bg-white hover:bg-opacity-10 transition-colors">
+            <a href="logout.php" class="border border-white text-white px-6 py-2 rounded-md flex items-center hover:bg-white hover:bg-opacity-10 transition-colors">
               Log Out
               <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
@@ -82,7 +76,6 @@ $workspaces = array_fill(0, 8, [
   </div>
 </header>
 
-<!-- Hero Section -->
 <div class="bg-teal-900 text-white py-8">
   <div class="container mx-auto px-4">
     <div class="py-8 px-6 pb-16 pt-12 max-w-7xl mx-auto">
@@ -97,7 +90,6 @@ $workspaces = array_fill(0, 8, [
   </div>
 </div>
 
-<!-- RESERVATION LIST -->
 <section class="bg-teal-900 text-white">
   <div class="max-w-7xl mx-auto px-6 py-12">
     <p class="text-sm text-yellow-300 mb-2">— RESERVATION LIST</p>
@@ -106,7 +98,6 @@ $workspaces = array_fill(0, 8, [
   </div>
 </section>
 
-<!-- SEARCH & TABLE -->
 <section class="bg-white py-10">
   <div class="px-40">
     <div class="flex gap-4">
@@ -117,7 +108,7 @@ $workspaces = array_fill(0, 8, [
       </div>
 
       <form method="GET" action="" class="flex items-center border rounded px-3 py-2 w-[680px]">
-        <input name="search" placeholder="Search Reservation" class="flex-grow outline-none text-sm" />
+        <input name="search" placeholder="Search Reservation" class="flex-grow outline-none text-sm" value="<?= htmlspecialchars($search) ?>" />
         <button type="submit" class="ml-2 text-gray-600">🔍</button>
       </form>
     </div>
@@ -137,16 +128,18 @@ $workspaces = array_fill(0, 8, [
           </tr>
         </thead>
         <tbody>
-          <?php if ($reservations->num_rows > 0): while ($row = $reservations->fetch_assoc()): ?>
+          <?php if (count($reservations) > 0): ?>
+            <?php foreach ($reservations as $row): ?>
             <tr class="border-t hover:bg-gray-50">
-              <td class="p-2"><?= $row['reservation_code'] ?></td>
-              <td class="p-2"><?= $row['name'] ?></td>
-              <td class="p-2"><?= $row['workspace'] ?></td>
+              <td class="p-2"><?= htmlspecialchars($row['reservation_code']) ?></td>
+              <td class="p-2"><?= htmlspecialchars($row['name']) ?></td>
+              <td class="p-2"><?= htmlspecialchars($row['workspace']) ?></td>
               <td class="p-2"><?= date("d/m/Y", strtotime($row['date'])) ?></td>
               <td class="p-2"><?= date("H:i", strtotime($row['start_time'])) ?></td>
               <td class="p-2"><?= date("H:i", strtotime($row['finish_time'])) ?></td>
             </tr>
-          <?php endwhile; else: ?>
+            <?php endforeach; ?>
+          <?php else: ?>
             <tr><td colspan="6" class="p-4 text-center text-gray-500">No results found.</td></tr>
           <?php endif; ?>
         </tbody>
@@ -155,7 +148,6 @@ $workspaces = array_fill(0, 8, [
   </div>
 </section>
 
-<!-- MANAGE WORKSPACE -->
 <section class="bg-teal-900 text-white mt-16">
   <div class="max-w-7xl mx-auto px-6 py-12">
     <p class="text-sm text-yellow-300 mb-2">— MANAGE WORKSPACE</p>
@@ -164,7 +156,6 @@ $workspaces = array_fill(0, 8, [
   </div>
 </section>
 
-<!-- WORKSPACE GRID -->
 <section class="bg-white py-10">
   <div class="max-w-7xl mx-auto px-6">
     <div class="flex space-x-4 mb-6">
@@ -178,11 +169,11 @@ $workspaces = array_fill(0, 8, [
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
       <?php foreach ($workspaces as $ws): ?>
         <div class="border rounded shadow overflow-hidden">
-          <img src="<?= $ws['image'] ?>" alt="workspace image" class="w-full h-40 object-cover" />
+          <img src="<?= htmlspecialchars($ws['image']) ?>" alt="workspace image" class="w-full h-40 object-cover" />
           <div class="p-4">
-            <h3 class="font-semibold mb-1"><?= $ws['title'] ?></h3>
-            <p class="text-sm text-gray-600 mb-3"><?= $ws['desc'] ?></p>
-            <p class="text-sm text-gray-500 mb-2">📍 <?= $ws['location'] ?></p>
+            <h3 class="font-semibold mb-1"><?= htmlspecialchars($ws['title']) ?></h3>
+            <p class="text-sm text-gray-600 mb-3"><?= htmlspecialchars($ws['desc']) ?></p>
+            <p class="text-sm text-gray-500 mb-2">📍 <?= htmlspecialchars($ws['location']) ?></p>
             <div class="flex justify-between">
               <button class="border px-3 py-1 text-sm rounded">Edit ›</button>
               <button class="bg-yellow-400 text-black px-3 py-1 text-sm rounded">Lihat Detail ›</button>
@@ -194,11 +185,9 @@ $workspaces = array_fill(0, 8, [
   </div>
 </section>
 
-<!-- Footer -->
-    <footer class="bg-gray-900 text-white py-16 mt-16">
+<footer class="bg-gray-900 text-white py-16 mt-16">
       <div class="container mx-auto px-6">
         <div class="grid grid-cols-1 md:grid-cols-5 gap-8">
-          <!-- Company Info -->
           <div class="col-span-1">
             <h2 class="text-2xl font-bold mb-6">GottaWork</h2>
             <p class="text-gray-400 mb-4">7101 Market Street Bandung, Indonesia</p>
@@ -212,7 +201,6 @@ $workspaces = array_fill(0, 8, [
             </div>
           </div>
           
-          <!-- Company Links -->
           <div class="col-span-1">
             <h3 class="text-lg font-semibold mb-4">Company</h3>
             <ul class="space-y-2">
@@ -223,7 +211,6 @@ $workspaces = array_fill(0, 8, [
             </ul>
           </div>
           
-          <!-- Locations Links -->
           <div class="col-span-1">
             <h3 class="text-lg font-semibold mb-4">Locations</h3>
             <ul class="space-y-2">
@@ -232,7 +219,6 @@ $workspaces = array_fill(0, 8, [
             </ul>
           </div>
           
-          <!-- Partnerships Links -->
           <div class="col-span-1">
             <h3 class="text-lg font-semibold mb-4">Partnerships</h3>
             <ul class="space-y-2">
@@ -242,7 +228,6 @@ $workspaces = array_fill(0, 8, [
             </ul>
           </div>
           
-          <!-- Support/Spaces Links -->
           <div class="col-span-1">
             <h3 class="text-lg font-semibold mb-4">Spaces</h3>
             <ul class="space-y-2">
@@ -254,7 +239,6 @@ $workspaces = array_fill(0, 8, [
           </div>
         </div>
         
-        <!-- Copyright -->
         <div class="border-t border-gray-800 mt-12 pt-8 text-center text-gray-500 text-sm">
           © 2025 GottaWork. Powered by GW
         </div>
