@@ -3,14 +3,14 @@ require_once '../db.php';
 
 // Memeriksa apakah pengguna sudah login
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
-    header("Location: login.php");
+    header("Location: ../login.php");
     exit;
 }
 
 // Memeriksa apakah pengguna memiliki peran 'Customer'
 // Jika tidak, arahkan ke halaman logout untuk keamanan
 if ($_SESSION['role'] !== 'Customer') {
-    header("Location: logout.php");
+    header("Location: ../logout.php");
     exit;
 }
 ?>

@@ -3,11 +3,11 @@ require_once '../db.php';
 
 // Jika tidak login atau bukan 'Customer', akan diarahkan keluar.
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
-    header("Location: login.php");
+    header("Location: ../login.php");
     exit;
 }
 if ($_SESSION['role'] !== 'Customer') {
-    header("Location: logout.php"); // Arahkan keluar jika peran tidak sesuai
+    header("Location: ../logout.php"); // Arahkan keluar jika peran tidak sesuai
     exit;
 }
 
