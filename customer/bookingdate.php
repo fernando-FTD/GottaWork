@@ -1,13 +1,10 @@
 <?php
 require_once '../db.php';
 
-if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
+// Validasi Sesi dan Peran Pengguna.
+//untuk memastikan hanya customer yang login yang bisa mengakses halaman ini.
+if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true || $_SESSION['role'] !== 'Customer') {
     header("Location: ../login.php");
-    exit;
-}
-if ($_SESSION['role'] !== 'Customer') {
-    // Jika peran tidak sesuai, arahkan keluar
-    header("Location: ../logout.php"); 
     exit;
 }
 ?>
@@ -26,13 +23,13 @@ if ($_SESSION['role'] !== 'Customer') {
     
     <form id="bookingForm" class="space-y-4">
       <div>
-        <label for="name" class="block mb-1 font-semibold">Nama Lengkap</label>
+        <label for="name" class="block mb-1 font-semibold">Nama Lengkap Pemesan</label>
         <!-- Kolom nama sekarang bisa diisi manual -->
         <input type="text" id="name" required class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-[#024545]" placeholder="Masukkan nama pemesan">
       </div>
 
       <div>
-        <label for="email" class="block mb-1 font-semibold">Email</label>
+        <label for="email" class="block mb-1 font-semibold">Email Pemesan</label>
         <!-- Kolom email sekarang bisa diisi manual -->
         <input type="email" id="email" required class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-[#024545]" placeholder="Masukkan email pemesan">
       </div>
@@ -88,7 +85,7 @@ if ($_SESSION['role'] !== 'Customer') {
 
       // Simpan semua data ke localStorage untuk digunakan di halaman selanjutnya
       localStorage.setItem("bookingData", JSON.stringify(bookingData));
-      window.location.href = "denah.html"; // Pastikan Anda memiliki file denah.html
+      window.location.href = "denah.html";
     });
   </script>
 </body>

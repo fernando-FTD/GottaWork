@@ -48,7 +48,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             
             // Check if email exists
             if ($stmt->rowCount() == 1) {
-                $row = $stmt->fetch(PDO::FETCH_ASSOC);
+                $stmt->setFetchMode(PDO::FETCH_ASSOC);
+                $row = $stmt->fetch();
                 
                 // Verify the password
                 if (password_verify($password, $row['password'])) {

@@ -1,38 +1,37 @@
 <?php
-require_once '../db.php';
+require_once '../db.php'; 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Validasi apakah pengguna masih login
     if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
-        // Jika tidak, hentikan proses dan beritahu pengguna
         die("Sesi Anda telah berakhir. Silakan login kembali.");
     }
 
-    // Ambil data dari formulir yang disubmit
+    $user_id = $_SESSION['id'];
+    
     $name = $_POST['name'] ?? '';
     $email = $_POST['email'] ?? '';
+
+    // Ambil data lain dari POST
     $startDate = $_POST['startDate'] ?? '';
     $startTime = $_POST['startTime'] ?? '';
     $endTime = $_POST['endTime'] ?? '';
     $workspace = $_POST['workspace'] ?? '';
     $deskNumber = $_POST['deskNumber'] ?? '';
-    
-    // Asumsikan tanggal akhir sama dengan tanggal mulai
     $endDate = $startDate; 
 
-    // Validasi sederhana
-    if (empty($name) || empty($email) || empty($startDate) || empty($startTime) || empty($workspace) || empty($deskNumber)) {
+    if (empty($user_id) || empty($name) || empty($email) || empty($startDate) || empty($startTime) || empty($workspace) || empty($deskNumber)) {
         die("Data booking tidak lengkap. Silakan coba lagi.");
     }
 
     try {
-        // Siapkan query INSERT yang aman
-        $sql = "INSERT INTO bookings (name, email, start_date, end_date, start_time, end_time, workspace, desk_number) 
-                VALUES (:name, :email, :start_date, :end_date, :start_time, :end_time, :workspace, :desk_number)";
+        // Query INSERT tetap menyertakan user_id
+        $sql = "INSERT INTO bookings (user_id, name, email, start_date, end_date, start_time, end_time, workspace, desk_number) 
+                VALUES (:user_id, :name, :email, :start_date, :end_date, :start_time, :end_time, :workspace, :desk_number)";
         
         $stmt = $conn->prepare($sql);
 
-        // Bind parameter ke query
+        // Bind semua parameter
+        $stmt->bindParam(':user_id', $user_id);
         $stmt->bindParam(':name', $name);
         $stmt->bindParam(':email', $email);
         $stmt->bindParam(':start_date', $startDate);
@@ -42,11 +41,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->bindParam(':workspace', $workspace);
         $stmt->bindParam(':desk_number', $deskNumber);
 
-        // Eksekusi query
         if ($stmt->execute()) {
-            // Jika berhasil, arahkan pengguna ke halaman reservasi
             header("Location: membatalkanreservasi.php?status=success");
-            exit; // Penting untuk menghentikan eksekusi skrip setelah redirect
+            exit;
         } else {
             die("Gagal menyimpan booking ke database.");
         }
@@ -66,7 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <style>
     body {
       font-family: 'Lora', serif;
-      background-color: #095151;
+      background-color: rgb(19,78,74);
       display: flex;
       justify-content: center;
       align-items: center;
@@ -96,9 +93,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="mt-6">
           <h4 class="font-semibold">Detail Booking:</h4>
           <div class="text-gray-800 space-y-1 mt-2">
-            <!-- Data ini akan diisi oleh JavaScript, tapi juga akan ada di input tersembunyi -->
-            <p>Nama: <span class="font-medium"><?= htmlspecialchars($_SESSION['name']) ?></span></p>
-            <p>Email: <span class="font-medium"><?= htmlspecialchars($_SESSION['email']) ?></span></p>
+            <!-- Data ini akan diisi oleh JavaScript dari localStorage -->
+            <p>Nama: <span id="display_name" class="font-medium"></span></p>
+            <p>Email: <span id="display_email" class="font-medium"></span></p>
             <p>Tanggal: <span id="display_date" class="font-medium"></span></p>
             <p>Waktu: <span id="display_time" class="font-medium"></span></p>
             <p>Workspace: <span id="display_workspace" class="font-medium"></span></p>
@@ -108,8 +105,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
         
         <!-- Input tersembunyi untuk mengirim data ke server -->
-        <input type="hidden" name="name" value="<?= htmlspecialchars($_SESSION['name']) ?>">
-        <input type="hidden" name="email" value="<?= htmlspecialchars($_SESSION['email']) ?>">
+        <input type="hidden" id="hidden_name" name="name">
+        <input type="hidden" id="hidden_email" name="email">
         <input type="hidden" id="hidden_startDate" name="startDate">
         <input type="hidden" id="hidden_startTime" name="startTime">
         <input type="hidden" id="hidden_endTime" name="endTime">
@@ -129,13 +126,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     const bookingData = JSON.parse(localStorage.getItem("bookingData")) || {};
     const selectedDesk = params.get('selectedDesk') || "???";
 
-    // Isi detail ke elemen tampilan (span)
+    document.getElementById("display_name").textContent = bookingData.name || "N/A";
+    document.getElementById("display_email").textContent = bookingData.email || "N/A";
     document.getElementById("display_date").textContent = bookingData.startDate || "N/A";
     document.getElementById("display_time").textContent = `${bookingData.startTime || 'N/A'} - ${bookingData.endTime || 'N/A'}`;
     document.getElementById("display_workspace").textContent = bookingData.workspace || "Workspace";
     document.getElementById("display_desk").textContent = selectedDesk;
     
-    //input tersembunyi (hidden input) agar bisa dikirim ke server
+    document.getElementById("hidden_name").value = bookingData.name;
+    document.getElementById("hidden_email").value = bookingData.email;
     document.getElementById("hidden_startDate").value = bookingData.startDate;
     document.getElementById("hidden_startTime").value = bookingData.startTime;
     document.getElementById("hidden_endTime").value = bookingData.endTime;
@@ -145,7 +144,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Tampilkan teks konfirmasi
     document.getElementById("desk-detail").textContent = `Detail: ${bookingData.workspace} / Meja ${selectedDesk}`;
     document.getElementById("confirmation-text").innerHTML =
-      `Anda akan memesan meja nomor <span class="font-bold">${selectedDesk}</span> pada ` +
+      `Anda akan memesan untuk <span class="font-bold">${bookingData.name}</span> pada ` +
       `<span class="font-bold">${bookingData.startDate}</span> pukul <span class="font-bold">${bookingData.startTime} - ${bookingData.endTime}</span>.`;
 
     // Hapus data dari localStorage setelah booking berhasil

@@ -10,7 +10,8 @@ try {
     $stmt->bindParam(':id', $current_user_id, PDO::PARAM_INT);
     $stmt->execute();
 
-    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+    $stmt->setFetchMode(PDO::FETCH_ASSOC);
+    $user = $stmt->fetch();
 
     // Jika pengguna tidak ditemukan di database, redirect ke logout
     if (!$user) {
