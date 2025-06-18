@@ -1,12 +1,13 @@
 <?php
 require_once '../db.php'; 
 
-// Pastikan pengguna sudah login dan memiliki ID sesi
+// Memastikan pengguna sudah login dan memiliki ID sesi
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true || !isset($_SESSION['id'])) {
     header("Location: ../login.php");
     exit;
 }
 $user_id = $_SESSION['id'];
+
 
 // Mengatur zona waktu default untuk semua fungsi tanggal/waktu di PHP ke WIB
 date_default_timezone_set('Asia/Jakarta');
@@ -53,7 +54,7 @@ try {
     $now = new DateTime(); // Waktu saat ini (sudah diatur ke WIB)
 
     foreach ($all_reservations as $res) {
-        // Gabungkan tanggal dan jam berakhir menjadi satu objek DateTime
+        // Menggabungkan tanggal dan jam berakhir menjadi satu objek DateTime
         $end_datetime_str = $res['start_date'] . ' ' . $res['end_time'];
         $end_datetime = new DateTime($end_datetime_str);
 

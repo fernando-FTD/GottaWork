@@ -31,8 +31,9 @@
       <div class="col-span-1">
         <h3 class="text-lg font-semibold mb-4">Locations</h3>
         <ul class="space-y-2">
-          <li><a href="#" class="text-gray-400 hover:text-white">Ciplaz</a></li>
           <li><a href="#" class="text-gray-400 hover:text-white">Lampung City Mall</a></li>
+          <li><a href="#" class="text-gray-400 hover:text-white">Mall Boemi Kedaton</a></li>
+          <li><a href="#" class="text-gray-400 hover:text-white">Chandra Swalayan Metro Pusat</a></li>
         </ul>
       </div>
       
