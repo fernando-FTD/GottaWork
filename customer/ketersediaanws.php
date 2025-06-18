@@ -2,7 +2,11 @@
 require_once '../db.php';
 
 try {
-    $sql = "SELECT * FROM workspaces";
+    $sql = "SELECT id, name, tipe, location, description, price, duration_unit, image_path 
+            FROM workspaces 
+            WHERE status = 'Aktif' 
+            ORDER BY id DESC";
+    
     $stmt = $conn->prepare($sql);
     $stmt->execute();
     $workspaces = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -32,7 +36,6 @@ try {
       require_once '../includes/header_customer.php';
     ?>
 
-    <!-- Bagian ini sekarang memiliki latar belakang hijau -->
     <div class="bg-custom-gray text-white">
       <section class="max-w-7xl mx-auto px-6 py-12">
         <h4 class="text-yellow-400 font-semibold uppercase text-sm mb-2">—Locations</h4>
@@ -41,14 +44,12 @@ try {
       </section>
     </div>
 
-    <!-- Main Content dengan kartu workspace -->
-    <main class="max-w-7xl mx-auto px-6 py-12 mt-16">
+    <main class="max-w-7xl mx-auto px-6 py-12">
         <?php if (isset($error_message)): ?>
             <p class="text-red-500 text-center"><?php echo htmlspecialchars($error_message); ?></p>
         <?php elseif (empty($workspaces)): ?>
-            <p class="text-gray-500 text-center">Saat ini belum ada workspace yang tersedia.</p>
+            <p class="text-gray-500 text-center text-lg">Saat ini belum ada workspace yang tersedia untuk dipesan.</p>
         <?php else: ?>
-        <!-- Grid workspace -->
         <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
           <?php foreach ($workspaces as $row): ?>
             <div class="bg-white border rounded-lg shadow-lg overflow-hidden flex flex-col">
@@ -65,7 +66,7 @@ try {
                     Rp <?= number_format($row['price'], 0, ',', '.') ?>
                     <span class="text-sm text-gray-500">/<?= $row['duration_unit'] ?></span>
                   </span>
-                  <a href="bookingdate.php" class="bg-yellow-400 hover:bg-yellow-500 text-black px-4 py-1 rounded text-sm font-medium inline-block text-center">Book now →</a>
+                  <a href="bookingdate.php?id=<?= $row['id'] ?>" class="bg-yellow-400 hover:bg-yellow-500 text-black px-4 py-1 rounded text-sm font-medium inline-block text-center">Book now →</a>
                 </div>
               </div>
             </div>

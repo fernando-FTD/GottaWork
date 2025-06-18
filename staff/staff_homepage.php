@@ -1,249 +1,438 @@
 <?php
-require_once '../db.php';
+require_once '../db.php'; 
 
-// Memeriksa apakah pengguna sudah login. Jika tidak, arahkan ke halaman login
-if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
-  header("Location: ../login.php");
-  exit;
+//hanya staff atau manager yang bisa mengakses
+if (!isset($_SESSION['loggedin']) || !in_array($_SESSION['role'], ['Staff', 'Manager'])) {
+    header("Location: ../login.php");
+    exit;
 }
 
-// Memeriksa apakah pengguna memiliki peran 'Staff'.
-// Jika tidak, arahkan ke logout untuk keamanan
-if ($_SESSION['role'] !== 'Staff') {
-  header("Location: ../logout.php");
-  exit;
+// Menangani aksi dari modal (Tambah/Edit Workspace)
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
+    $action = $_POST['action'];
+    try {
+        if ($action === 'create' || $action === 'update') {
+            
+            $image_path = $_POST['existing_image_path'] ?? 'assets/default.jpg'; 
+
+            if (isset($_FILES['gambar_workspace']) && $_FILES['gambar_workspace']['error'] === UPLOAD_ERR_OK) {
+                $file = $_FILES['gambar_workspace'];
+                $uploadDir = '../assets/'; 
+                
+                $fileName = uniqid() . '-' . basename($file['name']);
+                $targetPath = $uploadDir . $fileName;
+
+                $allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+                if (!in_array($file['type'], $allowedTypes)) {
+                    throw new Exception("Error: Tipe file tidak diizinkan. Harap unggah file gambar (jpg, png, gif, webp).");
+                }
+                if ($file['size'] > 5000000) { 
+                    throw new Exception("Error: Ukuran file terlalu besar. Maksimal 5MB.");
+                }
+
+                if (move_uploaded_file($file['tmp_name'], $targetPath)) {
+                    if ($action === 'update' && !empty($_POST['existing_image_path']) && $_POST['existing_image_path'] !== 'assets/default.jpg') {
+                        $oldImagePath = '../' . $_POST['existing_image_path'];
+                        if (file_exists($oldImagePath)) {
+                            unlink($oldImagePath);
+                        }
+                    }
+                    $image_path = 'assets/' . $fileName; 
+                } else {
+                    throw new Exception("Gagal memindahkan file yang diunggah. Pastikan folder 'assets' dapat ditulisi.");
+                }
+            }
+
+            $params = [
+                ':name' => $_POST['nama_workspace'],
+                ':description' => $_POST['deskripsi'],
+                ':location' => $_POST['alamat'],
+                ':tipe' => $_POST['tipe_workspace'],
+                ':kapasitas' => $_POST['kapasitas'],
+                ':status' => $_POST['status'],
+                ':fasilitas' => json_encode($_POST['fasilitas'] ?? []),
+                ':image_path' => $image_path
+            ];
+            
+            if ($action === 'create') {
+                $sql = "INSERT INTO workspaces (name, description, location, tipe, kapasitas, status, fasilitas, image_path, price, duration_unit) 
+                        VALUES (:name, :description, :location, :tipe, :kapasitas, :status, :fasilitas, :image_path, 9999999, 'hour')";
+            } else { 
+                $sql = "UPDATE workspaces SET name = :name, description = :description, location = :location, tipe = :tipe, kapasitas = :kapasitas, status = :status, fasilitas = :fasilitas, image_path = :image_path WHERE id = :id";
+                $params[':id'] = $_POST['workspace_id'];
+            }
+
+            $stmt = $conn->prepare($sql);
+            $stmt->execute($params);
+
+        } elseif ($action === 'delete') {
+            $stmt_get = $conn->prepare("SELECT image_path FROM workspaces WHERE id = :id");
+            $stmt_get->execute([':id' => $_POST['workspace_id']]);
+            $stmt_get->setFetchMode(PDO::FETCH_ASSOC);
+            $ws_to_delete = $stmt_get->fetch();
+
+            if ($ws_to_delete && $ws_to_delete['image_path'] !== 'assets/default.jpg') {
+                $filePath = '../' . $ws_to_delete['image_path'];
+                if (file_exists($filePath)) {
+                    unlink($filePath);
+                }
+            }
+            
+            $sql = "DELETE FROM workspaces WHERE id = :id";
+            $stmt = $conn->prepare($sql);
+            $stmt->execute([':id' => $_POST['workspace_id']]);
+        }
+        header("Location: " . $_SERVER['PHP_SELF'] . "?status=success&action=" . $action);
+        exit;
+    } catch (Exception $e) {
+        die("Terjadi kesalahan: " . $e->getMessage());
+    }
 }
 
-// Mengambil data pencarian jika ada
-$search = isset($_GET['search']) ? trim($_GET['search']) : "";
-$query = "SELECT * FROM reservations";
+
+
+// Logika untuk pencarian reservasi
+$search_query = $_GET['search'] ?? '';
+$sql = "SELECT * FROM bookings";
 $params = [];
 
-// Query pencarian yang aman menggunakan prepared statements
-if (!empty($search)) {
-  $query .= " WHERE reservation_code LIKE :search 
-              OR name LIKE :search 
-              OR workspace LIKE :search";
-  $params[':search'] = "%$search%";
+if (!empty($search_query)) {
+    $sql .= " WHERE name LIKE :query OR email LIKE :query OR workspace_name LIKE :query";
+    $params[':query'] = '%' . $search_query . '%';
+}
+$sql .= " ORDER BY created_at DESC";
+try {
+    $stmt = $conn->prepare($sql);
+    $stmt->execute($params);
+    $bookings = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    $bookings = [];
+    $error_message = "Gagal memuat data booking: " . $e->getMessage();
 }
 
-$stmt = $conn->prepare($query);
-$stmt->execute($params);
-$reservations = $stmt->fetchAll(PDO::FETCH_ASSOC);
+// Mengambil data untuk daftar workspace
+try {
+    $workspace_sql = "SELECT * FROM workspaces ORDER BY FIELD(status, 'Aktif', 'Maintenance', 'Tidak Aktif'), id DESC";
+    $workspace_stmt = $conn->prepare($workspace_sql);
+    $workspace_stmt->execute();
+    $workspaces = $workspace_stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    $workspaces = [];
+    $workspace_error = "Gagal memuat data workspace: " . $e->getMessage();
+}
 
-// Dummy data untuk manage workspace
-$workspaces = array_fill(0, 8, [
-  "title" => "Individual Desk",
-  "desc" => "Individual desks, to provide privacy and enhance concentration",
-  "location" => "Lampung City Mall",
-  "image" => "https://www.e-abangmantek.com/wp-content/uploads/2023/02/working-space-am.jpeg"
-]);
+// Daftar fasilitas untuk modal
+$fasilitas_list = ["WiFi", "AC", "Proyektor", "Whiteboard", "Printer", "Coffee/Tea", "Stopkontak"];
 ?>
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <title>Staff Homepage</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>body { font-family: 'Lora', serif; }</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Staff Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+      .bg-custom-gray { background-color: #095151; }
+      body { font-family: 'Lora', serif; }
+    </style>
 </head>
-<body class="text-gray-800">
+<body class="bg-gray-100 flex flex-col min-h-screen">
 
-<header class="bg-teal-900 text-white py-8">
-  <div class="container mx-auto px-4">
-    <div class="flex justify-between items-center">
-      <div>
-        <a href="staff_homepage.php" class="text-2xl font-bold">GottaWork</a>
-      </div>
-      <nav>
-        <ul class="flex items-center space-x-6">
-          <li><span class="text-white">Halo, <?php echo htmlspecialchars($_SESSION['name']); ?>!</span></li>
-          <li><a href="staff_homepage.php" class="text-orange-400 font-medium  underline-offset-4">Home</a></li>
-          <li><a href="staff_daftarreservasi.php" class="text-white hover:text-orange-400 font-medium">Reservation List</a></li>
-          <li><a href="mengaturworkspace.html" class="text-white hover:text-orange-400 font-medium">Manage Workspace</a></li>
-          <li>
-            <a href="../logout.php" class="border border-white text-white px-6 py-2 rounded-md flex items-center hover:bg-white hover:bg-opacity-10 transition-colors">
-              Log Out
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-              </svg>
-            </a>
-          </li>
-        </ul>
-      </nav>
-    </div>
-  </div>
-</header>
+    <div class="flex-grow">
+        <?php 
+            $active_page = 'home'; 
+            require_once '../includes/header_staff.php'; 
+        ?>
 
-<div class="bg-teal-900 text-white py-8">
-  <div class="container mx-auto px-4">
-    <div class="py-8 px-6 pb-16 pt-12 max-w-7xl mx-auto">
-      <p class="text-sm text-yellow-300 tracking-wide mb-2">— THE PEOPLE BEHIND THE BEST WORKSPACES</p>
-      <h2 class="text-4xl font-bold leading-tight mb-4">Your Dedication Shapes the Future of Work</h2>
-      <p class="text-gray-300 mb-6">Together, we create an inspiring work environment that supports productivity.</p>
-      <div class="space-x-4">
-        <a href="staff_daftarreservasi.php"><button class="bg-yellow-400 text-black font-semibold px-4 py-2 rounded">Reservation list</button></a>
-        <a href="mengaturworkspace.html"><button class="bg-yellow-400 text-black font-semibold px-4 py-2 rounded">Manage Workspace</button></a>
-      </div>
-    </div>
-  </div>
-</div>
-
-<section class="bg-teal-900 text-white">
-  <div class="max-w-7xl mx-auto px-6 py-12">
-    <p class="text-sm text-yellow-300 mb-2">— RESERVATION LIST</p>
-    <h2 class="text-3xl font-semibold mb-2">Reservation list</h2>
-    <p class="text-sm text-white/70">Home › Reservation list</p>
-  </div>
-</section>
-
-<section class="bg-white py-10">
-  <div class="px-40">
-    <div class="flex gap-4">
-      <div onclick="window.location.href='staff_daftarreservasi.php'" class="flex items-center border rounded px-3 py-2 w-[500px] cursor-pointer">
-        <span class="text-gray-700 text-sm">
-          Gotta Work at Mall Boemi Kedaton, Bandar Lampung, Lampung.
-        </span>
-      </div>
-
-      <form method="GET" action="" class="flex items-center border rounded px-3 py-2 w-[680px]">
-        <input name="search" placeholder="Search Reservation" class="flex-grow outline-none text-sm" value="<?= htmlspecialchars($search) ?>" />
-        <button type="submit" class="ml-2 text-gray-600">🔍</button>
-      </form>
-    </div>
-
-    <br>
-
-    <div class="overflow-x-auto shadow rounded">
-      <table class="min-w-full text-sm text-left">
-        <thead class="bg-yellow-400 text-black">
-          <tr>
-            <th class="p-2">Reservation Code</th>
-            <th class="p-2">Name</th>
-            <th class="p-2">Workspace</th>
-            <th class="p-2">Date</th>
-            <th class="p-2">Start Time</th>
-            <th class="p-2">Finish Time</th>
-          </tr>
-        </thead>
-        <tbody>
-          <?php if (count($reservations) > 0): ?>
-            <?php foreach ($reservations as $row): ?>
-            <tr class="border-t hover:bg-gray-50">
-              <td class="p-2"><?= htmlspecialchars($row['reservation_code']) ?></td>
-              <td class="p-2"><?= htmlspecialchars($row['name']) ?></td>
-              <td class="p-2"><?= htmlspecialchars($row['workspace']) ?></td>
-              <td class="p-2"><?= date("d/m/Y", strtotime($row['date'])) ?></td>
-              <td class="p-2"><?= date("H:i", strtotime($row['start_time'])) ?></td>
-              <td class="p-2"><?= date("H:i", strtotime($row['finish_time'])) ?></td>
-            </tr>
-            <?php endforeach; ?>
-          <?php else: ?>
-            <tr><td colspan="6" class="p-4 text-center text-gray-500">No results found.</td></tr>
-          <?php endif; ?>
-        </tbody>
-      </table>
-    </div>
-  </div>
-</section>
-
-<section class="bg-teal-900 text-white mt-16">
-  <div class="max-w-7xl mx-auto px-6 py-12">
-    <p class="text-sm text-yellow-300 mb-2">— MANAGE WORKSPACE</p>
-    <h2 class="text-3xl font-semibold mb-2">Manage Workspace</h2>
-    <p class="text-sm text-white/70">Home › Manage Workspace</p>
-  </div>
-</section>
-
-<section class="bg-white py-10">
-  <div class="max-w-7xl mx-auto px-6">
-    <div class="flex space-x-4 mb-6">
-      <select class="border px-4 py-2 rounded text-sm">
-        <option>All Spaces</option>
-      </select>
-      <select class="border px-4 py-2 rounded text-sm">
-        <option>All location</option>
-      </select>
-    </div>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
-      <?php foreach ($workspaces as $ws): ?>
-        <div class="border rounded shadow overflow-hidden">
-          <img src="<?= htmlspecialchars($ws['image']) ?>" alt="workspace image" class="w-full h-40 object-cover" />
-          <div class="p-4">
-            <h3 class="font-semibold mb-1"><?= htmlspecialchars($ws['title']) ?></h3>
-            <p class="text-sm text-gray-600 mb-3"><?= htmlspecialchars($ws['desc']) ?></p>
-            <p class="text-sm text-gray-500 mb-2">📍 <?= htmlspecialchars($ws['location']) ?></p>
-            <div class="flex justify-between">
-              <button class="border px-3 py-1 text-sm rounded">Edit ›</button>
-              <button class="bg-yellow-400 text-black px-3 py-1 text-sm rounded">Lihat Detail ›</button>
-            </div>
-          </div>
-        </div>
-      <?php endforeach; ?>
-    </div>
-  </div>
-</section>
-
-<footer class="bg-gray-900 text-white py-16 mt-16">
-      <div class="container mx-auto px-6">
-        <div class="grid grid-cols-1 md:grid-cols-5 gap-8">
-          <div class="col-span-1">
-            <h2 class="text-2xl font-bold mb-6">GottaWork</h2>
-            <p class="text-gray-400 mb-4">7101 Market Street Bandung, Indonesia</p>
-            <p class="text-gray-400 mb-2"><i class="fas fa-phone mr-2"></i> (+62) 123 456 789</p>
-            <p class="text-gray-400 mb-6"><i class="fas fa-envelope mr-2"></i> customer@gottawork.com</p>
-            <div class="flex space-x-4">
-              <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-facebook-f"></i></a>
-              <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-twitter"></i></a>
-              <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-instagram"></i></a>
-              <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-youtube"></i></a>
-            </div>
-          </div>
-          
-          <div class="col-span-1">
-            <h3 class="text-lg font-semibold mb-4">Company</h3>
-            <ul class="space-y-2">
-              <li><a href="#" class="text-gray-400 hover:text-white">Meeting Room</a></li>
-              <li><a href="#" class="text-gray-400 hover:text-white">Individual Desk</a></li>
-              <li><a href="#" class="text-gray-400 hover:text-white">Group Desk</a></li>
-              <li><a href="#" class="text-gray-400 hover:text-white">Private Office</a></li>
-            </ul>
-          </div>
-          
-          <div class="col-span-1">
-            <h3 class="text-lg font-semibold mb-4">Locations</h3>
-            <ul class="space-y-2">
-              <li><a href="#" class="text-gray-400 hover:text-white">Mall Bintaro Xchange</a></li>
-              <li><a href="#" class="text-gray-400 hover:text-white">Lampung City Mall</a></li>
-            </ul>
-          </div>
-          
-          <div class="col-span-1">
-            <h3 class="text-lg font-semibold mb-4">Partnerships</h3>
-            <ul class="space-y-2">
-              <li><a href="#" class="text-gray-400 hover:text-white">Event Venues</a></li>
-              <li><a href="#" class="text-gray-400 hover:text-white">Brokers</a></li>
-              <li><a href="#" class="text-gray-400 hover:text-white">Community Events</a></li>
-            </ul>
-          </div>
-          
-          <div class="col-span-1">
-            <h3 class="text-lg font-semibold mb-4">Spaces</h3>
-            <ul class="space-y-2">
-              <li><a href="#" class="text-gray-400 hover:text-white">Contact</a></li>
-              <li><a href="#" class="text-gray-400 hover:text-white">About</a></li>
-              <li><a href="#" class="text-gray-400 hover:text-white">Jobs</a></li>
-              <li><a href="#" class="text-gray-400 hover:text-white">Franchise</a></li>
-            </ul>
-          </div>
+        <!-- Hero Section Utama -->
+        <div class="bg-custom-gray text-white">
+          <section class="px-6 py-12 max-w-7xl mx-auto">
+            <h1 class="text-4xl font-bold">Staff Dashboard</h1>
+            <p class="text-gray-300 mt-2">Lihat data reservasi terbaru dan kelola daftar workspace.</p>
+          </section>
         </div>
         
-        <div class="border-t border-gray-800 mt-12 pt-8 text-center text-gray-500 text-sm">
-          © 2025 GottaWork. Powered by GW
-        </div>
-      </div>
-    </footer>
+        <!-- Bagian Tabel Reservasi -->
+        <div class="bg-white py-10">
+            <main class="container mx-auto px-6">
+                <div class="flex flex-wrap justify-between items-center gap-4 mb-4">
+                    <h2 class="text-2xl font-bold text-gray-800">Daftar Reservasi Terbaru</h2>
+                    <form method="GET" action="">
+                        <div class="relative">
+                            <input type="text" name="search" placeholder="Cari nama, email, workspace..." 
+                                   class="border rounded-full py-2 px-4 w-64 focus:outline-none focus:ring-2 focus:ring-teal-500"
+                                   value="<?= htmlspecialchars($search_query) ?>">
+                            <button type="submit" class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-teal-600">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
+                                </svg>
+                            </button>
+                        </div>
+                    </form>
+                </div>
 
+                <div class="overflow-x-auto shadow-md sm:rounded-lg">
+                    <table class="w-full text-sm text-left text-gray-600">
+                        <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                            <tr>
+                                <th scope="col" class="px-6 py-3">ID</th>
+                                <th scope="col" class="px-6 py-3">Nama Pemesan</th>
+                                <th scope="col" class="px-6 py-3">Email</th>
+                                <th scope="col" class="px-6 py-3">Workspace</th>
+                                <th scope="col" class="px-6 py-3 text-center">Meja</th>
+                                <th scope="col" class="px-6 py-3">Tanggal</th>
+                                <th scope="col" class="px-6 py-3">Waktu</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php if (!empty($bookings)): ?>
+                                <?php foreach ($bookings as $row): ?>
+                                    <tr class="bg-white border-b hover:bg-gray-50">
+                                        <td class="px-6 py-4 font-medium text-gray-900"><?= htmlspecialchars($row['id']) ?></td>
+                                        <td class="px-6 py-4"><?= htmlspecialchars($row['name']) ?></td>
+                                        <td class="px-6 py-4"><?= htmlspecialchars($row['email']) ?></td>
+                                        <td class="px-6 py-4">
+                                            <div class="font-semibold"><?= htmlspecialchars($row['workspace_name'] ?? 'N/A') ?></div>
+                                            <div class="text-xs text-gray-500"><?= htmlspecialchars($row['workspace_type'] ?? 'N/A') ?></div>
+                                            <div class="text-xs text-gray-500">📍 <?= htmlspecialchars($row['location'] ?? 'N/A') ?></div>
+                                        </td>
+                                        <td class="px-6 py-4 text-center"><?= htmlspecialchars($row['desk_number']) ?></td>
+                                        <td class="px-6 py-4"><?= date('d M Y', strtotime($row['start_date'])) ?></td>
+                                        <td class="px-6 py-4"><?= date('H:i', strtotime($row['start_time'])) ?> - <?= date('H:i', strtotime($row['end_time'])) ?></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            <?php else: ?>
+                                <tr>
+                                    <td colspan="7" class="px-6 py-4 text-center text-gray-500">
+                                        Tidak ada data reservasi yang ditemukan.
+                                    </td>
+                                </tr>
+                            <?php endif; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </main>
+        </div>
+
+        <!-- Bagian Mengatur Workspace -->
+        <section>
+            <div class="bg-teal-900 text-white">
+                <div class="container mx-auto px-6 py-12">
+                    <h2 class="text-3xl font-bold">Manage Workspace</h2>
+                    <p class="text-gray-300 mt-1">Lihat dan kelola semua ruang kerja yang terdaftar.</p>
+                </div>
+            </div>
+
+            <div class="bg-white py-10">
+                <main class="container mx-auto px-6">
+                     <div class="flex flex-wrap justify-end mb-6 gap-4">
+                        <button onclick="openModal()" class="bg-yellow-400 text-black px-4 py-2 rounded font-medium hover:bg-yellow-500 transition">
+                            + Tambah Workspace
+                        </button>
+                        <a href="mengaturworkspace.php" class="bg-custom-gray text-white px-5 py-2 rounded-lg font-semibold shadow-md hover:opacity-90 transition-opacity duration-300">
+                            Kelola Semua Workspace →
+                        </a>
+                    </div>
+
+                    <?php if (isset($workspace_error)): ?>
+                        <p class="text-red-500 text-center"><?= htmlspecialchars($workspace_error); ?></p>
+                    <?php elseif (empty($workspaces)): ?>
+                        <p class="text-gray-500 text-center">Belum ada workspace yang ditambahkan.</p>
+                    <?php else: ?>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <?php foreach (array_slice($workspaces, 0, 3) as $ws): ?>
+                            <?php
+                                $status_class = '';
+                                switch ($ws['status']) {
+                                    case 'Aktif':
+                                        $status_class = 'border-l-4 border-teal-400 shadow-lg';
+                                        break;
+                                    case 'Maintenance':
+                                        $status_class = 'border-l-4 border-yellow-400 shadow-lg';
+                                        break;
+                                    case 'Tidak Aktif':
+                                        $status_class = 'border-l-4 border-gray-300 shadow-md opacity-70';
+                                        break;
+                                }
+                            ?>
+                            <div class="rounded-lg overflow-hidden bg-white flex flex-col <?= $status_class ?>">
+                                <img src="../<?= htmlspecialchars($ws['image_path']) ?>" alt="Gambar <?= htmlspecialchars($ws['name']) ?>" class="w-full h-48 object-cover">
+                                <div class="p-4 flex flex-col flex-grow">
+                                    <h3 class="text-xl font-semibold"><?= htmlspecialchars($ws['name']) ?></h3>
+                                    <p class="text-sm text-gray-500 mt-1">Status: <span class="font-bold"><?= htmlspecialchars($ws['status']) ?></span></p>
+                                    <p class="text-gray-600 text-sm mt-1">📍 <?= htmlspecialchars($ws['location']) ?></p>
+                                    <div class="mt-auto pt-4 flex justify-between items-center">
+                                        <button onclick='openModal(<?= json_encode($ws, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP) ?>)' class="border border-gray-300 text-gray-700 px-4 py-2 rounded font-medium text-sm hover:bg-gray-100">Edit</button>
+                                        <button onclick='openDetailModal(<?= json_encode($ws, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP) ?>)' class="bg-yellow-400 text-black px-4 py-2 rounded font-medium text-sm hover:bg-yellow-500">Lihat Detail</button>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                    <?php endif; ?>
+                </main>
+            </div>
+        </section>
+    </div>
+
+    <!-- Modal Tambah/Edit Workspace -->
+    <div id="workspaceModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50 p-4">
+        <div class="bg-white rounded-lg shadow-xl w-full max-w-lg max-h-[90vh] flex flex-col">
+            <div class="p-6 border-b">
+                <h2 id="modalTitle" class="text-xl font-bold">Tambah Workspace</h2>
+            </div>
+            <form id="workspaceForm" method="POST" action="" class="p-6 space-y-4 overflow-y-auto" enctype="multipart/form-data">
+                <input type="hidden" name="action" id="formAction">
+                <input type="hidden" name="workspace_id" id="workspace_id">
+                <input type="hidden" name="existing_image_path" id="existing_image_path">
+                
+                <div><label for="nama_workspace" class="block text-sm font-medium">Nama Workspace*</label><input type="text" name="nama_workspace" id="nama_workspace" class="w-full border rounded p-2 mt-1" required></div>
+                <div><label for="alamat" class="block text-sm font-medium">Alamat*</label><input type="text" name="alamat" id="alamat" class="w-full border rounded p-2 mt-1" required></div>
+                <div>
+                    <label for="tipe_workspace" class="block text-sm font-medium">Tipe Workspace*</label>
+                    <select name="tipe_workspace" id="tipe_workspace" class="w-full border rounded p-2 mt-1" required>
+                        <option value="Individual Desk">Individual Desk</option>
+                        <option value="Group Desk">Group Desk</option>
+                        <option value="Meeting Room">Meeting Room</option>
+                        <option value="Private Office">Private Office</option>
+                    </select>
+                </div>
+                <div><label for="kapasitas" class="block text-sm font-medium">Kapasitas (Orang)*</label><input type="number" name="kapasitas" id="kapasitas" class="w-full border rounded p-2 mt-1" required></div>
+                <div><label for="deskripsi" class="block text-sm font-medium">Deskripsi*</label><textarea name="deskripsi" id="deskripsi" class="w-full border rounded p-2 h-24 mt-1" required></textarea></div>
+                
+                <div>
+                    <label for="gambar_workspace" class="block text-sm font-medium">Gambar Workspace</label>
+                    <input type="file" name="gambar_workspace" id="gambar_workspace" class="w-full border rounded p-2 mt-1 text-sm file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-yellow-50 file:text-yellow-700 hover:file:bg-yellow-100" accept="image/*">
+                    <small class="text-gray-500">Hanya file gambar. Kosongkan jika tidak ingin mengubah gambar.</small>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium mb-2">Fasilitas</label>
+                    <div id="fasilitas-checkboxes" class="grid grid-cols-2 md:grid-cols-3 gap-2">
+                        <?php foreach($fasilitas_list as $fasilitas): ?>
+                        <label class="inline-flex items-center"><input type="checkbox" name="fasilitas[]" value="<?= $fasilitas ?>" class="mr-2 form-checkbox h-5 w-5 text-yellow-500"><?= $fasilitas ?></label>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+                <div>
+                    <label for="status" class="block text-sm font-medium">Status</label>
+                    <select name="status" id="status" class="w-full border rounded p-2 mt-1">
+                        <option value="Aktif">Aktif</option><option value="Tidak Aktif">Tidak Aktif</option><option value="Maintenance">Maintenance</option>
+                    </select>
+                </div>
+            </form>
+            <div class="p-6 border-t mt-auto flex justify-end gap-2">
+                <button type="button" onclick="closeModal()" class="px-4 py-2 rounded bg-gray-200 hover:bg-gray-300">Batal</button>
+                <button type="submit" form="workspaceForm" class="px-4 py-2 rounded bg-yellow-400 text-black hover:bg-yellow-500">Simpan</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Detail Workspace -->
+    <div id="detailModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50 p-4">
+        <div class="bg-white rounded-lg shadow-xl w-full max-w-lg">
+            <div class="p-6 border-b flex justify-between items-center">
+                <h2 id="detailModalTitle" class="text-xl font-bold">Detail Workspace</h2>
+                <button onclick="closeDetailModal()" class="text-2xl font-bold hover:text-red-600">&times;</button>
+            </div>
+            <div class="p-6 space-y-2">
+                <p><strong>Lokasi:</strong> <span id="detail_lokasi"></span></p>
+                <p><strong>Tipe:</strong> <span id="detail_tipe"></span></p>
+                <p><strong>Kapasitas:</strong> <span id="detail_kapasitas"></span> orang</p>
+                <p><strong>Deskripsi:</strong> <span id="detail_deskripsi"></span></p>
+                <p><strong>Fasilitas:</strong> <span id="detail_fasilitas" class="font-medium text-teal-800"></span></p>
+                <p><strong>Status:</strong> <span id="detail_status" class="font-bold"></span></p>
+            </div>
+            <div class="p-6 border-t mt-auto flex justify-end gap-2">
+                 <form id="deleteForm" method="POST" action="mengaturworkspace.php" onsubmit="return confirm('Anda yakin ingin menghapus workspace ini secara permanen? Tindakan ini tidak dapat diurungkan.');">
+                    <input type="hidden" name="action" value="delete">
+                    <input type="hidden" name="workspace_id" id="delete_workspace_id">
+                    <button type="submit" class="px-4 py-2 rounded bg-red-600 text-white hover:bg-red-700">Hapus</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <?php require_once '../includes/footer.php'; ?>
+    
+    <script>
+        const modal = document.getElementById('workspaceModal');
+        const detailModal = document.getElementById('detailModal');
+        const form = document.getElementById('workspaceForm');
+        const modalTitle = document.getElementById('modalTitle');
+        
+        function openModal(data = null) {
+            form.reset();
+            document.querySelectorAll('#fasilitas-checkboxes input').forEach(cb => cb.checked = false);
+            document.getElementById('gambar_workspace').value = ''; 
+
+            if (data) { // Mode Edit
+                modalTitle.textContent = 'Edit Workspace';
+                form.action.value = 'update';
+                form.workspace_id.value = data.id;
+                form.existing_image_path.value = data.image_path; 
+                form.nama_workspace.value = data.name;
+                form.deskripsi.value = data.description;
+                form.alamat.value = data.location;
+                form.tipe_workspace.value = data.tipe;
+                form.kapasitas.value = data.kapasitas;
+                form.status.value = data.status;
+                if (data.fasilitas) {
+                    try {
+                        const fasilitasData = JSON.parse(data.fasilitas);
+                        if(Array.isArray(fasilitasData)) {
+                            fasilitasData.forEach(f => {
+                                const checkbox = document.querySelector(`#fasilitas-checkboxes input[value="${f}"]`);
+                                if (checkbox) checkbox.checked = true;
+                            });
+                        }
+                    } catch(e) { console.error("Error parsing fasilitas JSON:", e); }
+                }
+            } else { // Mode Tambah Baru
+                modalTitle.textContent = 'Tambah Workspace Baru';
+                form.action.value = 'create';
+                form.workspace_id.value = '';
+                form.existing_image_path.value = '';
+            }
+            modal.classList.remove('hidden');
+        }
+
+        function closeModal() {
+            modal.classList.add('hidden');
+        }
+
+        function openDetailModal(data) {
+            document.getElementById('detailModalTitle').textContent = data.name;
+            document.getElementById('detail_lokasi').textContent = data.location;
+            document.getElementById('detail_tipe').textContent = data.tipe;
+            document.getElementById('detail_kapasitas').textContent = data.kapasitas;
+            document.getElementById('detail_deskripsi').textContent = data.description;
+            document.getElementById('detail_status').textContent = data.status;
+            document.getElementById('delete_workspace_id').value = data.id;
+            
+            let fasilitasText = 'Tidak ada fasilitas terdaftar';
+            if (data.fasilitas) {
+                try {
+                    const fasilitasData = JSON.parse(data.fasilitas);
+                    if(Array.isArray(fasilitasData) && fasilitasData.length > 0) {
+                       fasilitasText = fasilitasData.join(', ');
+                    }
+                } catch(e) {}
+            }
+            document.getElementById('detail_fasilitas').textContent = fasilitasText;
+            
+            detailModal.classList.remove('hidden');
+        }
+
+        function closeDetailModal() {
+            detailModal.classList.add('hidden');
+        }
+
+        window.onclick = function(event) {
+            if (event.target == modal) closeModal();
+            if (event.target == detailModal) closeDetailModal();
+        }
+    </script>
 </body>
 </html>

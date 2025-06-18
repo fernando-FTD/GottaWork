@@ -1,32 +1,45 @@
 <?php
 require_once '../db.php'; 
 
-// Mengambil data harga menggunakan koneksi PDO ($conn)
-$spaces = [];
-try {
-    $query = "SELECT * FROM harga";
-    $stmt = $conn->prepare($query);
-    $stmt->execute();
-    $spaces = $stmt->fetchAll(PDO::FETCH_ASSOC);
-} catch (PDOException $e) {
-    // Tangani error jika gagal
-    die("Error mengambil data harga: " . $e->getMessage());
+//hanya manager yang bisa mengakses
+if (!isset($_SESSION['loggedin']) || $_SESSION['role'] !== 'Manager') {
+    header("Location: ../login.php");
+    exit;
 }
 
-// Fungsi untuk mendapatkan URL gambar
-function getImageURL($title) {
-  $title = strtolower($title);
-  if (strpos($title, 'meeting') !== false) {
-    return "https://s3-ap-southeast-1.amazonaws.com/xwork-gallery/rooms/images/6387/1678867571.77/6387_1678867571.77.ori.JPEG";
-  } elseif (strpos($title, 'group') !== false) {
-    return "https://enjoywolverhampton.com/media/pages/business-directory/spaces/d4e79d4b90-1724152261/385306743-713127874181856-1024382709204890441-n-1200x.jpg";
-  } elseif (strpos($title, 'individual') !== false) {
-    return "https://www.e-abangmantek.com/wp-content/uploads/2023/02/working-space-am.jpeg";
-  } elseif (strpos($title, 'private') !== false) {
-    return "https://bluehomediy.com/wp-content/uploads/2019/04/glass-private-gardencity-1024x767.jpg";
-  } else {
-    return "https://via.placeholder.com/300x200?text=Workspace"; // default
-  }
+//--- LOGIKA PEMBARUAN HARGA ---
+// Cek jika ada form yang di-submit untuk update harga
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'update_price') {
+    try {
+        $workspaceId = filter_input(INPUT_POST, 'workspace_id', FILTER_VALIDATE_INT);
+        $price = filter_input(INPUT_POST, 'price', FILTER_VALIDATE_INT);
+        
+        // Pastikan data valid
+        if ($workspaceId && $price >= 0) {
+            $sql = "UPDATE workspaces SET price = :price WHERE id = :id";
+            $stmt = $conn->prepare($sql);
+            $stmt->execute([':price' => $price, ':id' => $workspaceId]);
+            
+            // Redirect untuk mencegah re-submit form saat refresh
+            header("Location: manager_skematarif.php?status=updatesuccess");
+            exit;
+        } else {
+            $update_error = "Data yang dimasukkan tidak valid.";
+        }
+    } catch (PDOException $e) {
+        $update_error = "Database error: " . $e->getMessage();
+    }
+}
+
+
+$workspaces = [];
+try {
+    $query = "SELECT id, name, description, location, price, duration_unit, image_path FROM workspaces ORDER BY id DESC";
+    $stmt = $conn->prepare($query);
+    $stmt->execute();
+    $workspaces = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    die("Error mengambil data workspace: " . $e->getMessage());
 }
 ?>
 <!DOCTYPE html>
@@ -53,105 +66,95 @@ function getImageURL($title) {
         <section class="max-w-7xl mx-auto px-8 py-12">
             <h4 class="text-yellow-400 font-semibold uppercase text-sm mb-2">— Price Scheme</h4>
             <h1 class="text-4xl font-bold">Workspace Pricing</h1>
-            <p class="text-gray-300 mt-2 max-w-2xl">Lihat dan atur skema harga untuk setiap ruang kerja.</p>
+            <p class="text-gray-300 mt-2 max-w-2xl">Lihat dan atur skema harga untuk setiap ruang kerja yang terdaftar.</p>
         </section>
     </div>
 
-    <!-- Section -->
     <main class="py-16">
       <div class="text-center mb-12">
-        <p class="text-red-400 uppercase text-xs tracking-widest">Price Scheme</p>
+        <p class="text-teal-600 uppercase text-xs tracking-widest">Price Scheme</p>
         <h2 class="text-3xl font-bold">Current Prices</h2>
-        <p class="text-sm text-gray-500 mt-2">Set up Price Scheme, current price workspace.</p>
+        <p class="text-sm text-gray-500 mt-2">Atur skema harga untuk setiap workspace yang ada.</p>
+      </div>
+      
+      <div class="max-w-7xl mx-auto px-4">
+        <?php if (isset($_GET['status']) && $_GET['status'] == 'updatesuccess'): ?>
+            <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-6 rounded" role="alert">
+                <p>Harga berhasil diperbarui!</p>
+            </div>
+        <?php endif; ?>
+        <?php if (isset($update_error)): ?>
+            <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-6 rounded" role="alert">
+                <p><?= htmlspecialchars($update_error) ?></p>
+            </div>
+        <?php endif; ?>
       </div>
 
       <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 px-4">
-        <?php foreach ($spaces as $space): ?>
-          <div class="bg-white border rounded shadow p-4">
-            <img src="<?= htmlspecialchars(getImageURL($space['title'])) ?>" alt="<?= htmlspecialchars($space['title']) ?>" class="h-40 w-full object-cover mb-4 rounded">
-            <h3 class="text-xl font-semibold mb-1"><?= htmlspecialchars($space['title']) ?></h3>
-            <p class="text-sm text-gray-600 mb-2"><?= htmlspecialchars($space['description']) ?></p>
-            <p class="text-red-500 font-bold mb-3 price-text">
-              <?= htmlspecialchars($space['price']) ?>
-              <span class="text-xs text-gray-500"><?= htmlspecialchars($space['unit']) ?></span>
-            </p>
-            <button onclick="openModal('<?= htmlspecialchars($space['title']) ?>', '<?= htmlspecialchars($space['price']) ?>', this.closest('div'))"
-              class="bg-yellow-400 text-black px-4 py-2 rounded shadow text-sm w-full hover:bg-yellow-500 transition">
-              Edit Price
-            </button>
-          </div>
-        <?php endforeach; ?>
+        <?php if (empty($workspaces)): ?>
+            <p class="col-span-full text-center text-gray-500">Belum ada workspace yang ditambahkan. Silakan tambah melalui halaman "Manage Workspace".</p>
+        <?php else: ?>
+            <?php foreach ($workspaces as $space): ?>
+              <div class="bg-white border rounded-lg shadow-lg p-4 flex flex-col">
+                <img src="../<?= htmlspecialchars($space['image_path']) ?>" alt="<?= htmlspecialchars($space['name']) ?>" class="h-40 w-full object-cover mb-4 rounded">
+                <h3 class="text-xl font-semibold mb-1"><?= htmlspecialchars($space['name']) ?></h3>
+                
+                <p class="text-sm text-gray-500 mb-2 flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                    <?= htmlspecialchars($space['location']) ?>
+                </p>
+
+                <p class="text-sm text-gray-600 mb-4 flex-grow"><?= htmlspecialchars($space['description']) ?></p>
+
+                <p class="text-teal-600 font-bold mb-3 price-text">
+                  <?= "Rp " . number_format($space['price'], 0, ',', '.') ?>
+                  <span class="text-xs text-gray-500 font-normal">/ <?= htmlspecialchars($space['duration_unit']) ?></span>
+                </p>
+                <button onclick="openModal('<?= $space['id'] ?>', '<?= $space['price'] ?>')"
+                  class="bg-yellow-400 text-black px-4 py-2 rounded shadow text-sm w-full hover:bg-yellow-500 transition mt-auto">
+                  Edit Harga
+                </button>
+              </div>
+            <?php endforeach; ?>
+        <?php endif; ?>
       </div>
     </main>
 </div>
 
 <!-- Modal -->
 <div id="priceModal" class="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center hidden">
-  <div class="bg-white rounded-lg shadow-lg w-96 p-6">
-    <h2 class="text-xl font-bold mb-4">Edit Price</h2>
-    <form id="editPriceForm">
-      <input type="hidden" id="editSpaceTitle">
-      <label class="block text-sm font-medium mb-1">New Price</label>
-      <input type="text" id="newPrice" class="w-full border px-3 py-2 mb-4 rounded" placeholder="Misal: Rp 40k" required>
+  <div class="bg-white rounded-lg shadow-lg w-full max-w-sm p-6">
+    <h2 class="text-xl font-bold mb-4">Edit Harga</h2>
+    <form id="editPriceForm" method="POST" action="manager_skematarif.php">
+      <input type="hidden" name="action" value="update_price">
+      <input type="hidden" id="editWorkspaceId" name="workspace_id">
+      <div>
+        <label for="newPrice" class="block text-sm font-medium mb-1">Harga Baru (IDR)</label>
+        <input type="number" id="newPrice" name="price" class="w-full border px-3 py-2 mb-4 rounded" placeholder="Contoh: 50000" required>
+      </div>
       <div class="flex justify-end gap-2">
-        <button type="button" onclick="closeModal()" class="px-4 py-2 rounded bg-gray-300 hover:bg-gray-400">Cancel</button>
-        <button type="submit" class="px-4 py-2 rounded bg-yellow-400 hover:bg-yellow-500 text-black font-semibold">Save</button>
+        <button type="button" onclick="closeModal()" class="px-4 py-2 rounded bg-gray-300 hover:bg-gray-400">Batal</button>
+        <button type="submit" class="px-4 py-2 rounded bg-yellow-400 hover:bg-yellow-500 text-black font-semibold">Simpan</button>
       </div>
     </form>
   </div>
 </div>
 
-<!-- Footer -->
 <?php require_once '../includes/footer.php'; ?>
 
-<!-- Script -->
 <script>
-  let selectedCard = null;
-
-  function openModal(title, currentPrice, cardElement) {
-    selectedCard = cardElement;
+  function openModal(workspaceId, currentPrice) {
     document.getElementById("priceModal").classList.remove("hidden");
-    document.getElementById("editSpaceTitle").value = title;
+    document.getElementById("editWorkspaceId").value = workspaceId;
     document.getElementById("newPrice").value = currentPrice;
   }
 
   function closeModal() {
     document.getElementById("priceModal").classList.add("hidden");
   }
-
-  document.getElementById("editPriceForm").addEventListener("submit", function(e) {
-    e.preventDefault();
-    const newPrice = document.getElementById("newPrice").value;
-    const title = document.getElementById("editSpaceTitle").value;
-
-    if (selectedCard) {
-      const priceElement = selectedCard.querySelector(".price-text");
-      const unit = priceElement.querySelector("span").innerText;
-      priceElement.innerHTML = `${newPrice}<span class="text-xs text-gray-500">${unit}</span>`;
-    }
-
-    // Mengirim pembaruan ke server
-    fetch("db_harga.php", {
-      method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: `title=${encodeURIComponent(title)}&price=${encodeURIComponent(newPrice)}`
-    })
-    .then(response => response.text())
-    .then(data => {
-      if (data.trim() === "success") {
-        console.log("Harga berhasil diperbarui.");
-      } else {
-        console.error("Gagal memperbarui harga:", data);
-        alert("Gagal memperbarui harga di database."); // Beri tahu pengguna jika gagal
-      }
-    })
-    .catch(error => {
-        console.error("Error:", error);
-        alert("Terjadi kesalahan koneksi.");
-    });
-
-    closeModal();
-  });
 </script>
 
 </body>

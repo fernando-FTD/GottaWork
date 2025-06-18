@@ -7,7 +7,6 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    /* PERBAIKAN: Kesalahan sintaks CSS telah diperbaiki di sini */
     body { font-family: 'Lora', serif; }
     .bg-custom-green { background-color: #095151; }
   </style>
@@ -20,7 +19,7 @@
       require_once '../includes/header_manager.php';
     ?>
 
-    <!-- Wadah untuk Hero Section dengan warna latar belakang -->
+    <!-- Wadah untuk Hero Section -->
     <div class="bg-custom-green text-white">
       <div class="container mx-auto px-8 py-20">
           <div class="flex items-center text-yellow-400 mb-2">

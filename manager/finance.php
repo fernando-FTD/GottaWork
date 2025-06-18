@@ -10,7 +10,7 @@ if ($type === 'income') {
     $pageTitle = 'Pendapatan Perusahaan';
     $pageSubtitle = 'Pendapatan';
     $formTitle = 'Tambah Transaksi Baru';
-    $categories = ['Membership', 'Ruang Meeting', 'Event Space', 'Layanan Tambahan'];
+    $categories = ['Individual Desk', 'Group Desk', 'Meeting Room', 'Private Office', 'Layanan Tambahan'];
 } else {
     $tableName = 'expenses';
     $pageTitle = 'Pengeluaran Perusahaan';
@@ -29,7 +29,6 @@ class Transaction {
         $this->table_name = $tableName;
     }
 
-    // Mengambil semua data dengan paginasi
     public function getAll($page = 1, $limit = 10) {
         $offset = ($page - 1) * $limit;
         $query = "SELECT * FROM " . $this->table_name . " ORDER BY tanggal DESC LIMIT :limit OFFSET :offset";
@@ -40,7 +39,6 @@ class Transaction {
         return $stmt;
     }
 
-    // Menghitung total data untuk paginasi
     public function getTotalCount() {
         $query = "SELECT COUNT(*) as total FROM " . $this->table_name;
         $stmt = $this->conn->prepare($query);
@@ -49,37 +47,30 @@ class Transaction {
         return $row['total'];
     }
 
-    // Fungsi CRUD (Create, Update, Delete)
     public function create($data) {
-        $query = "INSERT INTO " . $this->table_name . " SET tanggal=:tanggal, deskripsi=:deskripsi, kategori=:kategori, jumlah=:jumlah, status=:status";
+        $query = "INSERT INTO " . $this->table_name . " (tanggal, deskripsi, kategori, jumlah, status, booking_id) VALUES (:tanggal, :deskripsi, :kategori, :jumlah, :status, :booking_id)";
         $stmt = $this->conn->prepare($query);
-        // Bind values
-        $stmt->bindParam(":tanggal", $data['tanggal']);
-        $stmt->bindParam(":deskripsi", $data['deskripsi']);
-        $stmt->bindParam(":kategori", $data['kategori']);
-        $stmt->bindParam(":jumlah", $data['jumlah']);
-        $stmt->bindParam(":status", $data['status']);
-        return $stmt->execute();
+        return $stmt->execute([
+            ":tanggal" => $data['tanggal'],
+            ":deskripsi" => $data['deskripsi'],
+            ":kategori" => $data['kategori'],
+            ":jumlah" => $data['jumlah'],
+            ":status" => $data['status'],
+            ":booking_id" => $data['booking_id'] ?? null
+        ]);
     }
 
     public function update($data) {
         $query = "UPDATE " . $this->table_name . " SET tanggal=:tanggal, deskripsi=:deskripsi, kategori=:kategori, jumlah=:jumlah, status=:status WHERE id=:id";
         $stmt = $this->conn->prepare($query);
-        // Bind values
-        $stmt->bindParam(":tanggal", $data['tanggal']);
-        $stmt->bindParam(":deskripsi", $data['deskripsi']);
-        $stmt->bindParam(":kategori", $data['kategori']);
-        $stmt->bindParam(":jumlah", $data['jumlah']);
-        $stmt->bindParam(":status", $data['status']);
-        $stmt->bindParam(":id", $data['id']);
-        return $stmt->execute();
-    }
-
-    public function delete($id) {
-        $query = "DELETE FROM " . $this->table_name . " WHERE id = :id";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(":id", $id);
-        return $stmt->execute();
+        return $stmt->execute([
+            ":tanggal" => $data['tanggal'],
+            ":deskripsi" => $data['deskripsi'],
+            ":kategori" => $data['kategori'],
+            ":jumlah" => $data['jumlah'],
+            ":status" => $data['status'],
+            ":id" => $data['id']
+        ]);
     }
 }
 
@@ -109,7 +100,7 @@ function getFinancialStats($db) {
     }
 }
 
-// ---- PENANGANAN REQUEST AJAX (UNTUK CREATE, UPDATE, DELETE) ----
+// ---- PENANGANAN REQUEST AJAX ----
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
     header('Content-Type: application/json');
     try {
@@ -131,7 +122,39 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
             ];
             $result = ($action === 'create') ? $transactionHandler->create($data) : $transactionHandler->update($data);
         } elseif ($action === 'delete') {
-            $result = $transactionHandler->delete($_POST['id']);
+            $transaction_id = $_POST['id'];
+
+            if ($action_type === 'income') {
+                $conn->beginTransaction();
+                try {
+                    // 1. Ambil booking_id dari transaksi yang akan dihapus
+                    $stmt_get_booking = $conn->prepare("SELECT booking_id FROM transactions WHERE id = :id");
+                    $stmt_get_booking->execute([':id' => $transaction_id]);
+                    $stmt_get_booking->setFetchMode(PDO::FETCH_ASSOC); 
+                    $booking = $stmt_get_booking->fetch();
+
+                    // 2. Jika ada booking_id yang terkait, hapus booking-nya
+                    if ($booking && !empty($booking['booking_id'])) {
+                        $stmt_delete_booking = $conn->prepare("DELETE FROM bookings WHERE id = :booking_id");
+                        $stmt_delete_booking->execute([':booking_id' => $booking['booking_id']]);
+                    }
+
+                    // 3. Hapus transaksi itu sendiri
+                    $stmt_delete_trans = $conn->prepare("DELETE FROM transactions WHERE id = :id");
+                    $stmt_delete_trans->execute([':id' => $transaction_id]);
+
+                    $conn->commit();
+                    $result = true;
+
+                } catch (Exception $e) {
+                    $conn->rollBack();
+                    throw $e; // Lempar kembali error untuk ditangani
+                }
+            } else {
+                // Untuk pengeluaran, hapus seperti biasa
+                $stmt_delete_expense = $conn->prepare("DELETE FROM expenses WHERE id = :id");
+                $result = $stmt_delete_expense->execute([':id' => $transaction_id]);
+            }
         }
 
         if ($result) {
@@ -148,7 +171,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
 // ---- PERSIAPAN DATA UNTUK TAMPILAN HALAMAN ----
 $transaction = new Transaction($conn, $tableName);
 
-// Paginasi
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 $limit = 10;
 $total_records = $transaction->getTotalCount();
@@ -157,7 +179,6 @@ $total_pages = ceil($total_records / $limit);
 $stmt = $transaction->getAll($page, $limit);
 $transactions = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// Statistik
 $financial_stats = getFinancialStats($conn);
 ?>
 
@@ -202,9 +223,7 @@ $financial_stats = getFinancialStats($conn);
     </div>
   </div>
   
-  <!-- Konten Utama -->
   <main class="container mx-auto px-6 py-8">
-      <!-- Statistik Dashboard -->
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
           <div class="bg-white p-4 rounded shadow"><h3 class="text-gray-600 text-sm">Total Pendapatan</h3><p class="text-xl font-bold">Rp <?= number_format($financial_stats['total_pendapatan'], 0, ',', '.') ?></p></div>
           <div class="bg-white p-4 rounded shadow"><h3 class="text-gray-600 text-sm">Total Pengeluaran</h3><p class="text-xl font-bold">Rp <?= number_format($financial_stats['total_pengeluaran'], 0, ',', '.') ?></p></div>
@@ -212,7 +231,6 @@ $financial_stats = getFinancialStats($conn);
           <div class="bg-white p-4 rounded shadow"><h3 class="text-gray-600 text-sm">Total Transaksi</h3><p class="text-xl font-bold"><?= $financial_stats['total_transaksi'] ?></p></div>
       </div>
       
-      <!-- Tabel Data -->
       <div class="bg-white p-6 rounded-lg shadow-md">
         <div class="flex justify-between items-center mb-4">
           <h2 class="text-xl font-bold">Rincian <?= htmlspecialchars($pageSubtitle) ?></h2>
@@ -244,7 +262,6 @@ $financial_stats = getFinancialStats($conn);
           </table>
         </div>
         
-        <!-- Paginasi -->
         <div class="flex justify-center mt-4">
           <nav class="flex items-center space-x-1">
             <?php for($i = 1; $i <= $total_pages; $i++): ?>
@@ -262,7 +279,7 @@ $financial_stats = getFinancialStats($conn);
     <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
       <div class="flex justify-between items-center mb-4">
         <h3 id="formTitle" class="text-xl font-bold"></h3>
-        <button id="btnCloseForm" class="text-gray-500 hover:text-gray-700"><i class="fas fa-times"></i></button>
+        <button id="btnCloseForm" class="text-gray-500 hover:text-gray-700 text-2xl">&times;</button>
       </div>
       <form id="transactionForm">
         <input type="hidden" name="id" id="form_id">
@@ -334,8 +351,14 @@ $financial_stats = getFinancialStats($conn);
         document.querySelectorAll('.edit-btn').forEach(btn => btn.addEventListener('click', () => showFormModal(true, JSON.parse(btn.dataset.item))));
         document.querySelectorAll('.delete-btn').forEach(btn => btn.addEventListener('click', () => showDeleteModal(btn.dataset.id, btn.dataset.deskripsi)));
         
-        formModal.addEventListener('click', e => { if (e.target === formModal || e.target.classList.contains('btn-cancel') || e.target.id === 'btnCloseForm') hideFormModal(); });
-        deleteModal.addEventListener('click', e => { if (e.target === deleteModal || e.target.classList.contains('btn-cancel')) hideDeleteModal(); });
+        const btnCloseForm = document.getElementById('btnCloseForm');
+        btnCloseForm.addEventListener('click', hideFormModal);
+        formModal.querySelector('.btn-cancel').addEventListener('click', hideFormModal);
+
+        deleteModal.querySelector('.btn-cancel').addEventListener('click', hideDeleteModal);
+        
+        formModal.addEventListener('click', e => { if (e.target === formModal) hideFormModal(); });
+        deleteModal.addEventListener('click', e => { if (e.target === deleteModal) hideDeleteModal(); });
 
         form.addEventListener('submit', function(e) {
             e.preventDefault();

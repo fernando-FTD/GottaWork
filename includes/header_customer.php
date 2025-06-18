@@ -33,7 +33,7 @@ function is_active($page_name, $current_page) {
             <a href="membatalkanreservasi.php" class="<?php echo is_active('reservation', $current_page); ?>">Reservation</a>
             <a href="profile.php" class="<?php echo is_active('profile', $current_page); ?>">Profile</a>
             
-            <a href="bookingdate.php" class="ml-4 border border-white text-white px-4 py-2 rounded hover:bg-white hover:text-gray-800 transition">
+            <a href="ketersediaanws.php" class="ml-4 border border-white text-white px-4 py-2 rounded hover:bg-white hover:text-gray-800 transition">
               Book a Space <span class="ml-1">➤</span>
             </a>
         </nav>
