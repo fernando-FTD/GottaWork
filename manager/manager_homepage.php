@@ -30,7 +30,7 @@
           <p class="text-base text-gray-300 mt-6 max-w-2xl">Together realize efficient workspaces through careful management to deliver the best business value.</p>
           <br>
           <div class="flex flex-col sm:flex-row items-start gap-4 mt-4">
-              <a href="pendapatan.html" class="bg-yellow-400 text-black px-6 py-3 rounded font-medium flex items-center text-sm">
+              <a href="finance.php" class="bg-yellow-400 text-black px-6 py-3 rounded font-medium flex items-center text-sm">
                   Finance
                   <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
@@ -58,8 +58,8 @@
       <div class="max-w-7xl mx-auto px-8 flex flex-wrap justify-center gap-8">
         <?php
         $Finance = [
-          ["title" => "Pendapatan", "desc" => "Pantau pemasukan", "img" => "../assets/pendapatan.jpg"],
-          ["title" => "Pengeluaran", "desc" => "Pantau pengeluaran", "img" => "../assets/pengeluaran.jpg"],
+          ["title" => "Pendapatan", "desc" => "Pantau pemasukan", "img" => "../assets/pendapatan.jpg", "link" => "finance.php?type=income"],
+          ["title" => "Pengeluaran", "desc" => "Pantau pengeluaran", "img" => "../assets/pengeluaran.jpg", "link" => "finance.php?type=expense"],
         ];
         foreach ($Finance as $item):
         ?>
@@ -68,7 +68,7 @@
           <div class="p-4">
             <h3 class="font-semibold text-lg mb-1"><?= htmlspecialchars($item['title']) ?></h3>
             <p class="text-sm text-gray-600 mb-3"><?= htmlspecialchars($item['desc']) ?></p>
-            <button class="bg-yellow-400 text-black px-4 py-1 rounded text-sm">Manage ›</button>
+            <a href="<?= $item['link'] ?>" class="inline-block bg-yellow-400 text-black px-4 py-1 rounded text-sm hover:bg-yellow-300 transition">Manage ›</a>
           </div>
         </div>
         <?php endforeach; ?>
@@ -96,7 +96,7 @@
           <div class="p-4">
             <h3 class="font-semibold text-lg mb-1"><?= htmlspecialchars($item['title']) ?></h3>
             <p class="text-sm text-gray-600 mb-3"><?= htmlspecialchars($item['desc']) ?></p>
-            <a href="manager_skematarif.php"><button class="bg-yellow-400 text-black px-4 py-1 rounded text-sm">Manage ›</button></a>
+            <a href="manager_skematarif.php" class="inline-block bg-yellow-400 text-black px-4 py-1 rounded text-sm hover:bg-yellow-300 transition">Manage ›</a>
           </div>
         </div>
         <?php endforeach; ?>

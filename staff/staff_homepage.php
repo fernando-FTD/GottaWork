@@ -218,9 +218,9 @@ $fasilitas_list = ["WiFi", "AC", "Proyektor", "Whiteboard", "Printer", "Coffee/T
         <!-- Bagian Mengatur Workspace -->
         <section>
             <div class="bg-teal-900 text-white">
-                <div class="container mx-auto px-6 py-12">
+                <div class="container mx-auto px-6 py-12 max-w-7xl">
                     <h2 class="text-3xl font-bold">Manage Workspace</h2>
-                    <p class="text-gray-300 mt-1">Lihat dan kelola semua ruang kerja yang terdaftar.</p>
+                    <p class="text-gray-300 mt-2">Lihat dan kelola semua ruang kerja yang terdaftar.</p>
                 </div>
             </div>
 

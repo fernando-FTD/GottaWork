@@ -115,10 +115,10 @@ $fasilitas_list = ["WiFi", "AC", "Proyektor", "Whiteboard", "Printer", "Coffee/T
         require_once '../includes/header_staff.php'; 
     ?>
 
-    <div class="bg-teal-900 text-white py-8">
-        <div class="container mx-auto px-6">
+    <div class="bg-[#095151] text-white">
+        <div class="container mx-auto px-6 py-12 max-w-7xl">
             <h1 class="text-4xl font-bold">Manage Workspace</h1>
-            <p class="text-gray-300">Tambah, edit, atau hapus data ruang kerja.</p>
+            <p class="text-gray-300 mt-2">Tambah, edit, atau hapus data ruang kerja.</p>
         </div>
     </div>
 

@@ -18,7 +18,7 @@ function is_staff_nav_active($page, $active_page) {
     return $page === $active_page ? 'text-orange-400 font-medium' : 'text-white hover:text-orange-400 font-medium';
 }
 ?>
-<header class="bg-teal-900 text-white">
+<header class="bg-[#095151] text-white">
   <div class="max-w-7xl mx-auto px-6 py-6 flex items-center justify-between">
     <a href="staff_homepage.php" class="text-2xl font-bold">GottaWork</a>
     <nav>
