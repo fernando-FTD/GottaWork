@@ -13,7 +13,6 @@ if ($_SESSION['role'] !== 'Customer') {
     exit;
 }
 
-// --- PERBAIKAN: Mengambil data workspace yang aktif dari database ---
 try {
     // Query ini hanya akan mengambil workspace dengan status 'Aktif'
     $sql = "SELECT * FROM workspaces WHERE status = 'Aktif' ORDER BY id DESC LIMIT 4";
@@ -22,8 +21,7 @@ try {
     $workspaces = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
     $workspaces = [];
-    // Anda bisa menambahkan pesan error di sini jika diperlukan
-    // $error_message = "Gagal memuat data workspace: " . $e->getMessage();
+    $error_message = "Gagal memuat data workspace: " . $e->getMessage();
 }
 
 ?>
@@ -144,7 +142,6 @@ try {
         </div>
       </div>
   
-      <!-- --- PERBAIKAN: Menampilkan workspace dari database --- -->
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
         <?php if (empty($workspaces)): ?>
             <p class="col-span-full text-center text-gray-500">Tidak ada workspace yang tersedia saat ini.</p>
