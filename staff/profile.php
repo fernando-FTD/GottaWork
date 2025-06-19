@@ -39,19 +39,19 @@ try {
         .bg-custom-gray { background-color: #095151; }
     </style>
 </head>
-<body class="flex flex-col min-h-screen">
+<body class="flex flex-col min-h-screen bg-gray-50">
 
     <div class="flex-grow">
         <?php
-          $active_page = 'Profile';
+          $active_page = 'profile';
           require_once '../includes/header_staff.php';
         ?>
 
         <!-- Hero Section -->
         <div class="bg-custom-gray text-white">
-            <section class="max-w-7xl mx-auto px-6 py-12">
+            <section class="container mx-auto px-6 py-12">
                 <h4 class="text-yellow-400 font-semibold uppercase text-sm mb-2">— PROFILE</h4>
-                <h2 class="text-4xl font-bold">Manage Account Profile</h2>
+                <h2 class="text-3xl md:text-4xl font-bold">Manage Account Profile</h2>
                 <p class="text-gray-300 mt-2 max-w-2xl">Lihat atau perbarui informasi akun Anda.</p>
                 <div class="mt-6">
                     <a href="edit_profile.php" class="bg-yellow-400 text-gray-900 font-semibold px-6 py-2 rounded hover:bg-yellow-300">
@@ -62,17 +62,17 @@ try {
         </div>
 
         <!-- Main Content -->
-        <main class="py-12 px-4 bg-white flex justify-center">
-            <div class="flex gap-10 flex-col md:flex-row items-start">
+        <main class="container mx-auto py-12 px-6">
+            <div class="flex flex-col md:flex-row gap-8 lg:gap-10">
 
-                <!-- Kolom Kiri -->
-                <div class="bg-yellow-400 rounded-lg shadow-lg w-64 p-4 space-y-2 border border-black">
+                <!-- Kolom Kiri (Sidebar) -->
+                <div class="w-full md:w-64 flex-shrink-0 bg-yellow-400 rounded-lg shadow-lg p-4 space-y-2 self-start">
                     <div>
                       <p class="text-xs font-semibold text-gray-900">Your email</p>
-                      <p class="text-xs text-gray-700"><?= htmlspecialchars($user['email']) ?></p>
+                      <p class="text-xs text-gray-700 break-words"><?= htmlspecialchars($user['email']) ?></p>
                     </div>
-                    <hr class="border-t border-white">
-                    <div class="w-full flex items-center justify-between px-3 py-2 bg-white text-sm font-medium rounded-md">
+                    <hr class="border-t border-white/50">
+                    <div class="w-full flex items-center justify-between px-3 py-2 bg-white text-sm font-medium rounded-md shadow-inner">
                       <div class="flex items-center gap-2 text-black">
                         <svg class="w-4 h-4 text-gray-800" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
                         My Profile
@@ -86,8 +86,8 @@ try {
                     </form>
                 </div>
 
-                <!-- Kolom Kanan -->
-                <div id="profile" class="bg-yellow-400 rounded-xl w-[600px] p-6 sm:p-10 shadow-md">
+                <!-- Kolom Kanan (Konten Utama) -->
+                <div id="profile" class="bg-yellow-400 rounded-xl w-full p-6 sm:p-8 shadow-md">
                     <?php if (isset($_GET['success'])): ?>
                         <div class="bg-green-100 border-green-500 text-green-700 p-3 mb-4 rounded text-sm" role="alert">
                             Profil Anda telah berhasil diperbarui.
@@ -95,17 +95,17 @@ try {
                     <?php endif; ?>
 
                     <div class="space-y-6 text-sm sm:text-base text-gray-900">
-                        <div class="border-b border-white pb-2 flex justify-between">
+                        <div class="border-b border-white/50 pb-3 flex flex-col sm:flex-row justify-between">
                           <span class="font-medium">Name</span>
-                          <span class="font-light"><?= htmlspecialchars($user['name']) ?></span>
+                          <span class="font-light text-gray-800"><?= htmlspecialchars($user['name']) ?></span>
                         </div>
-                        <div class="border-b border-white pb-2 flex justify-between">
+                        <div class="border-b border-white/50 pb-3 flex flex-col sm:flex-row justify-between">
                           <span class="font-medium">Email</span>
-                          <span class="font-light"><?= htmlspecialchars($user['email']) ?></span>
+                          <span class="font-light text-gray-800 break-all"><?= htmlspecialchars($user['email']) ?></span>
                         </div>
-                        <div class="border-b border-white pb-2 flex justify-between">
+                        <div class="border-b border-white/50 pb-3 flex flex-col sm:flex-row justify-between">
                           <span class="font-medium">Role</span>
-                          <span class="font-light"><?= htmlspecialchars($user['role']) ?></span>
+                          <span class="font-light text-gray-800"><?= htmlspecialchars($user['role']) ?></span>
                         </div>
                     </div>
                 </div>

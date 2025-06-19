@@ -90,7 +90,7 @@ try {
   <body class="flex flex-col min-h-screen bg-gray-50">
     <div class="flex-grow">
         <?php 
-          $active_page = 'reservation'; 
+          $active_page = 'Reservation'; 
           require_once '../includes/header_customer.php'; 
         ?>
 

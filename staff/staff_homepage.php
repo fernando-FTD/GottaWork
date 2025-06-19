@@ -157,7 +157,7 @@ $fasilitas_list = ["WiFi", "AC", "Proyektor", "Whiteboard", "Printer", "Coffee/T
 
     <div class="flex-grow">
         <?php 
-            $active_page = 'home'; 
+            $active_page = 'Home'; 
             require_once '../includes/header_staff.php'; 
         ?>
 

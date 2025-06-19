@@ -69,7 +69,7 @@ try {
 
     <div class="flex-grow">
         <?php 
-            $active_page = 'reservations';
+            $active_page = 'Reservations';
             require_once '../includes/header_staff.php'; 
         ?>
 

@@ -111,7 +111,7 @@ $fasilitas_list = ["WiFi", "AC", "Proyektor", "Whiteboard", "Printer", "Coffee/T
 
 <div class="flex-grow">
     <?php 
-        $active_page = 'workspace';
+        $active_page = 'Workspace';
         require_once '../includes/header_staff.php'; 
     ?>
 

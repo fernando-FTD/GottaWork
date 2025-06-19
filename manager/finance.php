@@ -208,7 +208,7 @@ $financial_stats = getFinancialStats($conn);
 <body class="flex flex-col min-h-screen bg-gray-100">
 
   <?php
-    $active_page = 'finance';
+    $active_page = 'Finance';
     require_once '../includes/header_manager.php';
   ?>
   

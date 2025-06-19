@@ -32,7 +32,7 @@ try {
 
   <div class="flex-grow">
     <?php
-      $active_page = 'locations';
+      $active_page = 'Locations';
       require_once '../includes/header_customer.php';
     ?>
 

@@ -8,11 +8,24 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 }
 
 // Memeriksa apakah pengguna memiliki peran 'Customer'
-// Jika tidak, arahkan ke halaman logout untuk keamanan
 if ($_SESSION['role'] !== 'Customer') {
     header("Location: ../logout.php");
     exit;
 }
+
+// --- PERBAIKAN: Mengambil data workspace yang aktif dari database ---
+try {
+    // Query ini hanya akan mengambil workspace dengan status 'Aktif'
+    $sql = "SELECT * FROM workspaces WHERE status = 'Aktif' ORDER BY id DESC LIMIT 4";
+    $stmt = $conn->prepare($sql);
+    $stmt->execute();
+    $workspaces = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    $workspaces = [];
+    // Anda bisa menambahkan pesan error di sini jika diperlukan
+    // $error_message = "Gagal memuat data workspace: " . $e->getMessage();
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -118,66 +131,39 @@ if ($_SESSION['role'] !== 'Customer') {
     </div>
   </section>
   
-
-  
   <section class="bg-white text-gray-800 py-20">
-  <div class="max-w-7xl mx-auto px-6">
-    <div class="mb-12">
-      <p class="text-teal-600 uppercase text-sm font-semibold mb-1 tracking-wide">Locations</p>
-      <h2 class="text-4xl font-bold">Explore Available Office Spaces</h2>
-      <div class="text-gray-600 text-sm max-w-md mt-4">
-        Daily/monthly desk, chair and room facilities with fast internet and an atmosphere that motivates productivity.
-        <div class="mt-3">
-          <a href="ketersediaanws.php" class="inline-block border border-gray-800 px-4 py-2 text-sm font-medium hover:bg-gray-100 rounded">View all →</a>
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="mb-12">
+        <p class="text-teal-600 uppercase text-sm font-semibold mb-1 tracking-wide">Locations</p>
+        <h2 class="text-4xl font-bold">Explore Available Office Spaces</h2>
+        <div class="text-gray-600 text-sm max-w-md mt-4">
+          Daily/monthly desk, chair and room facilities with fast internet and an atmosphere that motivates productivity.
+          <div class="mt-3">
+            <a href="ketersediaanws.php" class="inline-block border border-gray-800 px-4 py-2 text-sm font-medium hover:bg-gray-100 rounded">View all →</a>
+          </div>
         </div>
       </div>
-    </div>
-
   
+      <!-- --- PERBAIKAN: Menampilkan workspace dari database --- -->
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-        <div class="bg-white border rounded-lg shadow hover:shadow-md transition">
-          <img src="../assets/meetingroom.jpg" class="rounded-t-lg h-48 w-full object-cover" alt="Meeting Room">
-          <div class="p-5">
-            <h3 class="text-lg font-semibold mb-1">Meeting Room</h3>
-            <p class="text-sm text-gray-600 mb-2">Private space for meetings, presentations or joint discussions</p>
-            <p class="text-sm text-gray-500 mb-2">📍 Mall Boemi Kedaton</p>
-            <p class="text-sm text-orange-600 font-semibold mb-4">Rp 35k/hour</p>
-            <a href="bookingdate.php" class="inline-block bg-yellow-400 text-gray-900 text-sm font-semibold px-4 py-2 rounded hover:bg-yellow-300">Book now →</a>
-          </div>
-        </div>
-  
-        <div class="bg-white border rounded-lg shadow hover:shadow-md transition">
-          <img src="../assets/individualdesk.jpeg" class="rounded-t-lg h-48 w-full object-cover" alt="Individual Desk">
-          <div class="p-5">
-            <h3 class="text-lg font-semibold mb-1">Individual Desk</h3>
-            <p class="text-sm text-gray-600 mb-2">Individual desks to provide privacy and improve concentration</p>
-            <p class="text-sm text-gray-500 mb-2">📍 Lampung City Mall</p>
-            <p class="text-sm text-orange-600 font-semibold mb-4">Rp 50k/hour</p>
-            <a href="bookingdate.html" class="inline-block bg-yellow-400 text-gray-900 text-sm font-semibold px-4 py-2 rounded hover:bg-yellow-300">Book now →</a>
-          </div>
-        </div>
-  
-        <div class="bg-white border rounded-lg shadow hover:shadow-md transition">
-          <img src="../assets/groupdesk.jpeg" class="rounded-t-lg h-48 w-full object-cover" alt="Group Desk">
-          <div class="p-5">
-            <h3 class="text-lg font-semibold mb-1">Group Desk</h3>
-            <p class="text-sm text-gray-600 mb-2">Flexible tables for group work to increase productivity</p>
-            <p class="text-sm text-gray-500 mb-2">📍 Mall Boemi Kedaton</p>
-            <p class="text-sm text-orange-600 font-semibold mb-4">Rp 20k/hour</p>
-            <a href="bookingdate.html" class="inline-block bg-yellow-400 text-gray-900 text-sm font-semibold px-4 py-2 rounded hover:bg-yellow-300">Book now →</a>
-          </div>
-        </div>
-  
-        <div class="bg-white border rounded-lg shadow hover:shadow-md transition">
-          <img src="../assets/privateoffice.jpeg"class="rounded-t-lg h-48 w-full object-cover" alt="Private Office">
-          <div class="p-5">
-            <h3 class="text-lg font-semibold mb-1">Private Office</h3>
-            <p class="text-sm text-gray-600 mb-2">Private office space for individuals or teams</p>
-            <p class="text-sm text-gray-500 mb-2">📍 Mall Boemi Kedaton</p>
-            <p class="text-sm text-orange-600 font-semibold mb-4">Rp 300k/week</p>
-            <a href="bookingdate.html" class="inline-block bg-yellow-400 text-gray-900 text-sm font-semibold px-4 py-2 rounded hover:bg-yellow-300">Book now →</a>
-          </div>
-        </div>
+        <?php if (empty($workspaces)): ?>
+            <p class="col-span-full text-center text-gray-500">Tidak ada workspace yang tersedia saat ini.</p>
+        <?php else: ?>
+            <?php foreach ($workspaces as $ws): ?>
+            <div class="bg-white border rounded-lg shadow hover:shadow-md transition">
+              <img src="../<?= htmlspecialchars($ws['image_path']) ?>" class="rounded-t-lg h-48 w-full object-cover" alt="<?= htmlspecialchars($ws['name']) ?>">
+              <div class="p-5">
+                <h3 class="text-lg font-semibold mb-1"><?= htmlspecialchars($ws['name']) ?></h3>
+                <p class="text-sm text-gray-600 mb-2"><?= htmlspecialchars($ws['description']) ?></p>
+                <p class="text-sm text-gray-500 mb-2">📍 <?= htmlspecialchars($ws['location']) ?></p>
+                <p class="text-sm text-orange-600 font-semibold mb-4">
+                    Rp <?= number_format($ws['price'], 0, ',', '.') ?>/<?= htmlspecialchars($ws['duration_unit']) ?>
+                </p>
+                <a href="bookingdate.php?id=<?= $ws['id'] ?>" class="inline-block bg-yellow-400 text-gray-900 text-sm font-semibold px-4 py-2 rounded hover:bg-yellow-300">Book now →</a>
+              </div>
+            </div>
+            <?php endforeach; ?>
+        <?php endif; ?>
       </div>
     </div>
   </section>
