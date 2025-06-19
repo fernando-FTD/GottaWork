@@ -23,10 +23,12 @@ if ($type === 'income') {
 class Transaction {
     private $conn;
     private $table_name;
+    private $type;
 
-    public function __construct($db, $tableName) {
+    public function __construct($db, $tableName, $type) {
         $this->conn = $db;
         $this->table_name = $tableName;
+        $this->type = $type;
     }
 
     public function getAll($page = 1, $limit = 10) {
@@ -48,16 +50,28 @@ class Transaction {
     }
 
     public function create($data) {
-        $query = "INSERT INTO " . $this->table_name . " (tanggal, deskripsi, kategori, jumlah, status, booking_id) VALUES (:tanggal, :deskripsi, :kategori, :jumlah, :status, :booking_id)";
+        if ($this->type === 'income') {
+            $query = "INSERT INTO " . $this->table_name . " (tanggal, deskripsi, kategori, jumlah, status, booking_id) VALUES (:tanggal, :deskripsi, :kategori, :jumlah, :status, :booking_id)";
+            $params = [
+                ":tanggal" => $data['tanggal'],
+                ":deskripsi" => $data['deskripsi'],
+                ":kategori" => $data['kategori'],
+                ":jumlah" => $data['jumlah'],
+                ":status" => $data['status'],
+                ":booking_id" => $data['booking_id'] ?? null
+            ];
+        } else { // Untuk 'expense'
+            $query = "INSERT INTO " . $this->table_name . " (tanggal, deskripsi, kategori, jumlah, status) VALUES (:tanggal, :deskripsi, :kategori, :jumlah, :status)";
+             $params = [
+                ":tanggal" => $data['tanggal'],
+                ":deskripsi" => $data['deskripsi'],
+                ":kategori" => $data['kategori'],
+                ":jumlah" => $data['jumlah'],
+                ":status" => $data['status']
+            ];
+        }
         $stmt = $this->conn->prepare($query);
-        return $stmt->execute([
-            ":tanggal" => $data['tanggal'],
-            ":deskripsi" => $data['deskripsi'],
-            ":kategori" => $data['kategori'],
-            ":jumlah" => $data['jumlah'],
-            ":status" => $data['status'],
-            ":booking_id" => $data['booking_id'] ?? null
-        ]);
+        return $stmt->execute($params);
     }
 
     public function update($data) {
@@ -107,7 +121,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
         $action_type = $_POST['type'] ?? 'income';
         $currentTable = ($action_type === 'income') ? 'transactions' : 'expenses';
         
-        $transactionHandler = new Transaction($conn, $currentTable);
+        $transactionHandler = new Transaction($conn, $currentTable, $action_type);
         $action = $_POST['action'];
 
         $result = false;
@@ -127,19 +141,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
             if ($action_type === 'income') {
                 $conn->beginTransaction();
                 try {
-                    // 1. Ambil booking_id dari transaksi yang akan dihapus
                     $stmt_get_booking = $conn->prepare("SELECT booking_id FROM transactions WHERE id = :id");
                     $stmt_get_booking->execute([':id' => $transaction_id]);
-                    $stmt_get_booking->setFetchMode(PDO::FETCH_ASSOC); 
-                    $booking = $stmt_get_booking->fetch();
+                    $booking = $stmt_get_booking->fetch(PDO::FETCH_ASSOC);
 
-                    // 2. Jika ada booking_id yang terkait, hapus booking-nya
                     if ($booking && !empty($booking['booking_id'])) {
                         $stmt_delete_booking = $conn->prepare("DELETE FROM bookings WHERE id = :booking_id");
                         $stmt_delete_booking->execute([':booking_id' => $booking['booking_id']]);
                     }
 
-                    // 3. Hapus transaksi itu sendiri
                     $stmt_delete_trans = $conn->prepare("DELETE FROM transactions WHERE id = :id");
                     $stmt_delete_trans->execute([':id' => $transaction_id]);
 
@@ -148,10 +158,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
 
                 } catch (Exception $e) {
                     $conn->rollBack();
-                    throw $e; // Lempar kembali error untuk ditangani
+                    throw $e;
                 }
             } else {
-                // Untuk pengeluaran, hapus seperti biasa
                 $stmt_delete_expense = $conn->prepare("DELETE FROM expenses WHERE id = :id");
                 $result = $stmt_delete_expense->execute([':id' => $transaction_id]);
             }
@@ -169,7 +178,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
 }
 
 // ---- PERSIAPAN DATA UNTUK TAMPILAN HALAMAN ----
-$transaction = new Transaction($conn, $tableName);
+$transaction = new Transaction($conn, $tableName, $type);
 
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 $limit = 10;

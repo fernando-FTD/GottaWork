@@ -7,15 +7,29 @@ if (!isset($_SESSION['loggedin']) || !in_array($_SESSION['role'], ['Staff', 'Man
     exit;
 }
 
-// Logika untuk pencarian
 $search_query = $_GET['search'] ?? '';
+$filter_type = $_GET['filter_type'] ?? '';
+
+// Membangun query SQL secara dinamis
 $sql = "SELECT * FROM bookings";
+$conditions = [];
 $params = [];
 
+// Filter hanya berdasarkan jenis workspace
+if (!empty($filter_type)) {
+    $conditions[] = "workspace_type = :filter_type";
+    $params[':filter_type'] = $filter_type;
+}
+
+// Filter berdasarkan kata kunci pencarian
 if (!empty($search_query)) {
-    // Mencari di beberapa kolom
-    $sql .= " WHERE name LIKE :query OR email LIKE :query OR workspace_name LIKE :query";
+    $conditions[] = "(name LIKE :query OR email LIKE :query OR workspace_name LIKE :query OR start_date LIKE :query)";
     $params[':query'] = '%' . $search_query . '%';
+}
+
+// Menggabungkan semua kondisi dengan 'AND'
+if (!empty($conditions)) {
+    $sql .= " WHERE " . implode(' AND ', $conditions);
 }
 
 $sql .= " ORDER BY created_at DESC";
@@ -28,6 +42,15 @@ try {
     $bookings = [];
     $error_message = "Gagal memuat data booking: " . $e->getMessage();
 }
+
+// Mengambil daftar unik jenis workspace untuk dropdown filter
+try {
+    $type_stmt = $conn->query("SELECT DISTINCT tipe FROM workspaces ORDER BY tipe ASC");
+    $workspace_types = $type_stmt->fetchAll(PDO::FETCH_COLUMN);
+} catch (PDOException $e) {
+    $workspace_types = [];
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -46,12 +69,10 @@ try {
 
     <div class="flex-grow">
         <?php 
-            // Mengatur halaman aktif untuk navigasi header
             $active_page = 'reservations';
             require_once '../includes/header_staff.php'; 
         ?>
 
-        <!-- Hero Section untuk halaman Daftar Reservasi -->
         <div class="bg-custom-gray text-white">
           <section class="px-6 py-12 max-w-7xl mx-auto">
             <h1 class="text-4xl font-bold">Daftar Reservasi</h1>
@@ -61,12 +82,26 @@ try {
 
         <main class="container mx-auto p-6">
             <div class="bg-white p-6 rounded-lg shadow-lg">
-                <div class="flex justify-between items-center mb-4">
+                <div class="flex flex-wrap justify-between items-center mb-6 gap-4">
                     <h2 class="text-2xl font-bold text-gray-800">Semua Reservasi</h2>
-                    <form method="GET" action="reservation_list.php">
+                    
+                    <form method="GET" action="staff_daftarreservasi.php" class="flex flex-wrap items-center gap-4">
+                        <!-- Filter Jenis Workspace -->
+                        <div>
+                            <select name="filter_type" onchange="this.form.submit()" class="border rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm">
+                                <option value="">Semua Jenis</option>
+                                <?php foreach($workspace_types as $type): ?>
+                                    <option value="<?= htmlspecialchars($type) ?>" <?= ($filter_type === $type) ? 'selected' : '' ?>>
+                                        <?= htmlspecialchars($type) ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                        
+                        <!-- Search Bar -->
                         <div class="relative">
-                            <input type="text" name="search" placeholder="Cari nama, email, workspace..." 
-                                   class="border rounded-full py-2 px-4 w-64 focus:outline-none focus:ring-2 focus:ring-teal-500"
+                            <input type="text" name="search" placeholder="Cari nama, email, ws..." 
+                                   class="border rounded-full py-2 px-4 w-56 focus:outline-none focus:ring-2 focus:ring-teal-500"
                                    value="<?= htmlspecialchars($search_query) ?>">
                             <button type="submit" class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-teal-600">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -74,6 +109,8 @@ try {
                                 </svg>
                             </button>
                         </div>
+                        <!-- Tombol Reset Filter -->
+                        <a href="staff_daftarreservasi.php" class="text-sm text-gray-500 hover:text-black">Reset</a>
                     </form>
                 </div>
 
@@ -111,7 +148,7 @@ try {
                             <?php else: ?>
                                 <tr>
                                     <td colspan="7" class="px-6 py-4 text-center text-gray-500">
-                                        Tidak ada data reservasi yang ditemukan.
+                                        Tidak ada data reservasi yang cocok dengan kriteria filter.
                                     </td>
                                 </tr>
                             <?php endif; ?>

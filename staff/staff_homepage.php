@@ -68,8 +68,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
         } elseif ($action === 'delete') {
             $stmt_get = $conn->prepare("SELECT image_path FROM workspaces WHERE id = :id");
             $stmt_get->execute([':id' => $_POST['workspace_id']]);
-            $stmt_get->setFetchMode(PDO::FETCH_ASSOC);
-            $ws_to_delete = $stmt_get->fetch();
+            $ws_to_delete = $stmt_get->fetch(PDO::FETCH_ASSOC);
 
             if ($ws_to_delete && $ws_to_delete['image_path'] !== 'assets/default.jpg') {
                 $filePath = '../' . $ws_to_delete['image_path'];
@@ -90,17 +89,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
 }
 
 
-
-// Logika untuk pencarian reservasi
 $search_query = $_GET['search'] ?? '';
+$filter_type = $_GET['filter_type'] ?? '';
+
 $sql = "SELECT * FROM bookings";
+$conditions = [];
 $params = [];
 
+if (!empty($filter_type)) {
+    $conditions[] = "workspace_type = :filter_type";
+    $params[':filter_type'] = $filter_type;
+}
+
 if (!empty($search_query)) {
-    $sql .= " WHERE name LIKE :query OR email LIKE :query OR workspace_name LIKE :query";
+    $conditions[] = "(name LIKE :query OR email LIKE :query OR workspace_name LIKE :query)";
     $params[':query'] = '%' . $search_query . '%';
 }
+
+if (!empty($conditions)) {
+    $sql .= " WHERE " . implode(' AND ', $conditions);
+}
+
 $sql .= " ORDER BY created_at DESC";
+
 try {
     $stmt = $conn->prepare($sql);
     $stmt->execute($params);
@@ -116,8 +127,13 @@ try {
     $workspace_stmt = $conn->prepare($workspace_sql);
     $workspace_stmt->execute();
     $workspaces = $workspace_stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+    // Mengambil daftar unik jenis workspace untuk dropdown filter
+    $type_stmt = $conn->query("SELECT DISTINCT tipe FROM workspaces ORDER BY tipe ASC");
+    $workspace_types = $type_stmt->fetchAll(PDO::FETCH_COLUMN);
 } catch (PDOException $e) {
     $workspaces = [];
+    $workspace_types = [];
     $workspace_error = "Gagal memuat data workspace: " . $e->getMessage();
 }
 
@@ -158,10 +174,20 @@ $fasilitas_list = ["WiFi", "AC", "Proyektor", "Whiteboard", "Printer", "Coffee/T
             <main class="container mx-auto px-6">
                 <div class="flex flex-wrap justify-between items-center gap-4 mb-4">
                     <h2 class="text-2xl font-bold text-gray-800">Daftar Reservasi Terbaru</h2>
-                    <form method="GET" action="">
+                    <form method="GET" action="" class="flex flex-wrap items-center gap-4">
+                        <div>
+                            <select name="filter_type" onchange="this.form.submit()" class="border rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm">
+                                <option value="">Semua Jenis</option>
+                                <?php foreach($workspace_types as $type): ?>
+                                    <option value="<?= htmlspecialchars($type) ?>" <?= ($filter_type === $type) ? 'selected' : '' ?>>
+                                        <?= htmlspecialchars($type) ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
                         <div class="relative">
-                            <input type="text" name="search" placeholder="Cari nama, email, workspace..." 
-                                   class="border rounded-full py-2 px-4 w-64 focus:outline-none focus:ring-2 focus:ring-teal-500"
+                            <input type="text" name="search" placeholder="Cari nama, email, ws..." 
+                                   class="border rounded-full py-2 px-4 w-56 focus:outline-none focus:ring-2 focus:ring-teal-500"
                                    value="<?= htmlspecialchars($search_query) ?>">
                             <button type="submit" class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-teal-600">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -169,6 +195,7 @@ $fasilitas_list = ["WiFi", "AC", "Proyektor", "Whiteboard", "Printer", "Coffee/T
                                 </svg>
                             </button>
                         </div>
+                        <a href="staff_homepage.php" class="text-sm text-gray-500 hover:text-black">Reset</a>
                     </form>
                 </div>
 
