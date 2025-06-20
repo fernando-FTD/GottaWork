@@ -49,6 +49,31 @@ CREATE TABLE `bookings` (
 --
 
 INSERT INTO `bookings` (`id`, `name`, `email`, `user_id`, `start_date`, `end_date`, `start_time`, `end_time`, `workspace_type`, `workspace_name`, `location`, `image_path`, `desk_number`, `created_at`) VALUES
+(48, 'Dexter', 'dexter@lab.com', 3, '2025-06-05', '2025-06-05', '18:00:00', '19:00:00', 'Private Office', 'Private Office', 'Mall Boemi Kedaton', 'assets/6852b898ddb91-individualdesk.jpeg', '5', '2025-06-05 10:59:00'),
+(49, 'Jimmy Neutron', 'jimmy@brainblast.com', 3, '2025-06-06', '2025-06-06', '17:00:00', '18:00:00', 'Individual Desk', 'Individual Desk', 'Lampung City Mall', 'assets/individualdesk.jpeg', '10', '2025-06-06 09:59:00'),
+(50, 'Pikachu', 'pikachu@pokemon.com', 3, '2025-06-07', '2025-06-07', '16:00:00', '17:00:00', 'Group Desk', 'Group Desk', 'Mall Boemi Kedaton', 'assets/6852bca27d661-groupdesk.jpeg', '8', '2025-06-07 08:59:00'),
+(51, 'Ash Ketchum', 'ash@pokemon.com', 3, '2025-06-08', '2025-06-08', '15:00:00', '16:00:00', 'Individual Desk', 'Individual Desk', 'Lampung City Mall', 'assets/individualdesk.jpeg', '9', '2025-06-08 07:59:00'),
+(52, 'Wanda', 'wanda@fairly.com', 3, '2025-06-08', '2025-06-08', '14:00:00', '15:00:00', 'Coworking Cafe', 'Coworking Cafe', 'Chandra swalayan metro pusat', 'assets/6852c210744ed-coworking-cafe.jpg', '3', '2025-06-08 06:59:00'),
+(53, 'Cosmo', 'cosmo@fairly.com', 3, '2025-06-09', '2025-06-09', '13:00:00', '14:00:00', 'Group Desk', 'Group Desk', 'Mall Boemi Kedaton', 'assets/6852bca27d661-groupdesk.jpeg', '7', '2025-06-09 05:59:00'),
+(54, 'Timmy Turner', 'timmy@fairly.com', 3, '2025-06-09', '2025-06-09', '11:00:00', '12:00:00', 'Individual Desk', 'Individual Desk', 'Lampung City Mall', 'assets/individualdesk.jpeg', '8', '2025-06-09 03:59:00'),
+(55, 'Mr. Krabs', 'krabs@krustykrab.com', 3, '2025-06-10', '2025-06-10', '10:00:00', '11:00:00', 'Private Office', 'Private Office', 'Mall Boemi Kedaton', 'assets/6852b898ddb91-individualdesk.jpeg', '4', '2025-06-10 02:59:00'),
+(56, 'Woody', 'woody@toystory.com', 3, '2025-06-10', '2025-06-10', '09:00:00', '10:00:00', 'Group Desk', 'Group Desk', 'Mall Boemi Kedaton', 'assets/6852bca27d661-groupdesk.jpeg', '6', '2025-06-10 01:59:00'),
+(57, 'Buzz Lightyear', 'buzz@toystory.com', 3, '2025-06-11', '2025-06-11', '08:00:00', '09:00:00', 'Individual Desk', 'Individual Desk', 'Lampung City Mall', 'assets/individualdesk.jpeg', '7', '2025-06-11 00:59:00'),
+(58, 'Anna', 'anna@arendelle.com', 3, '2025-06-11', '2025-06-11', '16:00:00', '17:00:00', 'Coworking Cafe', 'Coworking Cafe', 'Chandra swalayan metro pusat', 'assets/6852c210744ed-coworking-cafe.jpg', '2', '2025-06-11 08:59:00'),
+(59, 'Elsa', 'elsa@arendelle.com', 3, '2025-06-12', '2025-06-12', '15:00:00', '16:00:00', 'Private Office', 'Private Office', 'Mall Boemi Kedaton', 'assets/6852b898ddb91-individualdesk.jpeg', '3', '2025-06-12 07:59:00'),
+(60, 'Goofy', 'goofy@disney.com', 3, '2025-06-12', '2025-06-12', '14:00:00', '15:00:00', 'Group Desk', 'Group Desk', 'Mall Boemi Kedaton', 'assets/6852bca27d661-groupdesk.jpeg', '5', '2025-06-12 06:59:00'),
+(61, 'Donald Duck', 'donald@disney.com', 3, '2025-06-13', '2025-06-13', '13:00:00', '14:00:00', 'Coworking Cafe', 'Coworking Cafe', 'Chandra swalayan metro pusat', 'assets/6852c210744ed-coworking-cafe.jpg', '1', '2025-06-13 05:59:00'),
+(62, 'Mickey Mouse', 'mickey@disney.com', 3, '2025-06-13', '2025-06-13', '11:00:00', '12:00:00', 'Individual Desk', 'Individual Desk', 'Lampung City Mall', 'assets/individualdesk.jpeg', '6', '2025-06-13 03:59:00'),
+(63, 'Shizuka Minamoto', 'shizuka@tokyo.jp', 3, '2025-06-14', '2025-06-14', '10:00:00', '11:00:00', 'Private Office', 'Private Office', 'Mall Boemi Kedaton', 'assets/6852b898ddb91-individualdesk.jpeg', '2', '2025-06-14 02:59:00'),
+(64, 'Nobita Nobi', 'nobita@tokyo.jp', 3, '2025-06-14', '2025-06-14', '09:00:00', '10:00:00', 'Group Desk', 'Group Desk', 'Mall Boemi Kedaton', 'assets/6852bca27d661-groupdesk.jpeg', '4', '2025-06-14 01:59:00'),
+(65, 'Doraemon', 'doraemon@tokyo.jp', 3, '2025-06-15', '2025-06-15', '08:00:00', '09:00:00', 'Individual Desk', 'Individual Desk', 'Lampung City Mall', 'assets/individualdesk.jpeg', '5', '2025-06-15 00:59:00'),
+(66, 'Sasuke Uchiha', 'sasuke@uchiha.jp', 3, '2025-06-15', '2025-06-15', '16:00:00', '17:00:00', 'Private Office', 'Private Office', 'Mall Boemi Kedaton', 'assets/6852b898ddb91-individualdesk.jpeg', '1', '2025-06-15 08:59:00'),
+(67, 'Naruto Uzumaki', 'naruto@konoha.jp', 3, '2025-06-16', '2025-06-16', '15:00:00', '16:00:00', 'Group Desk', 'Group Desk', 'Mall Boemi Kedaton', 'assets/6852bca27d661-groupdesk.jpeg', '3', '2025-06-16 07:59:00'),
+(68, 'Jerry Mouse', 'jerry@mouse.com', 3, '2025-06-16', '2025-06-16', '14:00:00', '15:00:00', 'Individual Desk', 'Individual Desk', 'Lampung City Mall', 'assets/individualdesk.jpeg', '4', '2025-06-16 06:59:00'),
+(69, 'Tom Cat', 'tom@cat.com', 3, '2025-06-17', '2025-06-17', '13:00:00', '14:00:00', 'Group Desk', 'Group Desk', 'Mall Boemi Kedaton', 'assets/6852bca27d661-groupdesk.jpeg', '2', '2025-06-17 05:59:00'),
+(70, 'Squidward Tentacles', 'squidward@bikinibottom.com', 3, '2025-06-17', '2025-06-17', '11:00:00', '12:00:00', 'Group Desk', 'Group Desk', 'Mall Boemi Kedaton', 'assets/6852bca27d661-groupdesk.jpeg', '1', '2025-06-17 03:59:00'),
+(71, 'Patrick Star', 'patrick@bikinibottom.com', 3, '2025-06-18', '2025-06-18', '10:00:00', '11:00:00', 'Individual Desk', 'Individual Desk', 'Lampung City Mall', 'assets/individualdesk.jpeg', '3', '2025-06-18 02:59:00'),
+(72, 'SpongeBob SquarePants', 'spongebob@bikinibottom.com', 3, '2025-06-18', '2025-06-18', '09:00:00', '10:00:00', 'Individual Desk', 'Individual Desk', 'Lampung City Mall', 'assets/individualdesk.jpeg', '2', '2025-06-18 01:59:00'),
 (73, 'Carissa', 'carissa@gmail.com', 3, '2025-06-19', '2025-06-19', '18:04:00', '19:04:00', 'Individual Desk', 'Individual Desk', 'Lampung City Mall', 'assets/individualdesk.jpeg', '1', '2025-06-19 11:05:11'),
 (75, 'Oryza', 'ory@gmail.com', 3, '2025-06-19', '2025-06-19', '19:23:00', '20:23:00', 'Group Desk', 'Group Desk', 'Mall Boemi Kedaton', 'assets/6852bca27d661-groupdesk.jpeg', '8', '2025-06-19 11:24:04'),
 (77, 'nando-chan', 'nandovivo181@gmail.com', 3, '2025-06-19', '2025-06-19', '21:00:00', '22:00:00', 'Individual Desk', 'Individual Desk', 'Lampung City Mall', 'assets/individualdesk.jpeg', '1', '2025-06-19 14:01:07');
@@ -143,7 +168,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `role`, `password`, `created_at`) VALUES
-(1, 'manager oryza', 'admin@gottawork.com', 'Manager', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', '2025-05-15 15:08:39'),
+(1, 'Admin', 'admin@gottawork.com', 'Manager', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', '2025-05-15 15:08:39'),
 (3, 'nando', 'nandovivo181@gmail.com', 'Customer', '$2y$10$l4E7Tv4KHG49l/Z53aCGB.QO6NUHjL/Nu1I.RD8s.ss1gFaMiUfBC', '2025-05-15 15:29:52'),
 (5, 'rizqi ananda', 'rizqi123@gmail.com', 'Staff', '$2y$10$Fcoag3oNuQfjtIxvcaqDp..D6H8ppdSzo/nqQlIHmXymimX1BoqJG', '2025-05-15 16:01:07'),
 (7, 'Carissa', 'carissa@gmail.com', 'Customer', '$2y$10$4M3rBJgF74ZdN.TF3IAHDekzRr3bYPEPgBYUZEwSSoAwYYIMPhciu', '2025-05-22 16:08:44'),
