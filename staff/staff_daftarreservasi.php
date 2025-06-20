@@ -7,31 +7,67 @@ if (!isset($_SESSION['loggedin']) || !in_array($_SESSION['role'], ['Staff', 'Man
     exit;
 }
 
-$search_query = $_GET['search'] ?? '';
-$filter_type = $_GET['filter_type'] ?? '';
+// Inisialisasi variabel filter dari GET
+$search = $_GET['search'] ?? '';
+$code = $_GET['code'] ?? '';
+$name = $_GET['name'] ?? '';
+$email = $_GET['email'] ?? '';
+$workspace = $_GET['workspace'] ?? '';
+$location = $_GET['location'] ?? '';
+$desk_number = $_GET['desk_number'] ?? '';
+$date = $_GET['date'] ?? '';
+$start_time = $_GET['start_time'] ?? '';
+$finish_time = $_GET['finish_time'] ?? '';
 
-// Membangun query SQL secara dinamis
+// Query filter
 $sql = "SELECT * FROM bookings";
 $conditions = [];
 $params = [];
 
-// Filter hanya berdasarkan jenis workspace
-if (!empty($filter_type)) {
-    $conditions[] = "workspace_type = :filter_type";
-    $params[':filter_type'] = $filter_type;
+if (!empty($code)) {
+    $conditions[] = "id = :code";
+    $params[':code'] = $code;
+}
+if (!empty($name)) {
+    $conditions[] = "name LIKE :name";
+    $params[':name'] = "%$name%";
+}
+if (!empty($email)) {
+    $conditions[] = "email LIKE :email";
+    $params[':email'] = "%$email%";
+}
+if (!empty($workspace)) {
+    $conditions[] = "workspace_name = :workspace";
+    $params[':workspace'] = $workspace;
+}
+if (!empty($location)) {
+    $conditions[] = "location = :location";
+    $params[':location'] = $location;
+}
+if (!empty($desk_number)) {
+    $conditions[] = "desk_number = :desk_number";
+    $params[':desk_number'] = $desk_number;
+}
+if (!empty($date)) {
+    $conditions[] = "start_date = :date";
+    $params[':date'] = $date;
+}
+if (!empty($start_time)) {
+    $conditions[] = "start_time >= :start_time";
+    $params[':start_time'] = $start_time;
+}
+if (!empty($finish_time)) {
+    $conditions[] = "end_time <= :finish_time";
+    $params[':finish_time'] = $finish_time;
+}
+if (!empty($search)) {
+    $conditions[] = "(name LIKE :search OR email LIKE :search OR workspace_name LIKE :search OR start_date LIKE :search)";
+    $params[':search'] = "%$search%";
 }
 
-// Filter berdasarkan kata kunci pencarian
-if (!empty($search_query)) {
-    $conditions[] = "(name LIKE :query OR email LIKE :query OR workspace_name LIKE :query OR start_date LIKE :query)";
-    $params[':query'] = '%' . $search_query . '%';
-}
-
-// Menggabungkan semua kondisi dengan 'AND'
 if (!empty($conditions)) {
     $sql .= " WHERE " . implode(' AND ', $conditions);
 }
-
 $sql .= " ORDER BY created_at DESC";
 
 try {
@@ -43,12 +79,19 @@ try {
     $error_message = "Gagal memuat data booking: " . $e->getMessage();
 }
 
-// Mengambil daftar unik jenis workspace untuk dropdown filter
+// Ambil workspace_name unik untuk filter drawer
 try {
-    $type_stmt = $conn->query("SELECT DISTINCT tipe FROM workspaces ORDER BY tipe ASC");
-    $workspace_types = $type_stmt->fetchAll(PDO::FETCH_COLUMN);
+    $ws_stmt = $conn->query("SELECT DISTINCT workspace_name FROM bookings ORDER BY workspace_name ASC");
+    $workspaces = $ws_stmt->fetchAll(PDO::FETCH_COLUMN);
 } catch (PDOException $e) {
-    $workspace_types = [];
+    $workspaces = [];
+}
+// Ambil lokasi unik untuk filter drawer
+try {
+    $loc_stmt = $conn->query("SELECT DISTINCT location FROM bookings ORDER BY location ASC");
+    $locations = $loc_stmt->fetchAll(PDO::FETCH_COLUMN);
+} catch (PDOException $e) {
+    $locations = [];
 }
 
 ?>
@@ -79,39 +122,21 @@ try {
             <p class="text-gray-300 mt-2">Lihat dan kelola semua data reservasi yang masuk.</p>
           </section>
         </div>
-
+        <?php include 'staff_daftarreservasi_filter.php'; ?>
         <main class="container mx-auto p-6">
             <div class="bg-white p-6 rounded-lg shadow-lg">
                 <div class="flex flex-wrap justify-between items-center mb-6 gap-4">
                     <h2 class="text-2xl font-bold text-gray-800">Semua Reservasi</h2>
-                    
-                    <form method="GET" action="staff_daftarreservasi.php" class="flex flex-wrap items-center gap-4">
-                        <!-- Filter Jenis Workspace -->
-                        <div>
-                            <select name="filter_type" onchange="this.form.submit()" class="border rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm">
-                                <option value="">Semua Jenis</option>
-                                <?php foreach($workspace_types as $type): ?>
-                                    <option value="<?= htmlspecialchars($type) ?>" <?= ($filter_type === $type) ? 'selected' : '' ?>>
-                                        <?= htmlspecialchars($type) ?>
-                                    </option>
-                                <?php endforeach; ?>
-                            </select>
-                        </div>
-                        
-                        <!-- Search Bar -->
-                        <div class="relative">
-                            <input type="text" name="search" placeholder="Cari nama, email, ws..." 
-                                   class="border rounded-full py-2 px-4 w-56 focus:outline-none focus:ring-2 focus:ring-teal-500"
-                                   value="<?= htmlspecialchars($search_query) ?>">
-                            <button type="submit" class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-teal-600">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
-                                </svg>
-                            </button>
-                        </div>
-                        <!-- Tombol Reset Filter -->
+                    <div class="flex items-center gap-4">
+                        <button type="button" id="openDrawerBtn"
+                            class="flex items-center space-x-2 bg-teal-900 text-white px-4 py-2 rounded shadow hover:bg-teal-800 transition">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h18M3 12h18M3 19h18"/>
+                            </svg>
+                            <span>Filter</span>
+                        </button>
                         <a href="staff_daftarreservasi.php" class="text-sm text-gray-500 hover:text-black">Reset</a>
-                    </form>
+                    </div>
                 </div>
 
                 <!-- Tabel Reservasi -->
