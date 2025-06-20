@@ -94,11 +94,11 @@ GottaWork-main/
 
 ## ✨ Kontribusi & Lisensi
 Proyek ini memiliki LISENSI dan dikelola oleh Gottawork yang beranggotakan:
-Kelompok 5 - Kelas D - GottaWork
-Carissa Oktavia Sanjaya 2317051005
-Rizqi Ananda Pratama 2317051038
-Fernando Ramadhani 2317051060
-Oryza Surya Hapsari 2317051107
+### Kelompok 5 - Kelas D - GottaWork
+- Carissa Oktavia Sanjaya 2317051005
+- Rizqi Ananda Pratama 2317051038
+- Fernando Ramadhani 2317051060
+- Oryza Surya Hapsari 2317051107
 
 ---
 
