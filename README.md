@@ -102,4 +102,4 @@ Proyek ini memiliki LISENSI dan dikelola oleh Gottawork yang beranggotakan:
 
 ---
 
-> "GottaWork: Reservasi coworking space mudah, cepat, kapan saja dan dimana saja!"
+> "2025 GottaWork : Reservasi coworking space mudah, cepat, kapan saja dan dimana saja!"
