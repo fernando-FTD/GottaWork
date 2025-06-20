@@ -161,13 +161,28 @@ $fasilitas_list = ["WiFi", "AC", "Proyektor", "Whiteboard", "Printer", "Coffee/T
             require_once '../includes/header_staff.php'; 
         ?>
 
-        <!-- Hero Section Utama -->
-        <div class="bg-custom-gray text-white">
-          <section class="px-6 py-12 max-w-7xl mx-auto">
-            <h1 class="text-4xl font-bold">Staff Dashboard</h1>
-            <p class="text-gray-300 mt-2">Lihat data reservasi terbaru dan kelola daftar workspace.</p>
-          </section>
-        </div>
+        <div class="bg-[#095151] text-white py-8">
+  <div class="container mx-auto px-4">
+    <div class="py-8 px-6 pb-16 pt-12 max-w-7xl mx-auto">
+      <p class="text-sm text-yellow-300 tracking-wide mb-2">— THE PEOPLE BEHIND THE BEST WORKSPACES</p>
+      <h2 class="text-4xl font-bold leading-tight mb-4">Your Dedication Shapes the Future of Work</h2>
+      <p class="text-gray-300 mb-6">Together, we create an inspiring work environment that supports productivity.</p>
+      <div class="space-x-4">
+        <a href="staff_daftarreservasi.php"><button class="bg-yellow-400 text-black font-semibold px-4 py-2 rounded">Reservation list</button></a>
+        <a href="mengaturworkspace.php"><button class="bg-yellow-400 text-black font-semibold px-4 py-2 rounded">Manage Workspace</button></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section class="bg-custom-gray text-white">
+  <div class="max-w-7xl mx-auto px-6 py-12">
+    <p class="text-sm text-yellow-300 mb-2">— RESERVATION LIST</p>
+    <h2 class="text-3xl font-semibold mb-2">Reservation list</h2>
+    <p class="text-sm text-white/70">Home › Reservation list</p>
+  </div>
+</section>
+
         
         <!-- Bagian Tabel Reservasi -->
         <div class="bg-white py-10">
