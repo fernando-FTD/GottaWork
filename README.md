@@ -99,7 +99,7 @@ Proyek ini memiliki LISENSI dan dikelola oleh Gottawork yang beranggotakan:
 - Rizqi Ananda Pratama 2317051038
 - Fernando Ramadhani 2317051060
 - Oryza Surya Hapsari 2317051107
-
+Link Youtube : [https://youtu.be/UrLNh096ueo](https://youtu.be/UrLNh096ueo?feature=shared)
 ---
 
 > "2025 GottaWork : Reservasi coworking space mudah, cepat, kapan saja dan dimana saja!"
