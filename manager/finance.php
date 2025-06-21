@@ -67,7 +67,7 @@ class Transaction {
                 ":deskripsi" => $data['deskripsi'],
                 ":kategori" => $data['kategori'],
                 ":jumlah" => $data['jumlah'],
-                ":status" => $data['status']
+                ":status" => $data['status'],
             ];
         }
         $stmt = $this->conn->prepare($query);
