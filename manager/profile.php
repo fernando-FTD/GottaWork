@@ -43,7 +43,7 @@ try {
 
     <div class="flex-grow">
         <?php
-          $active_page = 'profile';
+          $active_page = 'Profile';
           require_once '../includes/header_manager.php';
         ?>
 
